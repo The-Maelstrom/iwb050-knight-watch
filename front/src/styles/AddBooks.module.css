@@ -1,0 +1,135 @@
+/* Container for the entire wishlist page */
+.wishlistPage {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar for user details (left side) */
+.sidebar {
+    width: 25%;
+    background-color: #f0f0f0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    border-right: 1px solid #ddd;
+}
+
+/* Profile picture styling */
+.profilePic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover; /* Ensures the image covers the circle */
+    margin-bottom: 10px; /* Adds spacing below the image */
+    border: 2px solid #007BFF;
+}
+
+.sidebarTitle {
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.sidebarDescription {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+}
+
+/* Main content area (right side) */
+.mainContent {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+/* Dashboard navbar at the top */
+.dashboardNavbar {
+    width: 100%;
+    background-color: #007BFF;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+}
+
+/* Wishlist container for the wishlist items and form */
+.wishlistContainer {
+    margin-top: 20px; /* Space below the navbar */
+}
+
+h3 {
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+/* Styling for the wishlist items */
+.bookList {
+    list-style-type: none;
+    padding: 0;
+}
+
+.bookListItem {
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.removeButton {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.removeButton:hover {
+    background-color: #0056b3;
+}
+
+/* Error and message display */
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.message {
+    color: green;
+    margin-bottom: 10px;
+}
+
+/* Form to add a new book */
+.addBookForm {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.addBookForm input {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.addBookButton {
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.addBookButton:hover {
+    background-color: #218838;
+}

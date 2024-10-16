@@ -1,0 +1,91 @@
+/* Container for the entire wishlist item page */
+.container {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar for user details (left side) */
+.sidebar {
+    width: 25%;
+    background-color: #f0f0f0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    border-right: 1px solid #ddd;
+}
+
+/* Profile picture styling */
+.profilePic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover; /* Ensures the image covers the circle */
+    margin-bottom: 10px; /* Adds spacing below the image */
+    border: 2px solid #007BFF;
+}
+
+.sidebarTitle {
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.sidebarDescription {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+}
+
+/* Main content area (right side) */
+.mainContent {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+/* Error and message display */
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
+
+/* Button styling */
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-right: 10px; /* Space between buttons */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Styling for matching users list */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Styling for book details */
+h2 {
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+h3 {
+    font-size: 20px;
+    margin-top: 20px;
+}

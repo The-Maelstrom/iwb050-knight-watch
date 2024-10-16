@@ -1,0 +1,111 @@
+/* Wrapper for the whole signup page */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #6e45e2 0%, #88d3ce 100%);
+  padding: 20px;
+}
+
+/* Title Styling */
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling for the form container */
+.form {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Input fields container styling */
+.input-box {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+/* Label Styling */
+.details {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+/* Input fields styles */
+input,
+select {
+  padding: 10px 15px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+/* Hover and focus effects on input fields */
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #6e45e2;
+  box-shadow: 0px 0px 8px rgba(110, 69, 226, 0.2);
+}
+
+/* Button styles */
+.button button {
+  background-color: #6e45e2;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* Hover effect for button */
+.button button:hover {
+  background-color: #5939b5;
+  box-shadow: 0px 4px 10px rgba(110, 69, 226, 0.2);
+}
+
+/* Success and error message styles */
+.success {
+  color: green;
+  margin-top: 10px;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
+/* Popup message styling */
+.popup {
+  background-color: #fff;
+  padding: 15px;
+  border: 2px solid #6e45e2;
+  border-radius: 8px;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  z-index: 999;
+}

@@ -1,0 +1,95 @@
+/* Base Navbar Styling */
+.nav {
+  background-color: #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  font-family: 'Arial', sans-serif;
+  position: fixed; /* Stick to the top */
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width */
+  z-index: 999; /* Ensure it's above other content */
+  transition: all 0.3s ease; /* Smooth transition for any changes */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
+}
+
+/* Navbar brand/logo styling */
+.brand {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.brand span {
+  color: #ff4500; /* Accent color for part of the logo */
+}
+
+/* Navbar links styling */
+.link {
+  text-decoration: none;
+  color: #fff;
+  margin: 0 15px;
+  font-size: 16px;
+  transition: color 0.3s ease;
+  margin-left: 20px; /* Add left margin to separate from the last link/button */
+}
+
+.link:hover {
+  color: #ff4500; /* Change on hover to accent color */
+}
+
+/* Button in the navbar */
+.button {
+  background-color: transparent;
+  border: 2px solid #ff4500;
+  color: #ff4500;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  background-color: #ff4500;
+  color: #fff;
+}
+
+/* Navbar right-aligned button */
+.contactBtn {
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  background-color: #ff4500;
+  color: #fff;
+  transition: background-color 0.3s ease;
+  margin-left: px; /* Add left margin to separate from the last link/button */
+}
+
+.contactBtn:hover {
+  background-color: #ff0000;
+}
+
+/* Responsive - For mobile view */
+@media (max-width: 768px) {
+  .nav {
+    flex-direction: column;
+    padding: 10px 20px;
+  }
+  
+  .link {
+    margin: 20px 0;
+    margin-left: 40px; /* Add left margin to separate from the last link/button */
+  }
+
+  .button {
+    margin-top: 10px;
+  }
+}

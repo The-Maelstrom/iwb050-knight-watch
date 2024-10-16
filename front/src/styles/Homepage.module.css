@@ -1,0 +1,185 @@
+.container {
+  /* Remove max-width to allow full width */
+  max-width: 100%; 
+  margin: 0 auto; 
+  padding: 0; /* Remove padding if you want full-width header */
+  font-family: Arial, sans-serif;
+  display: flex; /* Add this if you want to use flexbox */
+  flex-direction: column;
+}
+
+.headerImage {
+  position: relative;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+  width: 100vw; /* Use 100vw for full viewport width */
+  height: 300px;
+  margin-top: 60px;
+  margin-bottom: 40px;
+}
+
+.headerText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.authButtons {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-bottom: px;
+  padding: 85px 0 0;
+}
+
+.button {
+  background-color: #ff6600;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #cc5200;
+}
+
+.stepsSection,
+.aboutSection,
+.contactSection {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.steps {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.step {
+  background-color: #f2f2f2;
+  padding: 20px;
+  width: 200px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.aboutSection,
+.contactSection {
+  padding: 40px;
+  background-color: #f8f8f8;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+.aboutSection ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.aboutSection ul li {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.contactSection p {
+  font-size: 1.2rem;
+}
+
+.LatestBooks {
+  margin-top: 50px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Updated Styles for Book List */
+.horizontalScrollContainer {
+  display: flex;
+  align-items: center;
+  overflow: hidden; /* Hide scrollbar */
+  width: 100%; /* Full width of the container */
+  margin: 20px 0; 
+  position: relative; /* Position relative for buttons */
+}
+
+.bookList {
+  display: flex;
+  overflow: hidden; /* Hide the scrollbar */
+  white-space: nowrap; /* Prevent wrapping */
+  transition: transform 0.3s ease; /* Smooth transition for scrolling */
+  
+}
+
+.bookListItem {
+  min-width: 150px; /* Set minimum width for items */
+  margin: 0 10px; /* Space between items */
+  text-align: center; /* Center align text */
+  transition: transform 0.3s; /* Smooth scaling effect */
+  
+}
+
+
+.bookListItem:hover {
+  transform: scale(1.1); /* Scale up on hover for emphasis */
+}
+
+.samplePic {
+  width: 100px; /* Adjust the size of book cover */
+  height: auto; /* Maintain aspect ratio */
+}
+
+.scrollButton {
+  background-color: #007BFF; /* Button background color */
+  color: white; /* Button text color */
+  border: none; /* No border */
+  padding: 15px; /* Button padding */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 16px; /* Button text size */
+  margin: 0 10px; /* Space around buttons */
+  border-radius: 5px; /* Rounded corners for buttons */
+  height: 100px;
+}
+
+.scrollButton:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 0px; /* Reduce padding for mobile */
+  }
+
+   .authButtons {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Reduced gap for mobile */
+    padding: px 0 0;
+    margin-top: 0px;
+  }
+
+  .step {
+    width: 90%; /* Make steps take full width */
+    margin-bottom: 20px; /* Space between steps */
+  }
+
+
+  /* .authButtons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 50px;
+  } */
+
+
+
+}
