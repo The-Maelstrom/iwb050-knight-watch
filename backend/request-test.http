@@ -34,9 +34,9 @@ POST http://localhost:8080/auth/managebooks
 Content-Type: application/json
 
 {
-    "user_id": 2,
+    "user_id": 11,
     "action": "add",
-    "title": "HarryyPotter",
+    "title": "HarryyiiPotter",
     "author": "JyK"
 }
 

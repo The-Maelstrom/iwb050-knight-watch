@@ -3,6 +3,7 @@ import ballerina/http;
 import ballerina/io;
 import ballerina/sql;
 import ballerina/time;
+import ballerina/log;
 import ballerinax/mysql;
 import ballerinax/mysql.driver as _;
 
@@ -326,40 +327,6 @@ service /auth on authListener {
         }
     }
 
-    // resource function post addbooks(http:Caller caller, http:Request req) returns error? {
-    //     json payload;
-    //     var jsonResult = req.getJsonPayload();
-    //     if (jsonResult is json) {
-    //         payload = jsonResult;
-    //     } else {
-    //         // Invalid JSON payload
-    //         check caller->respond({"message": "Invalid JSON format"});
-    //         return;
-    //     }
-
-    //     // Extract action, title, author, and edition from the payload
-    //     string action = (check payload.action).toString();
-    //     string title = (check payload.title).toString();
-    //     string author = (check payload.author).toString();
-    //     string edition = (check payload.edition).toString();
-
-    //     int user_id = (check payload.user_id);
-
-    //     // Prepare the query for the stored procedure with parameterized values
-    //     sql:ParameterizedQuery query = `CALL ManageUserBook(${user_id}, ${action}, 
-    //                                     ${title}, ${author}, ${edition})`;
-
-    //     // Execute the stored procedure
-    //     var result = dbClient->execute(query);
-
-    //     if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
-    //         // Successfully registered the user
-    //         check caller->respond({"message": "Adding book successfully!"});
-    //     } else {
-    //         // Failed to register the user
-    //         check caller->respond({"message": "Adding book failed!"});
-    //     }
-    // }
     resource function post managebooks(http:Caller caller, http:Request req) returns error? {
         json payload;
         var jsonResult = req.getJsonPayload();
@@ -378,7 +345,7 @@ service /auth on authListener {
         string author = (check payload.author).toString();
 
         // Prepare the query for the stored procedure with parameterized values
-        sql:ParameterizedQuery query = `CALL ManageUserBook(${user_id}, ${action}, ${title}, ${author})`;
+        sql:ParameterizedQuery query = `CALL ManageUserBook(${user_id}, ${action}, ${title}, ${author}, '')`;
 
         // Execute the stored procedure
         var result = dbClient->execute(query);
@@ -446,6 +413,7 @@ service /auth on authListener {
             check caller->respond({"message": "Invalid JSON format"});
             return;
         }
+        log:printInfo("Received payload: " + payload.toJsonString());
 
         // Extract action, title, author, and edition from the payload
         int requestor_id = (check payload.requestor_id);
@@ -455,8 +423,10 @@ service /auth on authListener {
 
         // Prepare the query for the stored procedure with parameterized values
         sql:ParameterizedQuery query = `CALL UpdateRequestAndAccept(${requestor_id}, ${receiver_id}, 
-                                        ${requestor_book_id}, ${receiver_book_id})`;
+                                        ${requestor_book_id}, ${receiver_book_id}, 'accept')`;
 
+
+        
         // Execute the stored procedure
         var result = dbClient->execute(query);
 
@@ -464,12 +434,13 @@ service /auth on authListener {
             // Successfully registered the user
             check caller->respond({"message": "Request accepted successfully!"});
         } else {
-            // Failed to register the user
-            check caller->respond({"message": "Request accepted failed!"});
+            // SQL execution error
+            check caller->respond({"message": "Failed to accept request"});
         }
+        
     }
 
-    resource function post confirmrequest(http:Caller caller, http:Request req) returns error? {
+    resource function post rejectrequest(http:Caller caller, http:Request req) returns error? {
         json payload;
         var jsonResult = req.getJsonPayload();
         if (jsonResult is json) {
@@ -487,20 +458,99 @@ service /auth on authListener {
         int receiver_book_id = (check payload.receiver_book_id);
 
         // Prepare the query for the stored procedure with parameterized values
-        sql:ParameterizedQuery query = `CALL UpdateRequestAndConfirm(${requestor_id}, ${receiver_id}, 
-                                        ${requestor_book_id}, ${receiver_book_id})`;
+        sql:ParameterizedQuery query = `CALL UpdateRequestAndAccept(${requestor_id}, ${receiver_id}, 
+                                        ${requestor_book_id}, ${receiver_book_id}, 'reject')`;
 
         // Execute the stored procedure
         var result = dbClient->execute(query);
 
         if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
-            // Successfully registered the user
-            check caller->respond({"message": "Request confirmed successfully!"});
+            // Successfully updated the request
+            check caller->respond({"message": "Request rejected successfully"});
+        } else if (result is sql:ExecutionResult) {
+            // No rows affected
+            check caller->respond({"message": "No request found to reject"});
         } else {
-            // Failed to register the user
-            check caller->respond({"message": "Request confirmed failed!"});
+            // SQL execution error
+            check caller->respond({"message": "Failed to reject request"});
         }
     }
+
+
+    resource function post confirmrequest(http:Caller caller, http:Request req) returns error? {
+        json payload;
+        var jsonResult = req.getJsonPayload();
+        if (jsonResult is json) {
+            payload = jsonResult;
+        } else {
+            // Invalid JSON payload
+            check caller->respond({"message": "Invalid JSON format"});
+            return;
+        }
+
+        // Extract requestor_id, receiver_id, requestor_book_id, and receiver_book_id from the payload
+        int requestor_id = (check payload.requestor_id);
+        int receiver_id = (check payload.receiver_id);
+        int requestor_book_id = (check payload.requestor_book_id);
+        int receiver_book_id = (check payload.receiver_book_id);
+
+        // Prepare the query for the stored procedure with parameterized values
+        sql:ParameterizedQuery query = `CALL UpdateRequestAndConfirm(${requestor_id}, ${receiver_id}, 
+                                        ${requestor_book_id}, ${receiver_book_id}, 'confirm')`;
+
+        // Execute the stored procedure
+        var result = dbClient->execute(query);
+
+        if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
+            // Successfully confirmed the request
+            check caller->respond({"message": "Request confirmed successfully!"});
+        } else if (result is sql:ExecutionResult) {
+            // No rows affected
+            check caller->respond({"message": "No request found to confirm"});
+        } else {
+            // SQL execution error
+            log:printError("Error executing SQL query", result);
+            check caller->respond({"message": "Failed to confirm request"});
+        }
+    }
+
+    resource function post cancelrequest(http:Caller caller, http:Request req) returns error? {
+        json payload;
+        var jsonResult = req.getJsonPayload();
+        if (jsonResult is json) {
+            payload = jsonResult;
+        } else {
+            // Invalid JSON payload
+            check caller->respond({"message": "Invalid JSON format"});
+            return;
+        }
+
+        // Extract requestor_id, receiver_id, requestor_book_id, and receiver_book_id from the payload
+        int requestor_id = (check payload.requestor_id);
+        int receiver_id = (check payload.receiver_id);
+        int requestor_book_id = (check payload.requestor_book_id);
+        int receiver_book_id = (check payload.receiver_book_id);
+
+        // Prepare the query for the stored procedure with parameterized values
+        sql:ParameterizedQuery query = `CALL UpdateRequestAndConfirm(${requestor_id}, ${receiver_id}, 
+                                        ${requestor_book_id}, ${receiver_book_id}, 'cancel')`;
+
+        // Execute the stored procedure
+        var result = dbClient->execute(query);
+
+        if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
+            // Successfully cancelled the request
+            check caller->respond({"message": "Request cancelled successfully!"});
+        } else if (result is sql:ExecutionResult) {
+            // No rows affected
+            check caller->respond({"message": "No request found to cancel"});
+        } else {
+            // SQL execution error
+            log:printError("Error executing SQL query", result);
+            check caller->respond({"message": "Failed to cancel request"});
+        }
+    }
+
 
     resource function post ManageWishlistItem(http:Caller caller, http:Request req) returns error? {
         json payload;
