@@ -78,39 +78,43 @@ const HomePage = () => {
       </div>
 
       {/* How it Works Section */}
-      <div className={styles.stepsSection}>
+      {/* How it Works Section */}
+      <div className={`${styles.whiteContainer} ${styles.stepsSection}`}>
         <h2>How book exchange works?</h2>
         <div className={styles.steps}>
-          <div className={styles.step}>Step 01: Register & create your FREE account</div>
-          <div className={styles.step}>Step 02: Add your old books to your library</div>
-          <div className={styles.step}>Step 03: Request a loved book from others</div>
-          <div className={styles.step}>Step 04: Exchange books by posting or meeting</div>
+        <div className={styles.step}>Step 01: Register & create your FREE account</div>
+        <div className={styles.step}>Step 02: Add your old books to your library</div>
+        <div className={styles.step}>Step 03: Request a loved book from others</div>
+        <div className={styles.step}>Step 04: Exchange books by posting or meeting</div>
         </div>
       </div>
 
+
       {/* Latest Books Section */}
-      <div>
-        <h3 className={styles.LatestBooks}>Latest Books</h3>
-        <div className={styles.horizontalScrollContainer}>
-          <button onClick={scrollLeft} className={styles.scrollButton}>←</button>
-          <div className={styles.bookList} ref={bookListRef}>
-            {books.length === 0 ? (
-              <p>No books found.</p>
-            ) : (
-              books.map((b) => (
-                <div key={b.book_id} className={styles.bookListItem}>
-                  <img className={styles.samplePic} src={require('../styles/3.avif')} alt="Book Cover" />
-                  <div>
-                    <strong>Title:</strong> {b.title} <br />
-                    <strong>Author:</strong> {b.author}
-                  </div>
-                </div>
-              ))
-            )}
+      {/* Latest Books Section */}
+<div className={styles.whiteContainer}>
+  <h3 className={styles.LatestBooks}>Latest Books</h3>
+  <div className={styles.horizontalScrollContainer}>
+    <button onClick={scrollLeft} className={styles.scrollButton}>←</button>
+    <div className={styles.bookList} ref={bookListRef}>
+      {books.length === 0 ? (
+        <p>No books found.</p>
+      ) : (
+        books.map((b) => (
+          <div key={b.book_id} className={styles.bookListItem}>
+            <img className={styles.samplePic} src={require('../styles/3.avif')} alt="Book Cover" />
+            <div>
+              <strong>Title:</strong> {b.title} <br />
+              <strong>Author:</strong> {b.author}
+            </div>
           </div>
-          <button onClick={scrollRight} className={styles.scrollButton}>→</button>
-        </div>
-      </div>
+        ))
+      )}
+    </div>
+    <button onClick={scrollRight} className={styles.scrollButton}>→</button>
+  </div>
+</div>
+
 
       {/* About Section */}
       <div id="about" className={styles.aboutSection}>
