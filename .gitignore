@@ -11,3 +11,5 @@ Config.toml
 #!**/tests/Config.toml
 
 node_modules/
+
+request-test.http
