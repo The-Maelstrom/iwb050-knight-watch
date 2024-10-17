@@ -62,6 +62,7 @@ const HomePage = () => {
       {/* Header Section */}
       <div id="home" className={styles.headerImage}>
         <div className={styles.headerText}>
+        <div className={styles.bookBazaar}>Book Buddies!!!</div>
           <h1>Buy, SELL or Exchange books for FREE!!!</h1>
           <p>Clear the Bookshelf and Fill It Up Again, All Online!</p>
         </div>

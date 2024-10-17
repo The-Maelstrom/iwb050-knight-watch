@@ -52,6 +52,13 @@ body::before {
   margin-top: 60px;
   margin-bottom: 40px;
 }
+.bookBazaar {
+  font-family: 'Roboto', sans-serif; /* Change this to your desired font */
+  font-size: 5rem; /* Increase the font size */
+  color: #3cff00; /* Change this to your desired color */
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7); /* Optionally adjust the text shadow */
+  margin: 60px; /* Reset margin */
+}
 
 .headerText h1 {
   font-family: 'Poppins', sans-serif; /* Apply the custom font */
@@ -59,7 +66,8 @@ body::before {
   color: white; /* Keep the white text color */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Keep the text shadow for readability */
   line-height: 1.2; /* Adjust line height to ensure text looks balanced */
-  margin: 0;
+  margin-bottom: 20px; /* Adjust the value as needed */
+  margin: 25px;
 }
 
 .headerText {
