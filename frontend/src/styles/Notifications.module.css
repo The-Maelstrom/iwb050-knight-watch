@@ -1,10 +1,12 @@
 
 .container {
-    display: flex;
-    padding: 20px;
-  }
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
 
-  /* Profile picture styling */
+/* Profile picture styling */
 .profilePic {
   width: 100px;
   height: 100px;
@@ -12,20 +14,72 @@
   object-fit: cover; /* Ensures the image covers the circle */
   margin-bottom: 10px; /* Adds spacing below the image */
   border: 2px solid #007BFF;
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect */
+.profilePic:hover {
+  transform: scale(1.3);
+  color: white; /* Changes text color on hover */
+  cursor: pointer;
 }
   
   .sidebar {
-    width: 250px;
-    padding: 15px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    margin-right: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 18%;
+    background-color: #a3958a; 
+    padding: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    border-right: 1px solid #ddd;
   }
+
   
-  .sidebar h2 {
+/* Sidebar Title */
+.sidebarTitle {
+    font-size: 24px;
+    margin-bottom: 10px;
     text-align: center;
-  }
+    position: relative; /* Position relative to contain the welcome message */
+    transition: color 0.1s ease; /* Smooth color change */
+}
+
+/* Default Welcome Message Hidden */
+.welcomeMessage {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover Effect to Show Welcome Message */
+.sidebarTitle:hover .welcomeMessage {
+    display: block;
+    opacity: 1;
+    transform: translateX(-50%) translateY(-10px); /* Moves the message up slightly */
+}
+
+/* Hover Effect to Show sidebarTitlee */
+.sidebarTitle:hover .sidebarTitle {
+    display: block;
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px); /* Moves the message up slightly */
+}
+
+/* Change Title Color on Hover */
+.sidebarTitle:hover {
+    color: #e8ece8; /* Optional color change when hovered */
+}
+
   
   .userDetails {
     margin-bottom: 30px;
@@ -39,23 +93,36 @@
     height: 100px;
   }
   
-  .userDetails h3 {
-    text-align: center;
-    margin-top: 10px;
-    color: #333;
-  }
-  
-  .userDetails p {
-    text-align: center;
+  .sidebarDescription {
+    font-size: 14px;
     color: #666;
-  }
+    text-align: center;
+    margin-top: 30px;
+    padding: 10px;
+    background-color:  #e0cbcb;
+    border-radius: 8px;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect */
+.sidebarDescription:hover {
+    transform: scale(1.3);
+    background-color: #845360; /* Changes background on hover */
+    color: white; /* Changes text color on hover */
+    cursor: pointer;
+}
   
   .content {
-    flex-grow: 1;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+    background-image: url('10.jpg'); /* Replace with your image path */
+    background-size: cover; /* Cover the entire area */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    border-radius: 8px; /* Optional: Rounded corners for main content */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Optional: Shadow for depth */
   }
   
   .content h3 {
@@ -102,3 +169,112 @@
     margin-bottom: 10px;
   }
   
+  .libraryTitle {
+    font-size: 36px; /* Adjust the size as needed */
+    font-weight: bold; /* Make the font bold */
+    color: #333; /* Change the font color */
+    text-align: center; /* Center the text */
+    margin: 20px 0; /* Add margin for spacing */
+    font-family: 'Arial', sans-serif; /* Change to desired font family */
+    transition: transform 0.4s ease, color 0.3s ease; /* Smooth transition for scaling and color */
+}
+
+/* Hover Effect */
+.libraryTitle:hover {
+    transform: scale(1.2); /* Scale up to 110% */
+    color: #181a18; /* Change color on hover if desired */
+}
+
+/* Section title styles */
+.sectionTitle {
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* Notification list styles */
+.notificationList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Individual notification item styles */
+.notificationItem {
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #e0e0e0; /* Light border */
+  border-radius: 8px; /* Rounded corners */
+  background-color: #ffffff; /* White background */
+  transition: box-shadow 0.3s, transform 0.3s; /* Animation for hover */
+}
+
+/* Hover effect for notification items */
+.notificationItem:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Shadow on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+/* Information display styles */
+.info {
+  margin-bottom: 10px; /* Space below info section */
+}
+
+/* Action buttons container */
+.actionButtons {
+  display: flex;
+  justify-content: space-between; /* Space buttons evenly */
+}
+
+/* Common button styles */
+button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s; /* Transition for buttons */
+}
+
+/* Accept button styles */
+.acceptButton {
+  background-color: #28a745; /* Green */
+  color: white;
+}
+
+.acceptButton:hover {
+  background-color: #218838; /* Darker green */
+  transform: translateY(-2px); /* Lift on hover */
+}
+
+/* Reject button styles */
+.rejectButton {
+  background-color: #dc3545; /* Red */
+  color: white;
+}
+
+.rejectButton:hover {
+  background-color: #c82333; /* Darker red */
+  transform: translateY(-2px); /* Lift on hover */
+}
+
+/* Confirm button styles */
+.confirmButton {
+  background-color: #007bff; /* Blue */
+  color: white;
+}
+
+.confirmButton:hover {
+  background-color: #0056b3; /* Darker blue */
+  transform: translateY(-2px); /* Lift on hover */
+}
+
+/* Cancel button styles */
+.cancelButton {
+  background-color: #ffc107; /* Yellow */
+  color: white;
+}
+
+.cancelButton:hover {
+  background-color: #e0a800; /* Darker yellow */
+  transform: translateY(-2px); /* Lift on hover */
+}

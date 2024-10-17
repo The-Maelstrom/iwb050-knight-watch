@@ -34,9 +34,9 @@ POST http://localhost:8080/auth/managebooks
 Content-Type: application/json
 
 {
-    "user_id": 11,
+    "user_id": 2,
     "action": "add",
-    "title": "HarryyiiPotter",
+    "title": "HarryyPotter",
     "author": "JyK"
 }
 
@@ -120,13 +120,13 @@ GET http://localhost:8080/auth/user_id/dilum
 GET http://localhost:8080/auth/GetBookDetailsByTitle/HarryPotter
 
 ### Get specific user_id
-GET http://localhost:8080/auth/pending_requests/67
+GET http://localhost:8080/auth/pending_requests/69
 
 ### Get specific user_id
-GET http://localhost:8080/auth/accepted_requests/69
+GET http://localhost:8080/auth/accepted_requests/67
 
 ### Get confirmed_requests
-GET http://localhost:8080/auth/confirmed_requests/124
+GET http://localhost:8080/auth/confirmed_requests/67
 
 ### Get specific user_id
 GET http://localhost:8080/auth/books_for_specific_user/1

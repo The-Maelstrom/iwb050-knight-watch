@@ -8,9 +8,9 @@
 
 /* Sidebar for user details (left side) */
 .sidebar {
-    width: 25%;
-    background-color: #f0f0f0;
-    padding: 20px;
+    width: 18%;
+    background-color: #a3958a; /* Dark green for a library feel */
+    padding: 80px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -26,18 +26,79 @@
     object-fit: cover; /* Ensures the image covers the circle */
     margin-bottom: 10px; /* Adds spacing below the image */
     border: 2px solid #007BFF;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Hover effect */
+.profilePic:hover {
+    transform: scale(1.3);
+    color: white; /* Changes text color on hover */
+    cursor: pointer;
+}
+
+/* Sidebar Title */
 .sidebarTitle {
     font-size: 24px;
     margin-bottom: 10px;
     text-align: center;
+    position: relative; /* Position relative to contain the welcome message */
+    transition: color 0.1s ease; /* Smooth color change */
+    color: #432b2b; /* White for readability */
 }
+
+/* Default Welcome Message Hidden */
+.welcomeMessage {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+    background-color: #283618; /* Darker green for contrast */
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover Effect to Show Welcome Message */
+.sidebarTitle:hover .welcomeMessage {
+    display: block;
+    opacity: 1;
+    transform: translateX(-50%) translateY(-10px); /* Moves the message up slightly */
+}
+
+/* Hover Effect to Show sidebarTitlee */
+.sidebarTitle:hover .sidebarTitle {
+    display: block;
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px); /* Moves the message up slightly */
+}
+
+/* Change Title Color on Hover */
+.sidebarTitle:hover {
+    color: #e8ece8; /* Optional color change when hovered */
+}
+
 
 .sidebarDescription {
     font-size: 14px;
-    color: #666;
+    color: #e9e4e4;
     text-align: center;
+    margin-top: 30px;
+    padding: 10px;
+    background-color:#8f616d;
+    border-radius: 8px;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect */
+.sidebarDescription:hover {
+    transform: scale(1.3);
+    background-color: #845360; /* Changes background on hover */
+    color: white; /* Changes text color on hover */
+    cursor: pointer;
 }
 
 /* Main content area (right side) */
@@ -45,7 +106,14 @@
     width: 75%;
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 50px;
+    background-image: url('10.jpg'); /* Replace with your image path */
+    background-size: cover; /* Cover the entire area */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    border-radius: 8px; /* Optional: Rounded corners for main content */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Optional: Shadow for depth */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white for better contrast */
 }
 
 /* Dashboard navbar at the top */
@@ -61,10 +129,39 @@
 /* Wishlist container for the wishlist items and form */
 .wishlistContainer {
     margin-top: 20px; /* Space below the navbar */
+
 }
 
+.libraryTitle {
+    font-size: 36px; /* Adjust the size as needed */
+    font-weight: bold; /* Make the font bold */
+    color: #161515; /* Change the font color */
+    text-align: center; /* Center the text */
+    margin: 20px 0; /* Add margin for spacing */
+    font-family: 'Arial', sans-serif; /* Change to desired font family */
+    transition: transform 0.4s ease, color 0.3s ease; /* Smooth transition for scaling and color */
+}
+
+
+/* Hover Effect */
+.libraryTitle:hover {
+    transform: scale(1.2); /* Scale up to 110% */
+    color: #181a18; /* Change color on hover if desired */
+}
+
+.pagedescription {
+    font-size: 28px; /* Adjust the size as needed */
+    font-weight: bold; /* Make the font bold */
+    color: #161515; /* Change the font color */
+    text-align: center; /* Center the text */
+    margin: 20px 0; /* Add margin for spacing */
+    font-family: 'Arial', sans-serif; /* Change to desired font family */
+    transition: transform 0.4s ease, color 0.3s ease; /* Smooth transition for scaling and color */
+}
+
+
 h3 {
-    font-size: 20px;
+    font-size: 34px;
     margin-top: 20px;
 }
 
@@ -72,15 +169,58 @@ h3 {
 .bookList {
     list-style-type: none;
     padding: 0;
+    margin: 0; /* Remove default margin */
 }
 
 .bookListItem {
-    padding: 10px 0;
-    border-bottom: 1px solid #ccc;
+    padding: 15px; /* Increased padding for more space */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #F8EDEB; /* Light pink tone for a cozy feel */
+    border: 1px solid #DDC3C7; /* Soft brown border */
+    margin-bottom: 10px; /* Spacing between items */
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
 }
+
+/* Hover Effect for Book List Item */
+.bookListItem:hover {
+    transform: translateY(-3px); /* Move item up slightly on hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+    background-color: #f1f1f1; /* Slightly darker background on hover */
+}
+
+/* Style for the Book Title and Author */
+.bookTitle {
+    font-weight: bold; /* Bold for book title */
+    font-size: 18px; /* Larger font size */
+    margin-right: 15px; /* Adds space between elements */
+    color: #333; /* Darker color for text */
+}
+
+.bookAuthor {
+    font-style: italic; /* Italic for author name */
+    color: #777; /* Lighter color for author name */
+}
+
+/* Remove button styling */
+.removeButton {
+    background-color: #e57373; /* Red background for remove button */
+    color: white; /* White text */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 5px 10px; /* Padding for button */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Transition for hover effect */
+}
+
+/* Hover Effect for Remove Button */
+.removeButton:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+}
+
 
 .removeButton {
     background-color: #007BFF;
@@ -111,25 +251,53 @@ h3 {
     display: flex;
     flex-direction: column;
     width: 100%;
+    max-width: 400px; /* Set a maximum width for better alignment */
+    margin: 0 auto; /* Center the form */
+    background-color: #f3f4f6; /* Soft light grey background */
+    padding: 20px; /* Padding around the form */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
+/* Input styles */
 .addBookForm input {
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 12px; /* Increased padding for comfort */
+    margin-bottom: 15px; /* Increased margin for better spacing */
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 100%;
     box-sizing: border-box;
+    font-size: 16px; /* Larger font size for better readability */
+    transition: border-color 0.3s; /* Transition for border color change */
 }
 
+/* Input focus effect */
+.addBookForm input:focus {
+    border-color: #28a745; /* Green border on focus */
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5); /* Subtle green shadow */
+}
+
+/* Add Book button styles */
 .addBookButton {
-    padding: 10px;
-    background-color: #28a745;
-    color: white;
+    padding: 12px; /* Increased padding */
+    background-color: #55a428; /* Vibrant green for an inviting button */
+    color: white; /* White text */
     border: none;
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Larger font size */
     cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s; /* Transitions for hover and click */
 }
 
+/* Add Book button hover effect */
 .addBookButton:hover {
-    background-color: #218838;
+    background-color: #218838; /* Darker green on hover */
+    transform: translateY(-2px); /* Move button up slightly on hover */
+}
+
+/* Add Book button active effect */
+.addBookButton:active {
+    transform: translateY(1px); /* Move button down slightly on click */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow on click */
 }
