@@ -637,38 +637,38 @@ service /auth on authListener {
 
     resource function get confirmed_requests/[int user_id]() returns request[]|RequestNotFound|error {
         stream<request, sql:Error?> requestStream = dbClient->query(`
-        SELECT 
-    r.*, 
-    rb1.title AS requestor_book_title, 
-    rb1.author AS requestor_book_author, 
-    rb2.title AS receiver_book_title, 
-    rb2.author AS receiver_book_author,
-    u1.user_name AS requestor_user_name, 
-    u2.user_name AS receiver_user_name,
-    u1.phone_number AS requestor_phone_number, 
-    u2.phone_number AS receiver_phone_number
-FROM 
-    book_exchange.request r
-JOIN 
-    book_exchange.book rb1 ON r.requestor_book_id = rb1.book_id
-JOIN 
-    book_exchange.book rb2 ON r.receiver_book_id = rb2.book_id
-JOIN 
-    book_exchange.user u1 ON r.requestor_id = u1.user_id
-JOIN 
-    book_exchange.user u2 ON r.receiver_id = u2.user_id
-LEFT JOIN 
-    book_exchange.phone_number pn1 ON u1.user_id = pn1.user_id
-LEFT JOIN 
-    book_exchange.phone_number pn2 ON u2.user_id = pn2.user_id
-WHERE 
-    r.receiver_id = ${user_id}
-    OR r.requestor_id = ${user_id}
-AND 
-    r.request_status = 'confirmed'
-;
+            SELECT 
+                r.*, 
+                rb1.title AS requestor_book_title, 
+                rb1.author AS requestor_book_author, 
+                rb2.title AS receiver_book_title, 
+                rb2.author AS receiver_book_author,
+                u1.user_name AS requestor_user_name, 
+                u2.user_name AS receiver_user_name,
+                u1.phone_number AS requestor_phone_number, 
+                u2.phone_number AS receiver_phone_number
+            FROM 
+                book_exchange.request r
+            JOIN 
+                book_exchange.book rb1 ON r.requestor_book_id = rb1.book_id
+            JOIN 
+                book_exchange.book rb2 ON r.receiver_book_id = rb2.book_id
+            JOIN 
+                book_exchange.user u1 ON r.requestor_id = u1.user_id
+            JOIN 
+                book_exchange.user u2 ON r.receiver_id = u2.user_id
+            LEFT JOIN 
+                book_exchange.phone_number pn1 ON u1.user_id = pn1.user_id
+            LEFT JOIN 
+                book_exchange.phone_number pn2 ON u2.user_id = pn2.user_id
+            WHERE 
+                r.receiver_id = ${user_id}
+                OR r.requestor_id = ${user_id}
+            AND 
+                r.request_status = 'confirmed'
+            ;
+        `);
 
-    `);
         return from var request in requestStream
             select request;
     }
@@ -766,10 +766,6 @@ function user_names() returns string[]|UserNotFound|error {
     stream<record {|string user_name;|}, sql:Error?> userStream = dbClient->query(`SELECT user_name FROM book_exchange.user`);
     string[] usernames = check from var {user_name} in userStream
         select user_name;
-
-    // if usernames.length() == 0 {
-    //     return UserNotFound();
-    // }
     return usernames;
 }
 
@@ -777,9 +773,5 @@ function emails() returns string[]|UserNotFound|error {
     stream<record {|string email_address;|}, sql:Error?> emailStream = dbClient->query(`SELECT email_address FROM book_exchange.user`);
     string[] emails = check from var {email_address} in emailStream
         select email_address;
-
-    // if emails.length() == 0 {
-    //     return UserNotFound();
-    // }
     return emails;
 }

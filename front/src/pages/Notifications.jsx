@@ -103,21 +103,36 @@ const SearchResult = () => {
     };
 
     // Handle Reject request
-    const handleReject = async (requestId) => {
-        try {
-            const response = await axios.put(`http://localhost:8080/auth/request/reject/${requestId}`);
-            setMessage(response.data.message);
-            setError('');
+    const handleReject = async (requestorId, receiverId, requestorBookId, receiverBookId) => {
+      try {
+          const payload = {
+              requestor_id: requestorId,
+              receiver_id: receiverId,
+              requestor_book_id: requestorBookId,
+              receiver_book_id: receiverBookId,
+          };
 
-            // Refresh the data after successful action
-            fetchPendingRequests();
-            fetchAcceptedRequests();
+          console.log('Sending payload:', payload);
 
-        } catch (err) {
-            console.error('Failed to reject request:', err);
-            setError('Failed to reject the request.');
-            setMessage('');
-        }
+          const response = await axios.post('http://localhost:8080/auth/rejectrequest', payload, {
+              headers: { 'Content-Type': 'application/json' },
+          });
+
+          console.log('Response received:', response.data);
+
+          setPendingRequests(pendingRequests.filter((request) => request.request_id !== requestorId));
+          setMessage(response.data.message);
+          setError('');
+          
+          // Refresh the data after successful action
+          fetchPendingRequests();
+          fetchAcceptedRequests();
+
+      } catch (err) {
+          console.error('Failed to reject request:', err);
+          setError('Failed to reject the request.');
+          setMessage('');
+      }
     };
 
     // Handle Confirm request
@@ -147,21 +162,31 @@ const SearchResult = () => {
         }
     };
 
-    // Handle Cancel request
-    const handleCancel = async (requestId) => {
-        try {
-            const response = await axios.put(`http://localhost:8080/auth/cancel/${requestId}`); // Update the endpoint as needed
-            setMessage(response.data.message);
-            setError('');
+    // Handle Confirm request
+    const handleCancel = async (requestorId, receiverId, requestorBookId, receiverBookId) => {
+      try {
+          const payload = {
+              requestor_id: requestorId,
+              receiver_id: receiverId,
+              requestor_book_id: requestorBookId,
+              receiver_book_id: receiverBookId,
+          };
 
-            // Refresh the data after successful action
-            fetchAcceptedRequests();
+          const response = await axios.post('http://localhost:8080/auth/cancelrequest', payload, {
+              headers: { 'Content-Type': 'application/json' },
+          });
+          setMessage(response.data.message);
+          setError('');
 
-        } catch (err) {
-            console.error('Failed to cancel request:', err);
-            setError('Failed to cancel the request.');
-            setMessage('');
-        }
+          // Refresh the data after successful action
+          fetchPendingRequests();
+          fetchAcceptedRequests();
+
+      } catch (err) {
+          console.error('Failed to cancel request:', err);
+          setError('Failed to cancel the request.');
+          setMessage('');
+      }
     };
 
     return (
