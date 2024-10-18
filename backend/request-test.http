@@ -30,14 +30,16 @@ Content-Type: application/json
 }
 
 ### Test hashed addbooks Endpoint
-POST http://localhost:8080/auth/managebooks
+POST http://localhost:8080/auth/addbooks
 Content-Type: application/json
 
 {
-    "user_id": 11,
-    "action": "add",
-    "title": "HarryyiiPotter",
-    "author": "JyK"
+    "user_id": 1,
+    "title": "Harryy Sir Potter",
+    "author": "JyK",
+    "edition": "2nd",
+    "username": "aliceJ",
+    "image_path": "C:\\Users\\tharu\\OneDrive\\Pictures\\Saved Pictures\\749693.jpg"
 }
 
 ### Test hashed addbooks Endpoint

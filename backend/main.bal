@@ -6,6 +6,8 @@ import ballerina/time;
 import ballerina/log;
 import ballerinax/mysql;
 import ballerinax/mysql.driver as _;
+import ballerina/lang.regexp;
+import ballerina/file;
 
 // import ballerina/lang.array;
 
@@ -24,6 +26,9 @@ configurable DatabaseConfig databaseConfig = ?;
 mysql:Client dbClient = check new (...databaseConfig);
 
 listener http:Listener authListener = new (8080);
+
+// Directory where book images will be stored
+const string BOOK_IMAGES_DIR = "../images/books/";
 
 //-------------------------------------------- Auth Service --------------------------------------------
 type user record {
@@ -61,6 +66,12 @@ type address record {
 type phone_number record {
     int user_id;
     string phone_number;
+};
+
+
+type UserBookDetail record {
+    string user_name;
+    string title;
 };
 
 type user_book record {
@@ -327,7 +338,49 @@ service /auth on authListener {
         }
     }
 
-    resource function post managebooks(http:Caller caller, http:Request req) returns error? {
+    // resource function post managebooks(http:Caller caller, http:Request req) returns error? {
+    //     json payload;
+    //     var jsonResult = req.getJsonPayload();
+    //     if (jsonResult is json) {
+    //         payload = jsonResult;
+    //     } else {
+    //         // Invalid JSON payload
+    //         check caller->respond({"message": "Invalid JSON format"});
+    //         return;
+    //     }
+
+    //     // Extract action, title, author from the payload
+    //     int user_id = (check payload.user_id);
+    //     string action = (check payload.action).toString();
+    //     string title = (check payload.title).toString();
+    //     string author = (check payload.author).toString();
+
+    //     // Prepare the query for the stored procedure with parameterized values
+    //     sql:ParameterizedQuery query = `CALL ManageUserBook(${user_id}, ${action}, ${title}, ${author})`;
+
+    //     // Execute the stored procedure
+    //     var result = dbClient->execute(query);
+
+    //     if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
+    //         if (action == "add") {
+    //             // Successfully added the book
+    //             check caller->respond({"message": "Adding book successfully!"});
+    //         } else if (action == "remove") {
+    //             // Successfully removed the book
+    //             check caller->respond({"message": "Removing book successfully!"});
+    //         }
+    //     } else {
+    //         if (action == "add") {
+    //             // Failed to add the book
+    //             check caller->respond({"message": "Adding book failed!"});
+    //         } else if (action == "remove") {
+    //             // Failed to remove the book
+    //             check caller->respond({"message": "Removing book failed!"});
+    //         }
+    //     }
+    // }
+
+    resource function post addbooks(http:Caller caller, http:Request req) returns error? {
         json payload;
         var jsonResult = req.getJsonPayload();
         if (jsonResult is json) {
@@ -338,34 +391,101 @@ service /auth on authListener {
             return;
         }
 
-        // Extract action, title, author from the payload
+        // Extract user_id, action, title, author, username, and image_path from the payload
         int user_id = (check payload.user_id);
-        string action = (check payload.action).toString();
         string title = (check payload.title).toString();
         string author = (check payload.author).toString();
+        string edition = (check payload.edition).toString();
+        string username = (check payload.username).toString();
+        string original_image_path = (check payload.image_path).toString(); // Local path of the image on the user's machine
+
+        // Check if the image path is provided in the payload
+        string? image_path = ();
+
+        if (original_image_path != "") {
+            // Sanitize the book title (replace spaces with underscores)
+            regexp:RegExp spaceRegex = check regexp:fromString(" ");
+            string sanitizedTitle = spaceRegex.replaceAll(title, "_");
+
+            // Create the new image filename (username_booktitle.jpg)
+            string imageFileName = username + "_" + sanitizedTitle + ".jpg";
+            image_path = BOOK_IMAGES_DIR + imageFileName;
+
+            // Copy the image from the provided local path to the ./images/books directory
+            string destinationPath = BOOK_IMAGES_DIR + imageFileName;
+
+            // Copy the file from the local path (original_image_path) to the project directory
+            check file:copy(original_image_path, destinationPath, file:REPLACE_EXISTING);
+            io:println("Image copied to: " + destinationPath);
+        }
 
         // Prepare the query for the stored procedure with parameterized values
-        sql:ParameterizedQuery query = `CALL ManageUserBook(${user_id}, ${action}, ${title}, ${author}, '')`;
+        sql:ParameterizedQuery query;
+        if (image_path is string) {
+            // If an image path is provided
+            query = `CALL ManageUserBook(${user_id}, 'add', ${title}, ${author}, ${edition}, ${image_path})`;
+        } else {
+            // If no image is provided, pass NULL for the image path
+            query = `CALL ManageUserBook(${user_id}, 'add', ${title}, ${author}, ${edition}, NULL)`;
+        }
 
         // Execute the stored procedure
         var result = dbClient->execute(query);
 
         if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
-            if (action == "add") {
-                // Successfully added the book
-                check caller->respond({"message": "Adding book successfully!"});
-            } else if (action == "remove") {
-                // Successfully removed the book
-                check caller->respond({"message": "Removing book successfully!"});
-            }
+            // Successfully added the book
+            check caller->respond({"message": "Adding book successfully!"});
         } else {
-            if (action == "add") {
-                // Failed to add the book
-                check caller->respond({"message": "Adding book failed!"});
-            } else if (action == "remove") {
-                // Failed to remove the book
-                check caller->respond({"message": "Removing book failed!"});
+            // Failed to add the book
+            check caller->respond({"message": "Adding book failed!"});
+        }
+    }
+
+    resource function get bookImage/[int book_id]/[int user_id](http:Caller caller, http:Request req) returns error? {
+        // Prepare the SQL query to retrieve user_name and title based on book_id and user_id
+        sql:ParameterizedQuery query = `SELECT u.user_name, b.title 
+                                        FROM book_exchange.user u 
+                                        JOIN book_exchange.user_book ub ON u.user_id = ub.user_id 
+                                        JOIN book_exchange.book b ON ub.book_id = b.book_id 
+                                        WHERE b.book_id = ${book_id} AND u.user_id = ${user_id}`;
+
+        // Execute the query and retrieve the result
+        UserBookDetail|sql:Error queryResult = dbClient->queryRow(query, UserBookDetail);
+
+        if (queryResult is sql:Error) {
+            log:printError("Error executing SQL query", queryResult);
+            check caller->respond({"message": "Failed to retrieve book details"});
+            return;
+        }
+
+        // Construct the image filename
+        regexp:RegExp spaceRegex = check regexp:fromString(" ");
+        string sanitizedTitle = spaceRegex.replaceAll(queryResult.title, "_");
+        string imageFileName = queryResult.user_name + "_" + sanitizedTitle + ".jpg";
+        string imagePath = BOOK_IMAGES_DIR + imageFileName;
+
+        // Check if the image file exists
+        var fileExists = check file:test(imagePath, file:EXISTS);
+        if (!(fileExists is boolean && fileExists)) {
+            // Use generic image if specific image does not exist
+            imagePath = BOOK_IMAGES_DIR + "generic_book.jpg";
+            fileExists = check file:test(imagePath, file:EXISTS);
+            if (!(fileExists is boolean && fileExists)) {
+                check caller->respond({"message": "Generic image not found"});
+                return;
             }
+        }
+
+        // Respond with the image path
+        var respondResult = caller->respond(
+            {
+                statusCode: 200,
+                body: { "imagePath": imagePath }
+            }
+        );
+
+        if (respondResult is error) {
+            log:printError("Error responding with image path", respondResult);
         }
     }
 
