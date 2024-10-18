@@ -441,6 +441,60 @@ service /auth on authListener {
         }
     }
 
+
+    resource function post removebooks(http:Caller caller, http:Request req) returns error? {
+        json payload;
+        var jsonResult = req.getJsonPayload();
+        if (jsonResult is json) {
+            payload = jsonResult;
+        } else {
+            // Invalid JSON payload
+            check caller->respond({"message": "Invalid JSON format"});
+            return;
+        }
+
+        // Extract user_id, title, author, edition, username, and image_path from the payload
+        int user_id = (check payload.user_id);
+        string title = (check payload.title).toString();
+        string author = (check payload.author).toString();
+        string edition = (check payload.edition).toString();
+        string username = (check payload.username).toString();
+
+        // Sanitize the book title (replace spaces with underscores)
+        regexp:RegExp spaceRegex = check regexp:fromString(" ");
+        string sanitizedTitle = spaceRegex.replaceAll(title, "_");
+
+        // Create the image filename (username_booktitle.jpg)
+        string imageFileName = username + "_" + sanitizedTitle + ".jpg";
+        string image_path = BOOK_IMAGES_DIR + imageFileName;
+
+        // Check if the image path is provided in the payload
+        if (image_path != "") {
+            // Delete the image file from the project directory
+            var deleteResult = file:remove(image_path);
+            if (deleteResult is error) {
+                io:println("Failed to delete image: " + deleteResult.message());
+            } else {
+                io:println("Image deleted: " + image_path);
+            }
+        }
+
+        // Prepare the query for the stored procedure with parameterized values
+        sql:ParameterizedQuery query = `CALL ManageUserBook(${user_id}, 'remove', ${title}, ${author}, ${edition}, NULL)`;
+
+        // Execute the stored procedure
+        var result = dbClient->execute(query);
+
+        if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
+            // Successfully removed the book
+            check caller->respond({"message": "Removing book successfully!"});
+        } else {
+            // Failed to remove the book
+            check caller->respond({"message": "Removing book failed!"});
+        }
+    }
+
+
     resource function get bookImage/[int book_id]/[int user_id](http:Caller caller, http:Request req) returns error? {
         // Prepare the SQL query to retrieve user_name and title based on book_id and user_id
         sql:ParameterizedQuery query = `SELECT u.user_name, b.title 
