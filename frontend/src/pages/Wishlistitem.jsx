@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from '../styles/Wishlistitem.module.css'; // Import the new CSS module
 import DashboardNavbar from '../components/DashboardNavbar'; // Import your dashboard navbar
+import Navbar from '../components/Navbar'; 
 
 const WishlistItem = () => {
     const location = useLocation();
@@ -63,45 +64,62 @@ const WishlistItem = () => {
         <div className={styles.container}>
             <div className={styles.sidebar}>
                 <img className={styles.profilePic} src={require('../styles/2.png')} alt="Profile" />
-                <h2 className={styles.sidebarTitle}>{user_name}</h2>
-                <p className={styles.sidebarDescription}>Details about the user</p>
+                <h2 className={styles.sidebarTitle}>Welcome {user_name}!</h2>
+                <h2 className={styles.libraryTitle}>"See Who's Interested in Your Books"</h2>
+                <p className={styles.sidebarDescription}>You can exchange your book with other users who are interested in similar books! 
+            Here, you'll find a list of users who have matching book preferences.
+            Simply review the details, and if you find someone with a book you're interested in, 
+            you can send them a book exchange request.</p>
             </div>
             <div className={styles.mainContent}>
-                <DashboardNavbar />
-                <h2>{user_name}'s Wishlist Item</h2>
-                <h2>{requestorId}</h2>
-                <h3>Book Details</h3>
-                <p><strong>Title:</strong> {title}</p>
-                <p><strong>Author:</strong> {author}</p>
-                <p><strong>Book ID:</strong> {book_id}</p>
-                
-                <button onClick={() => navigate('/wishlist', { state: { user_name } })}>
-                    Back to Wishlist
-                </button>
-                <button onClick={() => navigate('/dashboard', { state: { user_name } })}>
-                    Back to Dashboard
-                </button>
+                    <Navbar />
+                    <DashboardNavbar />
+                    <h3 className={styles.sectionTitle}>Your Book:-</h3>
+                    <div className={styles.bookDetails}>
+                        <p><strong>Title:</strong> {title}</p>
+                         <p><strong>Author:</strong> {author}</p>
+                    </div>
 
-                <h3>Matching Users for Exchange</h3>
+                
+                
+               
+                
+
+                <h3 className={styles.sectionTitle}>Matching Users for Exchange</h3>
                 {error && <p className={styles.error}>{error}</p>}
                 {matchingUsers.length > 0 ? (
-                    <ul>
+                    <ul className={styles.notificationList}>
                         {matchingUsers.map((user, index) => (
-                            <li key={index}>
-                                <strong>User Name:</strong> {user.user_name} - 
-                                <strong> City:</strong> {user.city} - 
-                                <strong> District:</strong> {user.district}
-                                <strong> Book Owner ID:</strong> {user.user_id}
-                                <strong> wishlist_book_id:</strong> {user.wishlist_book_id}
-                                <strong> title:</strong> {user.title}
-                                <strong> author:</strong> {user.author}
-                                <button onClick={() => requestBook(user.user_id , user.wishlist_book_id)}>Request This Book</button>
+                            <li key={index} className={styles.notificationItem}>
+ <div className={styles.notificationDetails}>
+        <div className={styles.notificationText}>
+          <strong>Book Title:</strong> {user.title}
+        </div>
+        <div className={styles.notificationText}>
+          <strong>Author:</strong> {user.author}
+        </div>
+        <div className={styles.notificationText}>
+          <strong>User Name:</strong> {user.user_name}
+        </div>
+        <div className={styles.notificationText}>
+          <strong>City:</strong> {user.city}
+        </div>
+        <div className={styles.notificationText}>
+          <strong>District:</strong> {user.district}
+        </div>
+      </div>
+                               
+                                <button className={styles.notificationButton} onClick={() => requestBook(user.user_id , user.wishlist_book_id)}>Request This Book</button>
                             </li>
                         ))}
                     </ul>
                 ) : (
                     <p>No matching users found for exchange.</p>
                 )}
+
+<button  className={styles.button} onClick={() => navigate('/wishlist', { state: { user_name } })}>
+                    Back to Wishlist
+                </button>
             </div>
         </div>
     );

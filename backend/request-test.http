@@ -99,14 +99,7 @@ Content-Type: application/json
     "action": "add"
 }
 
-### Test Login Endpoint
-POST http://localhost:8080/auth/matchingUsers
-Content-Type: application/json
 
-{
-    "currentUserId": 69,
-    "selectedBookId": 31
-}
 ### Get all users
 GET http://localhost:8080/auth/users
 
@@ -116,8 +109,6 @@ GET http://localhost:8080/auth/user/dilum
 ### Get specific user_id
 GET http://localhost:8080/auth/user_id/dilum
 
-### Get specific user_id
-GET http://localhost:8080/auth/GetBookDetailsByTitle/HarryPotter
 
 ### Get specific user_id
 GET http://localhost:8080/auth/pending_requests/69
@@ -126,7 +117,7 @@ GET http://localhost:8080/auth/pending_requests/69
 GET http://localhost:8080/auth/accepted_requests/67
 
 ### Get confirmed_requests
-GET http://localhost:8080/auth/confirmed_requests/67
+GET http://localhost:8080/auth/confirmed_requests/126
 
 ### Get specific user_id
 GET http://localhost:8080/auth/books_for_specific_user/1

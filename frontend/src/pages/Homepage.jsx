@@ -61,12 +61,14 @@ const HomePage = () => {
 
       {/* Header Section */}
       <div id="home" className={styles.headerImage}>
-        <img src={require('../styles/1.jpg')} />
-        <div className={styles.headerText}>
-          <h1>Buy, SELL or Exchange books for FREE!!!</h1>
-          <p>Clear the Bookshelf and Fill It Up Again, All Online!</p>
-        </div>
-      </div>
+  <div className={styles.headerText}>
+    <h1>Book Buddies</h1>
+    <h2>Exchange Books for Free!</h2>
+    <p>Clear the Bookshelf and Fill It Up Again, All Online!</p>
+  </div>
+</div>
+
+
 
       {/* Authentication Buttons */}
       <div className={styles.authButtons}>
@@ -78,77 +80,82 @@ const HomePage = () => {
         </Link>
       </div>
 
+      
       {/* How it Works Section */}
-      <div className={styles.stepsSection}>
-        <h2>How book exchange works?</h2>
-        <div className={styles.steps}>
-          <div className={styles.step}>Step 01: Register & create your FREE account</div>
-          <div className={styles.step}>Step 02: Add your old books to your library</div>
-          <div className={styles.step}>Step 03: Request a loved book from others</div>
-          <div className={styles.step}>Step 04: Exchange books by posting or meeting</div>
-        </div>
-      </div>
+<div className={`${styles.whiteContainer} ${styles.stepsSection}`}>
+  <h2>How Book Exchange Works</h2>
+  <div className={styles.steps}>
+    <div className={styles.step}><strong>Step 01:</strong> Register & create your FREE account</div>
+    <div className={styles.step}><strong>Step 02:</strong> Add your old books to your library</div>
+    <div className={styles.step}><strong>Step 03:</strong> Request a loved book from others</div>
+    <div className={styles.step}><strong>Step 04:</strong> Exchange books by posting or meeting</div>
+  </div>
+</div>
 
+
+   
       {/* Latest Books Section */}
-      <div>
-        <h3 className={styles.LatestBooks}>Latest Books</h3>
-        <div className={styles.horizontalScrollContainer}>
-          <button onClick={scrollLeft} className={styles.scrollButton}>←</button>
-          <div className={styles.bookList} ref={bookListRef}>
-            {books.length === 0 ? (
-              <p>No books found.</p>
-            ) : (
-              books.map((b) => (
-                <div key={b.book_id} className={styles.bookListItem}>
-                  <img className={styles.samplePic} src={require('../styles/3.avif')} alt="Book Cover" />
-                  <div>
-                    <strong>Title:</strong> {b.title} <br />
-                    <strong>Author:</strong> {b.author}
-                  </div>
-                </div>
-              ))
-            )}
+<div className={styles.whiteContainer}>
+  <h3 className={styles.LatestBooks}>Latest Books</h3>
+  <div className={styles.horizontalScrollContainer}>
+    <button onClick={scrollLeft} className={styles.scrollButton}>←</button>
+    <div className={styles.bookList} ref={bookListRef}>
+      {books.length === 0 ? (
+        <p>No books found.</p>
+      ) : (
+        books.map((b) => (
+          <div key={b.book_id} className={styles.bookListItem}>
+            <img className={styles.samplePic} src={require('../styles/11.png')} alt="Book Cover" />
+            <div className={styles.book} >
+              <strong>Title:</strong> {b.title} <br />
+              <strong>Author:</strong> {b.author}
+            </div>
           </div>
-          <button onClick={scrollRight} className={styles.scrollButton}>→</button>
-        </div>
-      </div>
+        ))
+      )}
+    </div>
+    <button onClick={scrollRight} className={styles.scrollButton}>→</button>
+  </div>
+</div>
+
 
       {/* About Section */}
       <div id="about" className={styles.aboutSection}>
-        <h1>About Us</h1>
-        <p>
-          Welcome to our Book Exchange Platform! We are a team of passionate computer science engineering undergraduates from the University of Moratuwa, dedicated to creating a space where book lovers can exchange and discover new books. Our platform aims to foster a community of readers who share their love for literature in a sustainable way.
-        </p>
+  <h1>About Us</h1>
+  <p>
+    Welcome to our Book Exchange Platform! We are a team of passionate computer science engineering undergraduates from the University of Moratuwa, dedicated to creating a space where book lovers can exchange and discover new books. Our platform aims to foster a community of readers who share their love for literature in a sustainable way.
+  </p>
 
-        <h2>Mission</h2>
-        <p>
-          Our mission is to promote sustainability by providing a platform for book exchanges, helping to reduce waste and extend the life cycle of books, while connecting like-minded readers from different backgrounds.
-        </p>
+  <h2>Mission</h2>
+  <p>
+    Our mission is to promote sustainability by providing a platform for book exchanges, helping to reduce waste and extend the life cycle of books. By encouraging the sharing of literature, we aim to save trees and preserve our environment while connecting like-minded readers from different backgrounds.
+  </p>
 
-        <h2>Vision</h2>
-        <p>
-          We envision a world where books are passed from reader to reader, creating lasting connections and making literature more accessible to all. Our platform strives to build a global community of readers who share knowledge and stories through the simple act of exchanging books.
-        </p>
+  <h2>Vision</h2>
+  <p>
+    We envision a world where books are passed from reader to reader, creating lasting connections and making literature more accessible to all. Our platform strives to build a global community of readers who share knowledge and stories through the simple act of exchanging books.
+  </p>
 
-        <h2>Meet the Team</h2>
-        <ul>
-          <li><strong>Dulitha Perera</strong> – Computer Science Engineering Undergraduate, University of Moratuwa</li>
-          <li><strong>Sithum Bimsara</strong> – Computer Science Engineering Undergraduate, University of Moratuwa</li>
-          <li><strong>Sasmitha Jayasinghe</strong> – Computer Science Engineering Undergraduate, University of Moratuwa</li>
-          <li><strong>Kaveesha Kapuruge</strong> – Computer Science Engineering Undergraduate, University of Moratuwa</li>
-        </ul>
+  <h2>Meet the Team</h2>
+  <ul>
+    <li><strong>Dulitha Perera</strong> – Computer Science Engineering Undergraduate, University of Moratuwa</li>
+    <li><strong>Sithum Bimsara</strong> – Computer Science Engineering Undergraduate, University of Moratuwa</li>
+    <li><strong>Sasmitha Jayasinghe</strong> – Computer Science Engineering Undergraduate, University of Moratuwa</li>
+    <li><strong>Kaveesha Kapuruge</strong> – Computer Science Engineering Undergraduate, University of Moratuwa</li>
+  </ul>
 
-        <h2>Future Plans</h2>
-        <p>
-          We are continuously working to improve the platform by adding more features, such as advanced search options, book recommendations, and integration with other literary platforms. Stay tuned for updates!
-        </p>
-      </div>
+  <h2>Future Plans</h2>
+  <p>
+    We are continuously working to improve the platform by adding more features, such as advanced search options, book recommendations, and integration with other literary platforms. Stay tuned for updates!
+  </p>
+</div>
 
-      {/* Contact Section */}
-      <div id="contact" className={styles.contactSection}>
-        <h1>Contact Us</h1>
-        <p>If you have any questions or need more information, feel free to reach out at <strong>contact@bookbuddies.com</strong>.</p>
-      </div>
+{/* Contact Section */}
+<div id="contact" className={styles.contactSection}>
+  <h1>Contact Us</h1>
+  <p>If you have any questions or need more information, feel free to reach out at <strong>contact@bookbuddies.com</strong>.</p>
+</div>
+
     </div>
   );
 };
