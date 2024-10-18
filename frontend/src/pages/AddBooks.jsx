@@ -117,10 +117,8 @@ const AddBooks = () => {
         <div className={styles.wishlistPage}>
             <div className={styles.sidebar}>
                 <img className={styles.profilePic} src={require('../styles/2.png')} alt="Profile" />
-                    <h2 className={styles.sidebarTitle}>
-                        {user_name}
-                        <span className={styles.welcomeMessage}>Welcome, {user_name}!</span>
-                    </h2>
+                <h2 className={styles.sidebarTitle}>Welcome {user_name}!</h2>
+                <h2 className={styles.libraryTitle}>To your Library</h2>
                 <p className={styles.sidebarDescription}>
                         Welcome, {user_name}! Manage your personal book library by adding new books from here, 
                         organizing your collection, and easily exchanging books with others in the community. 
@@ -130,9 +128,6 @@ const AddBooks = () => {
             <div className={styles.mainContent}>
             <Navbar />
                 <DashboardNavbar />
-                <h2 className={styles.libraryTitle}>{user_name}'s Library</h2>
-
-                
 
                 <div className={styles.wishlistContainer}>
                     <h3 className={styles.pagedescription} >Add a New Book to Your Library</h3>
@@ -154,7 +149,7 @@ const AddBooks = () => {
                         <button type="submit" className={styles.addBookButton}>Add to Library</button>
                     </form>
 
-                    <h3>Your Books</h3>
+                    <h3 className={styles.pagedescription}>Your Books</h3>
                     {books.length === 0 ? (
                         <p>No books found.</p>
                     ) : (

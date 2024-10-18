@@ -170,10 +170,8 @@ const SearchResult = () => {
           {/* User Details Sidebar */}
           <div className={styles.sidebar}>
                 <img className={styles.profilePic} src={require('../styles/2.png')} alt="Profile" />
-                <h2 className={styles.sidebarTitle}>
-                        {user_name}
-                        <span className={styles.welcomeMessage}>Welcome, {user_name}!</span>
-                    </h2>
+                <h2 className={styles.sidebarTitle}>Welcome {user_name}!</h2>
+                <h2 className={styles.libraryTitle}>To your Notifications</h2>
                 <p className={styles.sidebarDescription}>Hello, {user_name}! This section helps you manage all your exchange requests. You can view pending, accepted, and confirmed requests here. Stay updated and ensure smooth exchanges with other users. </p>
           </div>
 
@@ -181,7 +179,7 @@ const SearchResult = () => {
   <div className={styles.content}>
   <Navbar />
   <DashboardNavbar />
-  <h2 className={styles.libraryTitle}>{user_name}'s Notifications</h2>
+  
     {error && <p style={{ color: 'red' }}>{error}</p>}
     {message && <p style={{ color: 'green' }}>{message}</p>}
 
