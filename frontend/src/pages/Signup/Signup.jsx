@@ -180,7 +180,7 @@ function Signup() {
                     />
                 </div>
 
-                <h3 className={styles.title}>Primary Address</h3>
+                <h3 className={styles.title} style={{ color: 'black' }}>Primary Address</h3>
                 <div className={styles['input-box']}>
                     <span className={styles.details}>Address Line 1</span>
                     <input
