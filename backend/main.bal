@@ -7,6 +7,7 @@ import ballerina/log;
 import ballerinax/mysql;
 import ballerinax/mysql.driver as _;
 import ballerina/lang.regexp;
+import ballerina/mime;
 import ballerina/file;
 
 // import ballerina/lang.array;
@@ -380,46 +381,140 @@ service /auth on authListener {
     //     }
     // }
 
+    // resource function post addbooks(http:Caller caller, http:Request req) returns error? {
+    //     json payload;
+    //     var jsonResult = req.getJsonPayload();
+    //     if (jsonResult is json) {
+    //         payload = jsonResult;
+    //     } else {
+    //         // Invalid JSON payload
+    //         check caller->respond({"message": "Invalid JSON format"});
+    //         return;
+    //     }
+
+    //     // Extract user_id, action, title, author, username, and image_path from the payload
+    //     int user_id = (check payload.user_id);
+    //     string title = (check payload.title).toString();
+    //     string author = (check payload.author).toString();
+    //     string edition = (check payload.edition).toString();
+    //     string username = (check payload.username).toString();
+    //     string original_image_path = (check payload.image_path).toString(); // Local path of the image on the user's machine
+
+    //     // Check if the image path is provided in the payload
+    //     string? image_path = ();
+
+    //     if (original_image_path != "") {
+    //         // Sanitize the book title (replace spaces with underscores)
+    //         regexp:RegExp spaceRegex = check regexp:fromString(" ");
+    //         string sanitizedTitle = spaceRegex.replaceAll(title, "_");
+
+    //         // Create the new image filename (username_booktitle.jpg)
+    //         string imageFileName = username + "_" + sanitizedTitle + ".jpg";
+    //         image_path = BOOK_IMAGES_DIR + imageFileName;
+
+    //         // Copy the image from the provided local path to the ./images/books directory
+    //         string destinationPath = BOOK_IMAGES_DIR + imageFileName;
+
+    //         // Copy the file from the local path (original_image_path) to the project directory
+    //         check file:copy(original_image_path, destinationPath, file:REPLACE_EXISTING);
+    //         io:println("Image copied to: " + destinationPath);
+    //     }
+
+    //     // Prepare the query for the stored procedure with parameterized values
+    //     sql:ParameterizedQuery query;
+    //     if (image_path is string) {
+    //         // If an image path is provided
+    //         query = `CALL ManageUserBook(${user_id}, 'add', ${title}, ${author}, ${edition}, ${image_path})`;
+    //     } else {
+    //         // If no image is provided, pass NULL for the image path
+    //         query = `CALL ManageUserBook(${user_id}, 'add', ${title}, ${author}, ${edition}, NULL)`;
+    //     }
+
+    //     // Execute the stored procedure
+    //     var result = dbClient->execute(query);
+
+    //     if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
+    //         // Successfully added the book
+    //         check caller->respond({"message": "Adding book successfully!"});
+    //     } else {
+    //         // Failed to add the book
+    //         check caller->respond({"message": "Adding book failed!"});
+    //     }
+    // }
+
     resource function post addbooks(http:Caller caller, http:Request req) returns error? {
-        json payload;
-        var jsonResult = req.getJsonPayload();
-        if (jsonResult is json) {
-            payload = jsonResult;
-        } else {
-            // Invalid JSON payload
-            check caller->respond({"message": "Invalid JSON format"});
-            return;
+        // Parse the multipart form data
+        mime:Entity[] bodyParts = check req.getBodyParts();
+
+        string userIdStr = "";
+        string title = "";
+        string author = "";
+        string edition = "";
+        string username = "";
+        mime:Entity? imageFilePart = ();
+
+        // Iterate through each part to extract form fields and the image file
+        foreach var part in bodyParts {
+            mime:ContentDisposition contentDisposition = part.getContentDisposition();
+            string partName = contentDisposition.name;
+
+            if (partName == "user_id") {
+                userIdStr = check part.getText();
+            } else if (partName == "title") {
+                title = check part.getText();
+            } else if (partName == "author") {
+                author = check part.getText();
+            } else if (partName == "edition") {
+                edition = check part.getText();
+            } else if (partName == "username") {
+                username = check part.getText();
+            } else if (partName == "image") {
+                imageFilePart = part;
+            }
         }
 
-        // Extract user_id, action, title, author, username, and image_path from the payload
-        int user_id = (check payload.user_id);
-        string title = (check payload.title).toString();
-        string author = (check payload.author).toString();
-        string edition = (check payload.edition).toString();
-        string username = (check payload.username).toString();
-        string original_image_path = (check payload.image_path).toString(); // Local path of the image on the user's machine
+        int user_id = check int:fromString(userIdStr);
 
-        // Check if the image path is provided in the payload
+        // Handle the image file if provided
         string? image_path = ();
-
-        if (original_image_path != "") {
+        if (imageFilePart is mime:Entity) {
             // Sanitize the book title (replace spaces with underscores)
             regexp:RegExp spaceRegex = check regexp:fromString(" ");
             string sanitizedTitle = spaceRegex.replaceAll(title, "_");
 
-            // Create the new image filename (username_booktitle.jpg)
+            // Create the new image filename (username_booktitle.extension)
+            // string originalFilename = imageFilePart.getContentDisposition().fileName;
             string imageFileName = username + "_" + sanitizedTitle + ".jpg";
-            image_path = BOOK_IMAGES_DIR + imageFileName;
+            string serverImagePath = BOOK_IMAGES_DIR + imageFileName;
 
-            // Copy the image from the provided local path to the ./images/books directory
-            string destinationPath = BOOK_IMAGES_DIR + imageFileName;
+            // Ensure the BOOK_IMAGES_DIR exists
+            // boolean|error fileExists = check file:test(serverImagePath, file:EXISTS);
+            // if (fileExists is boolean) {
+            //     if (!fileExists) {
+            //         var dirCreate = file:createDir(BOOK_IMAGES_DIR);
+            //         if (dirCreate is error) {
+            //             check caller->respond({"message": "Failed to create image directory"});
+            //             return;
+            //         }
+            //     }
+            // } else {
+            //     check caller->respond({"message": "Error checking image directory"});
+            //     return;
+            // }
 
-            // Copy the file from the local path (original_image_path) to the project directory
-            check file:copy(original_image_path, destinationPath, file:REPLACE_EXISTING);
-            io:println("Image copied to: " + destinationPath);
+            // Save the uploaded file to the server
+            byte[] fileContent = check imageFilePart.getByteArray();
+            var saveResult = io:fileWriteBytes(serverImagePath, fileContent);
+            if (saveResult is error) {
+                check caller->respond({"message": "Failed to save the image file"});
+                return;
+            }
+
+            image_path = BOOK_IMAGES_DIR + imageFileName; // Path accessible by the frontend
+            io:println("Image saved to: " + serverImagePath);
         }
 
-        // Prepare the query for the stored procedure with parameterized values
+        // Prepare the query for the stored procedure with parameterized values to prevent SQL injection
         sql:ParameterizedQuery query;
         if (image_path is string) {
             // If an image path is provided
@@ -441,7 +536,6 @@ service /auth on authListener {
         }
     }
 
-
     resource function post removebooks(http:Caller caller, http:Request req) returns error? {
         json payload;
         var jsonResult = req.getJsonPayload();
@@ -452,6 +546,9 @@ service /auth on authListener {
             check caller->respond({"message": "Invalid JSON format"});
             return;
         }
+
+        // Log the received payload for debugging
+        io:println("Received payload: " + payload.toJsonString());
 
         // Extract user_id, title, author, edition, username, and image_path from the payload
         int user_id = (check payload.user_id);
@@ -918,7 +1015,8 @@ service /auth on authListener {
                 SELECT 
                     b.book_id, 
                     b.title, 
-                    b.author
+                    b.author,
+                    b.edition
                 FROM 
                     book b
                 JOIN 

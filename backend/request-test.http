@@ -47,11 +47,11 @@ POST http://localhost:8080/auth/removebooks
 Content-Type: application/json
 
 {
-    "user_id": 1,
-    "title": "Harryy Sir Potter",
-    "author": "JyK",
+    "user_id": 12,
+    "title": "title",
+    "author": "author",
     "edition": "2nd",
-    "username": "aliceJ"
+    "username": "dog"
 }
 
 
@@ -142,3 +142,6 @@ GET http://localhost:8080/auth/user_name
 
 ### Get specific user_id
 GET http://localhost:8080/auth/latest_book
+
+### Test Get Book Image - Successful Retrieval
+GET http://localhost:8080/auth/bookImage/29/1
