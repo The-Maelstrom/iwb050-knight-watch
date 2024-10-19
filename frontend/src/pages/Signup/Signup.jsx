@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styles from './Signup.module.css'; // Importing CSS module
-import Navbar from '../../components/Navbar'; 
+//import Navbar from '../../components/Navbar'; 
 
 function Signup() {
     const [formData, setFormData] = useState({
@@ -102,7 +102,6 @@ function Signup() {
 
     return (
         <div className={styles.container}>
-            <Navbar/>
             <h2 className={styles.title}>Sign Up</h2>
             <form onSubmit={handleSubmit} className={styles.form}>
                 <div className={styles['user-details']}>
@@ -181,7 +180,7 @@ function Signup() {
                     />
                 </div>
 
-                <h3 className={styles.title}>Primary Address</h3>
+                <h3 className={styles.title} style={{ color: 'black' }}>Primary Address</h3>
                 <div className={styles['input-box']}>
                     <span className={styles.details}>Address Line 1</span>
                     <input

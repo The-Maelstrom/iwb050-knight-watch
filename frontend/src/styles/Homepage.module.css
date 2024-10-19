@@ -1,22 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+
+/* Reset HTML and Body */
+html, body {
+  height: 100%; /* Full height */
+  margin: 0; /* Remove default margin */
+  overflow-x: auto; /* Prevent horizontal scrolling */
+}
+
+/* Container */
+
+.whiteContainer {
+  background-color: #fff; /* White background */
+  padding: 40px; /* Add padding for spacing inside the container */
+  margin-top: 20px; /* Add margin to space it from other sections */
+  border-radius: 10px; /* Add rounded corners */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
 .container {
-  /* Remove max-width to allow full width */
-  max-width: 100%; 
-  margin: 0 auto; 
-  padding: 0; /* Remove padding if you want full-width header */
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
   font-family: Arial, sans-serif;
-  display: flex; /* Add this if you want to use flexbox */
+  display: flex;
   flex-direction: column;
 }
 
+/* Full-Page Background Image */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('1.jpg'); /* Replace with your actual image path */
+  background-size: cover; /* Cover the entire page */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* No repeating */
+  z-index: -1; /* Ensure it's behind all other elements */
+}
+
+/* Header Image */
 .headerImage {
   position: relative;
   text-align: center;
   background-size: cover;
   background-position: center;
-  width: 100vw; /* Use 100vw for full viewport width */
+  width: 100vw;
   height: 300px;
   margin-top: 60px;
   margin-bottom: 40px;
+}
+.bookBazaar {
+  font-family: 'Roboto', sans-serif; /* Change this to your desired font */
+  font-size: 5rem; /* Increase the font size */
+  color: #3cff00; /* Change this to your desired color */
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7); /* Optionally adjust the text shadow */
+  margin: 60px; /* Reset margin */
+}
+
+.headerText h1 {
+  font-family: 'Poppins', sans-serif; /* Apply the custom font */
+  font-size: 3.5rem; /* Large font size */
+  color: white; /* Keep the white text color */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Keep the text shadow for readability */
+  line-height: 1.2; /* Adjust line height to ensure text looks balanced */
+  margin-bottom: 20px; /* Adjust the value as needed */
+  margin: 25px;
 }
 
 .headerText {
@@ -28,30 +79,117 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
+/* Authentication Buttons */
 .authButtons {
   display: flex;
   justify-content: center;
   gap: 60px;
-  margin-bottom: px;
+  margin-bottom: 0;
   padding: 85px 0 0;
 }
 
 .button {
-  background-color: #ff6600;
+  --hue: 190deg; /* or your desired hue */
+  --sat: 50%; /* or your desired saturation */
+  
+  font-size: 6vw;
+  @media screen and (min-width: 660px) {
+    font-size: 3vw;
+  }
+
+  color: hsl(var(--hue), 70%, 10%);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  background-color: hsl(var(--hue), var(--sat), 90%);
+  background-image:   
+    linear-gradient(180deg, 
+      hsl(calc(var(--hue) + 60deg), calc(var(--sat) + 10%), 85%) 30%, 
+      transparent calc(100% - 30%)
+    );
+  background-repeat: no-repeat;
+  background-position: center 45%;
+  background-size: 100% 200%;
+  padding: 0.9em 1.2em;
+  border-radius: 2em;
   border: none;
-  color: white;
-  padding: 10px 20px;
-  text-transform: uppercase;
-  font-size: 1rem;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
+
+  box-shadow: 
+    0 -0.5em 0.5em transparent,
+    0 0.5em 0.5em transparent,
+    0 0.25em 0.3em -0.2em hsla(var(--hue), var(--sat), 50%, 0.46), 
+    0 0.25em 0.75em hsla(var(--hue), calc(var(--sat) - 10%), 40%, 0.3);
+
+  position: relative;
+  transition: all 0.5s ease;
+  outline: none;
+
+  &::before,
+  &::after {
+    content: "";
+    inset: 0;
+    position: absolute;
+    border-radius: 5em;
+  }
+
+  &::before {
+    background-image: 
+      radial-gradient(ellipse, 
+        hsla(var(--hue), 100%, 90%, .8) 20%,
+        transparent 50%,
+        transparent 200%
+      ),
+      linear-gradient(90deg, 
+        hsl(0deg, 0%, 25%) -10%, 
+        transparent 30%, 
+        transparent 70%, 
+        hsl(0deg, 0%, 25%) 110%
+      );
+    box-shadow: 
+      inset 0 .25em .75em hsla(0deg, 0%, 0%, 0.8),
+      inset 0 -.05em .2em rgba(255, 255, 255, 0.4),
+      inset 0 -1px 3px hsla(var(--hue), 80%, 50%, .75);
+    background-blend-mode: overlay;
+    background-repeat: no-repeat;
+    background-size: 200% 80%, cover;
+    background-position: center 220%;
+    mix-blend-mode: overlay;
+  }
+
+  &::after {
+    background: linear-gradient(
+      180deg, 
+      hsla(calc(var(--hue) + 60deg), 100%, 90%, .9), 
+      hsla(calc(var(--hue) + 60deg), calc(var(--sat) + 10%) * 0.7, 50%, .75) 40%, 
+      transparent 80%
+    );
+    top: 0.075em;
+    left: 0.75em;
+    right: 0.75em;
+    bottom: 1.4em;
+    filter: blur(0px);
+    mix-blend-mode: screen;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    outline: none;
+    box-shadow: 
+      0 -0.2em 1em hsla(calc(var(--hue) + 60deg), 70%, 80%, 0.3),
+      0 0.5em 1.5em hsla(var(--hue), 70%, 80%, 0.5),
+      0 0.25em 0.3em -0.2em hsl(var(--hue), var(--sat), 70%),
+      0 0.25em 0.5em hsla(var(--hue), 20%, 30%, 0.2),
+      inset 0 -2px 2px rgba(255, 255, 255, 0.2);
+    background-position: center calc(45% - 0.75em);
+  }
 }
+
 
 .button:hover {
   background-color: #cc5200;
 }
 
+/* Section Styling */
 .stepsSection,
 .aboutSection,
 .contactSection {
@@ -95,91 +233,77 @@
   font-size: 1.2rem;
 }
 
+/* Latest Books Section */
 .LatestBooks {
   margin-top: 50px;
   margin-bottom: 20px;
   text-align: center;
 }
 
-/* Updated Styles for Book List */
+/* Horizontal Scroll Container */
 .horizontalScrollContainer {
   display: flex;
   align-items: center;
-  overflow: hidden; /* Hide scrollbar */
-  width: 100%; /* Full width of the container */
-  margin: 20px 0; 
-  position: relative; /* Position relative for buttons */
+  overflow: hidden;
+  width: 100%;
+  margin: 20px 0;
+  position: relative;
 }
 
 .bookList {
   display: flex;
-  overflow: hidden; /* Hide the scrollbar */
-  white-space: nowrap; /* Prevent wrapping */
-  transition: transform 0.3s ease; /* Smooth transition for scrolling */
-  
+  overflow: hidden;
+  white-space: nowrap;
+  transition: transform 0.3s ease;
 }
 
 .bookListItem {
-  min-width: 150px; /* Set minimum width for items */
-  margin: 0 10px; /* Space between items */
-  text-align: center; /* Center align text */
-  transition: transform 0.3s; /* Smooth scaling effect */
-  
+  min-width: 150px;
+  margin: 0 10px;
+  text-align: center;
+  transition: transform 0.3s;
 }
 
-
 .bookListItem:hover {
-  transform: scale(1.1); /* Scale up on hover for emphasis */
+  transform: scale(1.1);
 }
 
 .samplePic {
-  width: 100px; /* Adjust the size of book cover */
-  height: auto; /* Maintain aspect ratio */
+  width: 100px;
+  height: auto;
 }
 
+/* Scroll Buttons */
 .scrollButton {
-  background-color: #007BFF; /* Button background color */
-  color: white; /* Button text color */
-  border: none; /* No border */
-  padding: 15px; /* Button padding */
-  cursor: pointer; /* Pointer cursor on hover */
-  font-size: 16px; /* Button text size */
-  margin: 0 10px; /* Space around buttons */
-  border-radius: 5px; /* Rounded corners for buttons */
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 0 10px;
+  border-radius: 5px;
   height: 100px;
 }
 
 .scrollButton:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #0056b3;
 }
 
 /* Mobile Styles */
 @media (max-width: 768px) {
   .container {
-    padding: 0px; /* Reduce padding for mobile */
+    padding: 0;
   }
 
-   .authButtons {
-    display: flex;
-    justify-content: center;
-    gap: 20px; /* Reduced gap for mobile */
-    padding: px 0 0;
-    margin-top: 0px;
+  .authButtons {
+    gap: 20px;
+    margin-top: 0;
+    padding-top: 0;
   }
 
   .step {
-    width: 90%; /* Make steps take full width */
-    margin-bottom: 20px; /* Space between steps */
+    width: 90%;
+    margin-bottom: 20px;
   }
-
-
-  /* .authButtons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 50px;
-  } */
-
-
-
 }
