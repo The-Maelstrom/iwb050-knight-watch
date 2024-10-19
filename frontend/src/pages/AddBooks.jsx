@@ -9,7 +9,7 @@ const AddBooks = () => {
     const { user_name } = location.state || {}; // Access user_name passed from the dashboard
 
     const [user_id, setUserId] = useState(null); // State to store user_id
-    const [book, setBook] = useState({ title: '', author: '', edition: '' }); // State for a single book
+    const [book, setBook] = useState({ title: '', author: '', edition: '' , image_path: ''}); // State for a single book
     const [message, setMessage] = useState(''); // To store response message
     const [error, setError] = useState(''); // To store error message
     const [books, setBooks] = useState([]); // State to store user's books
@@ -227,9 +227,10 @@ const AddBooks = () => {
                                     <div className={styles.bookImageContainer}>
                                         {/* Fetch and display the book image */}
                                         <img
-                                            src={`http://localhost:8080${b.image_path}`} // Adjusted to use image_path directly
+                                            src={`../../../${b.image_path}`}
                                             alt={`${b.title}`}
                                             className={styles.bookImage}
+                                            onError={(e) => { e.target.src = '../../../images/books/default_book.jpg'; }} // Fallback image
                                         />
                                     </div>
                                     <button onClick={() => removeBook(b)} className={styles.removeButton}>

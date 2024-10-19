@@ -143,5 +143,6 @@ GET http://localhost:8080/auth/user_name
 ### Get specific user_id
 GET http://localhost:8080/auth/latest_book
 
-### Test Get Book Image - Successful Retrieval
-GET http://localhost:8080/auth/bookImage/29/1
+
+### Test Get Book Image - File Not Found
+GET http://localhost:8080/auth/bookImage/dog_deck
