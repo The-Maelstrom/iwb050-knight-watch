@@ -568,7 +568,7 @@ service /auth on authListener {
         }
 
         // Prepare the query for the stored procedure with parameterized values
-        sql:ParameterizedQuery query = `CALL ManageUserBook(${user_id}, 'remove', ${title}, ${author}, '')`;
+        sql:ParameterizedQuery query = `CALL ManageUserBook(${user_id}, 'remove', ${title}, ${author}, ${edition}, NULL)`;
 
         // Execute the stored procedure
         var result = dbClient->execute(query);
