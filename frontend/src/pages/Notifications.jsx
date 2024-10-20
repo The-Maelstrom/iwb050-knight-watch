@@ -37,7 +37,7 @@ const SearchResult = () => {
     // Fetch pending requests based on user_id
     const fetchPendingRequests = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/auth/pending_requests/${user_id}`);
+            const response = await axios.get(`http://localhost:8081/request/pending_requests/${user_id}`);
             setPendingRequests(response.data); 
         } catch (err) {
             setError('Failed to fetch pending requests.');
@@ -47,7 +47,7 @@ const SearchResult = () => {
     // Fetch accepted requests based on user_id
     const fetchAcceptedRequests = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/auth/accepted_requests/${user_id}`);
+            const response = await axios.get(`http://localhost:8081/request/accepted_requests/${user_id}`);
             setAcceptedRequests(response.data);
         } catch (err) {
             setError('Failed to fetch accepted requests.');
@@ -57,7 +57,7 @@ const SearchResult = () => {
     // Fetch confirmed requests based on user_id
     const fetchConfirmedRequests = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/auth/confirmed_requests/${user_id}`);
+            const response = await axios.get(`http://localhost:8081/request/confirmed_requests/${user_id}`);
             setConfirmedRequests(response.data);
         } catch (err) {
             setError('Failed to fetch confirmed requests.');
@@ -86,7 +86,7 @@ const SearchResult = () => {
                 receiver_book_id: receiverBookId,
             };
 
-            const response = await axios.post('http://localhost:8080/auth/acceptrequest', payload, {
+            const response = await axios.post('http://localhost:8081/request/acceptrequest', payload, {
                 headers: { 'Content-Type': 'application/json' },
             });
             setMessage(response.data.message);
@@ -106,7 +106,7 @@ const SearchResult = () => {
     // Handle Reject request
     const handleReject = async (requestId) => {
         try {
-            const response = await axios.put(`http://localhost:8080/auth/request/reject/${requestId}`);
+            const response = await axios.put(`http://localhost:8081/request/request/reject/${requestId}`);
             setMessage(response.data.message);
             setError('');
 
@@ -131,7 +131,7 @@ const SearchResult = () => {
                 receiver_book_id: receiverBookId,
             };
 
-            const response = await axios.post('http://localhost:8080/auth/confirmrequest', payload, {
+            const response = await axios.post('http://localhost:8081/request/confirmrequest', payload, {
                 headers: { 'Content-Type': 'application/json' },
             });
             setMessage(response.data.message);
@@ -151,7 +151,7 @@ const SearchResult = () => {
     // Handle Cancel request
     const handleCancel = async (requestId) => {
         try {
-            const response = await axios.put(`http://localhost:8080/auth/cancel/${requestId}`); // Update the endpoint as needed
+            const response = await axios.put(`http://localhost:8081/request/cancel/${requestId}`); // Update the endpoint as needed
             setMessage(response.data.message);
             setError('');
 
@@ -169,7 +169,7 @@ const SearchResult = () => {
         <div className={styles.container}>
           {/* User Details Sidebar */}
           <div className={styles.sidebar}>
-                <img className={styles.profilePic} src={require('../styles/2.png')} alt="Profile" />
+                <img className={styles.profilePic} src={require('../asset/2.png')} alt="Profile" />
                 <h2 className={styles.sidebarTitle}>Welcome {user_name}!</h2>
                 <h2 className={styles.libraryTitle}>To your Notifications</h2>
                 <p className={styles.sidebarDescription}>Hello, {user_name}! This section helps you manage all your exchange requests. You can view pending, accepted, and confirmed requests here. Stay updated and ensure smooth exchanges with other users. </p>

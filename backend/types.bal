@@ -1,6 +1,15 @@
 import ballerina/http;
 import ballerina/time;
 
+// to cofingure the database
+type DatabaseConfig record {|
+    string host;
+    int port;
+    string user;
+    string password;
+    string database;
+|};
+
 type user record {
     readonly int user_id;
     string first_name;

@@ -1,38 +1,4 @@
-/* General Page Styling */
-body {
-  background-size: cover;
-  color: #000;
-  font: 14px Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  position: relative;
-}
-
-/* Headings Styling */
-h1 { font-size: 28px; }
-h2 { font-size: 26px; }
-h3 { font-size: 18px; }
-h4 { font-size: 16px; }
-h5 { font-size: 14px; }
-h6 { font-size: 12px; }
-h1, h2, h3, h4, h5, h6 { color: #563D64; }
-small { font-size: 10px; }
-b, strong { font-weight: bold; }
-a { text-decoration: none; }
-a:hover { text-decoration: underline; }
-
-/* Alignment Helpers */
-.left { float: left; }
-.right { float: right; }
-.clearfix:after, form:after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
-}
-
-/* Page Wrapper */
+/* Wrapper for the whole login page */
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -40,7 +6,6 @@ a:hover { text-decoration: underline; }
   align-items: center;
   min-height: 100vh;
   background: linear-gradient(135deg, #6e45e2 0%, #88d3ce 100%);
-  background: url('book.jpg') ;
   padding: 20px;
 }
 
@@ -53,7 +18,7 @@ a:hover { text-decoration: underline; }
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-/* Form Container */
+/* Styling for the form container */
 form {
   display: flex;
   flex-direction: column;
@@ -65,50 +30,97 @@ form {
   max-width: 400px;
 }
 
-/* Input Fields */
+/* Input fields styling */
 .inputField {
-  margin-bottom: 15px;
-  padding: 15px;
-  border: 1px solid #c8c8c8;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+/* Label Styling */
+label {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+/* Input fields styles */
+input {
+  padding: 10px 15px;
+  border: 2px solid #ddd;
   border-radius: 5px;
-  background-color: #eae7e7;
-  background-repeat: no-repeat;
-  background-position: 10px 10px;
-  font-size: 14px;
-  color: #777;
-  width: 100%;
+  font-size: 1rem;
+  color: #333;
+  transition: all 0.3s ease;
 }
 
-/* Input Focus Effect */
-.inputField:focus {
+/* Hover and focus effects on input fields */
+input:focus {
   outline: none;
-  border-color: #ed1c24;
-  box-shadow: 0 0 5px rgba(237, 28, 36, 0.5);
-  background-color: white;
+  border-color: #6e45e2;
+  box-shadow: 0px 0px 8px rgba(110, 69, 226, 0.2);
 }
 
-/* Submit Button */
-button {
-  background: linear-gradient(135deg, #fec151 0%, #fee79a 100%);
+/* Button styles */
+.button {
+  background-color: #6e45e2;
+  color: white;
   border: none;
-  border-radius: 30px;
-  color: #85592e;
-  font-weight: bold;
-  font-size: 15px;
-  padding: 10px 20px;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  margin-top: 10px;
 }
 
-button:hover {
-  background: linear-gradient(135deg, #fee79a 0%, #fec151 100%);
+/* Hover effect for button */
+.button:hover {
+  background-color: #5939b5;
+  box-shadow: 0px 4px 10px rgba(110, 69, 226, 0.3);
 }
 
-/* Forgot Password Link */
-form div a {
-  color: #004a80;
-  float: right;
-  font-size: 12px;
-  margin: 30px 0 0;
-  text-decoration: underline;
+/* Success message */
+.successMessage {
+  margin-top: 20px;
+  color: #28a745;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Error message */
+.errorMessage {
+  margin-top: 20px;
+  color: #dc3545;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Popup message styling */
+.popup {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  background-color: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Animation for the popup */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translate(-50%, -30%);
+  }
+  to {
+      opacity: 1;
+      transform: translate(-50%, -20%);
+  }
 }
