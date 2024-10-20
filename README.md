@@ -84,9 +84,9 @@ For more details, see the [MIT License](https://opensource.org/licenses/MIT).
 
 For any questions or concerns, please feel free to contact any team member:
 
-- pererabsdt: dulitha.22@cse.mrt.ac.lk
-- Sithum-Bimsara: sithum.22@cse.mrt.ac.lk
-- KaveeshaKapuruge: kaveeshakapuruge.22@cse.mrt.ac.lk
-- jayasinghesasmitha: sasmitha.22@cse.mrt.ac.lk
+- pererabsdt : dulitha.22@cse.mrt.ac.lk
+- Sithum-Bimsara : sithum.22@cse.mrt.ac.lk
+- KaveeshaKapuruge : kaveeshakapuruge.22@cse.mrt.ac.lk
+- jayasinghesasmitha : sasmitha.22@cse.mrt.ac.lk
 
 Happy reading and exchanging! 📚🔄
