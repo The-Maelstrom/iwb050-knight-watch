@@ -243,8 +243,6 @@ service /auth on new http:Listener(8080){
         return phone_number;
     }
 
-    
-    
 
 }
 
