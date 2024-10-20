@@ -1,0 +1,294 @@
+/* Container for the entire wishlist page */
+.wishlistPage {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar for user details (left side) */
+.sidebar {
+    width: 18%;
+    background-color: #a3958a; /* Dark green for a library feel */
+    padding: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    border-right: 1px solid #ddd;
+}
+
+/* Profile picture styling */
+.profilePic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover; /* Ensures the image covers the circle */
+    margin-bottom: 10px; /* Adds spacing below the image */
+    border: 2px solid #007BFF;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect */
+.profilePic:hover {
+    transform: scale(1.3);
+    color: white; /* Changes text color on hover */
+    cursor: pointer;
+}
+
+/* Sidebar for user details (left side) */
+.sidebar {
+    width: 18%;
+    background-color: #a3958a; 
+    padding: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    border-right: 1px solid #ddd;
+}
+/* Sidebar Title */
+.sidebarTitle {
+    font-size: 24px;
+    color: black;
+    text-align: center;
+    /* Default style */
+}
+
+.sidebarTitle:hover {
+    font-size: 28px; /* Increase the font size */
+    color: #1a2227; /* Change color */
+    transform: scale(1.1); /* Slightly increase size */
+    transition: all 0.3s ease; /* Smooth transition */
+}
+
+
+.sidebarDescription {
+    font-size: 14px;
+    color: #f2e6e6;
+    text-align: center;
+    margin-top: 30px;
+    padding: 10px;
+    background-color:#8f616d;
+    border-radius: 8px;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect */
+.sidebarDescription:hover {
+    transform: scale(1.3);
+    background-color: #845360; /* Changes background on hover */
+    color: white; /* Changes text color on hover */
+    cursor: pointer;
+}
+
+.libraryTitle {
+    font-size: 38px; /* Larger font size to give more importance */
+    font-weight: bold; /* Strong emphasis */
+    color: #ffffff; /* Bright white text */
+    text-align: center; /* Center the text */
+    padding: 20px 10px; /* More padding for larger presence */
+    margin: 20px 0; /* Add more margin for separation */
+    font-family: 'Arial', sans-serif; /* Change to desired font family */
+    background: linear-gradient(135deg, #854959, #cc6029, #a6435d);/* Gradient with blue, gold, and muted pink */
+
+    border-radius: 16px; /* Large rounded corners for elegance */
+    box-shadow: 0 5px 15px rgba(255, 77, 0, 0.39); /* Strong shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+}
+
+/* Hover Effect to highlight the title */
+.libraryTitle:hover {
+    transform: scale(1.02); /* Slightly enlarge on hover */
+    background: linear-gradient(2.5deg, #D4AF37, #f37653); /* More vibrant hover gradient */
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2); /* More defined shadow */
+    color: #fff; /* Maintain white color */
+}
+/* Main content area (right side) */
+.mainContent {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+    background-image: url('10.jpg'); /* Replace with your image path */
+    background-size: cover; /* Cover the entire area */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    border-radius: 8px; /* Optional: Rounded corners for main content */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Optional: Shadow for depth */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white for better contrast */
+}
+
+/* Dashboard navbar at the top */
+.dashboardNavbar {
+    width: 100%;
+    background-color: #007BFF;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+}
+
+/* Wishlist container for the wishlist items and form */
+.wishlistContainer {
+    margin-top: 20px; /* Space below the navbar */
+
+}
+
+
+.libraryTitle {
+    font-size: 38px; /* Larger font size to give more importance */
+    font-weight: bold; /* Strong emphasis */
+    color: #ffffff; /* Bright white text */
+    text-align: center; /* Center the text */
+    padding: 20px 10px; /* More padding for larger presence */
+    margin: 20px 0; /* Add more margin for separation */
+    font-family: 'Arial', sans-serif; /* Change to desired font family */
+    background: linear-gradient(135deg, #854959, #cc6029, #a6435d);/* Gradient with blue, gold, and muted pink */
+
+    border-radius: 16px; /* Large rounded corners for elegance */
+    box-shadow: 0 5px 15px rgba(255, 77, 0, 0.39); /* Strong shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+}
+
+/* Hover Effect to highlight the title */
+.libraryTitle:hover {
+    transform: scale(1.02); /* Slightly enlarge on hover */
+    background: linear-gradient(2.5deg, #D4AF37, #f37653); /* More vibrant hover gradient */
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2); /* More defined shadow */
+    color: #fff; /* Maintain white color */
+}
+
+.pagedescription {
+    font-size: 28px; /* Slightly smaller font size */
+    font-weight: normal; /* Less emphasis compared to the title */
+    color: #e0e0e0; /* Lighter color for readability */
+    text-align: center; /* Center the text */
+    padding: 20px 10px; /* Padding for readability */
+    margin: 20px 0; /* Smaller margin compared to the title */
+    font-family: 'Arial', sans-serif; /* Keep the same font family */
+    background-color: rgba(73, 70, 70, 0.9); /* Darker, subtle background */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1); /* Soft shadow for subtle depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+}
+
+/* Hover effect for pagedescription */
+.pagedescription:hover {
+    transform: scale(1.02); /* Slight increase on hover */
+    background-color: rgba(50, 50, 50, 0.9); /* Slightly lighter background on hover */
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2); /* More defined shadow */
+}
+
+
+
+h3 {
+    font-size: 34px;
+    margin-top: 20px;
+}
+
+.htmlFor{
+    font-size: 17px;
+    margin-top: px;
+}
+
+
+
+
+
+/* Error and message display */
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.message {
+    color: green;
+    margin-bottom: 10px;
+}
+
+/* Form to add a new book */
+.addressForm {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px; /* Set a maximum width for better alignment */
+    margin: 0 auto; /* Center the form */
+    background-color: #f3f4f6; /* Soft light grey background */
+    padding: 20px; /* Padding around the form */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Input styles */
+.addressForm input {
+    padding: 10px; /* Increased padding for comfort */
+    margin-bottom: 15px; /* Increased margin for better spacing */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px; /* Larger font size for better readability */
+    transition: border-color 0.3s; /* Transition for border color change */
+}
+
+/* Input focus effect */
+.addressForm input:focus {
+    border-color: #28a745; /* Green border on focus */
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5); /* Subtle green shadow */
+}
+
+/* Add Book button styles */
+.updateButton {
+    display: flex;
+    justify-content: center; /* Horizontally centers the button */
+    align-items: center; /* Vertically centers the button (optional) */
+    margin-top:15px;
+    padding: 12px; /* Increased padding */
+    background-color: #28a745;; /* Vibrant green for an inviting button */
+    color: white; /* White text */
+    border: none;
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Larger font size */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s; /* Transitions for hover and click */
+}
+
+/* Add Book button hover effect */
+.updateButton:hover {
+    background-color: #218838; /* Darker green on hover */
+    transform: translateY(-2px); /* Move button up slightly on hover */
+}
+
+/* Add Book button active effect */
+.updateButton:active {
+    transform: translateY(1px); /* Move button down slightly on click */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow on click */
+}
+
+/* Font-changing styles for input fields */
+.inputField {
+    font-family: 'Courier New', Courier, monospace;
+    font-style: italic;
+    color: #333;
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: all 0.3s ease;
+}
+
+.displayField {
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    color: #000;
+    background-color: #e0e0e0;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: none;
+    transition: all 0.3s ease;
+}

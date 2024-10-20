@@ -582,6 +582,7 @@ service /auth on authListener {
         }
     }
 
+<<<<<<< HEAD
 
     // resource function get bookImage/[int book_id]/[int user_id](http:Caller caller, http:Request req) returns error? {
     //     // Prepare the SQL query to retrieve user_name and title based on book_id and user_id
@@ -631,6 +632,74 @@ service /auth on authListener {
     //     }
     // }
 
+=======
+    resource function post updateUserAddress(http:Caller caller, http:Request req) returns error? {
+        json payload;
+        var jsonResult = req.getJsonPayload();
+        if (jsonResult is json) {
+            payload = jsonResult;
+        } else {
+            // Invalid JSON payload
+            check caller->respond({"message": "Invalid JSON format"});
+            return;
+        }
+
+        // Extract action, title, author from the payload
+        int user_id = (check payload.user_id);
+        string address_line1 = (check payload.address_line1).toString();
+        string address_line2 = (check payload.address_line2).toString();
+        string address_line3 = (check payload.address_line3).toString();
+        string city = (check payload.city).toString();
+        string district = (check payload.district).toString();
+        string postal_code = (check payload.postal_code).toString();
+        // Prepare the query for the stored procedure with parameterized values
+        sql:ParameterizedQuery query = `CALL UpdateUserAddress(${user_id}, 
+                                    ${address_line1}, ${address_line2}, 
+                                    ${address_line3} , ${city} , 
+                                    ${district}, ${postal_code})`;
+
+        // Execute the stored procedure
+        var result = dbClient->execute(query);
+
+        if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
+            // Successfully updated the address
+            check caller->respond({"message": "Updated the address successfully!"});
+        } else {
+            // Failed to update the address
+            check caller->respond({"message": "Updating the address failed!"});
+        }
+    }
+
+    resource function post UpdatePhoneNumber(http:Caller caller, http:Request req) returns error? {
+        json payload;
+        var jsonResult = req.getJsonPayload();
+        if (jsonResult is json) {
+            payload = jsonResult;
+        } else {
+            // Invalid JSON payload
+            check caller->respond({"message": "Invalid JSON format"});
+            return;
+        }
+
+        // Extract action, title, author from the payload
+        int user_id = (check payload.user_id);
+        string phone_number = (check payload.phone_number).toString();
+        
+        // Prepare the query for the stored procedure with parameterized values
+        sql:ParameterizedQuery query = `CALL UpdatePhoneNumber(${user_id}, ${phone_number})`;
+
+        // Execute the stored procedure
+        var result = dbClient->execute(query);
+
+        if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
+            // Successfully updated the phone_number
+            check caller->respond({"message": "Updated the phone_number successfully!"});
+        } else {
+            // Failed to update the phone_number
+            check caller->respond({"message": "Updating the phone_number failed!"});
+        }
+    }
+>>>>>>> eef9e22 (Add Edit page functionalities)
 
     resource function post makerequest(http:Caller caller, http:Request req) returns error? {
         json payload;
@@ -813,6 +882,37 @@ service /auth on authListener {
     `);
         return from var request in requestStream
             select request;
+    }
+
+    resource function get address/[int user_id]() returns address|AddressNotFound|error {
+        address|sql:Error address = dbClient->queryRow(`
+        SELECT a.address_line1, a.address_line2, a.address_line3, a.city, a.district, a.postal_code
+        FROM address a
+        JOIN user_address ua ON a.address_id = ua.address_id
+        WHERE ua.user_id =${user_id};
+        `);
+        if address is sql:NoRowsError {
+            AddressNotFound addressNotFound = {
+                body: {message: string `user_id: ${user_id}`, details: string `user/${user_id}`, timeStamp: time:utcNow()}
+            };
+            return addressNotFound;
+        }
+        return address;
+    }
+
+    resource function get phone_number/[int user_id]() returns phone_number|PhoneNumberNotFound|error {
+        phone_number|sql:Error phone_number = dbClient->queryRow(`
+        SELECT phone_number
+        FROM phone_number
+        WHERE user_id =${user_id};
+        `);
+        if phone_number is sql:NoRowsError {
+            PhoneNumberNotFound phoneNumberNotFound = {
+                body: {message: string `user_id: ${user_id}`, details: string `user/${user_id}`, timeStamp: time:utcNow()}
+            };
+            return phoneNumberNotFound;
+        }
+        return phone_number;
     }
 
     resource function get confirmed_requests/[int user_id]() returns request[]|RequestNotFound|error {

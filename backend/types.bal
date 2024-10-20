@@ -124,3 +124,13 @@ type wishlist_item_NotFound record {|
     *http:NotFound;
     ErrorDetails body;
 |};
+
+type AddressNotFound record {|
+    *http:NotFound;
+    ErrorDetails body;
+|};
+
+type PhoneNumberNotFound record{|
+    *http:NotFound;
+    ErrorDetails body;
+|};

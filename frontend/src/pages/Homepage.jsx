@@ -62,9 +62,10 @@ const HomePage = () => {
       {/* Header Section */}
       <div id="home" className={styles.headerImage}>
   <div className={styles.headerText}>
-    <h1>Book Buddies</h1>
-    <h2>Exchange Books for Free!</h2>
-    <p>Clear the Bookshelf and Fill It Up Again, All Online!</p>
+  <h1>Book Buddies!</h1>
+<h2>Discover, Share, and Swap Your Favorite Reads</h2>
+<p>Turn your bookshelf into a treasure trove by exchanging books with fellow readers, all within our community!</p>
+
   </div>
 </div>
 
@@ -83,12 +84,16 @@ const HomePage = () => {
       
       {/* How it Works Section */}
 <div className={`${styles.whiteContainer} ${styles.stepsSection}`}>
-  <h2>How Book Exchange Works</h2>
+<h2>Your Guide to Seamless Book Swapping</h2>
+
+
   <div className={styles.steps}>
-    <div className={styles.step}><strong>Step 01:</strong> Register & create your FREE account</div>
-    <div className={styles.step}><strong>Step 02:</strong> Add your old books to your library</div>
-    <div className={styles.step}><strong>Step 03:</strong> Request a loved book from others</div>
-    <div className={styles.step}><strong>Step 04:</strong> Exchange books by posting or meeting</div>
+  <div className={styles.step}><strong>Step 01:</strong> Sign up to join the community and create your profile</div>
+<div className={styles.step}><strong>Step 02:</strong> List your available books in your personal collection</div>
+<div className={styles.step}><strong>Step 03:</strong> Browse and select books you'd like to read from others</div>
+<div className={styles.step}><strong>Step 04:</strong> Contact the owner and agree on how to exchange the books</div>
+<div className={styles.step}><strong>Step 05:</strong> Meet up or arrange a pick-up to swap books</div>
+
   </div>
 </div>
 
@@ -96,7 +101,7 @@ const HomePage = () => {
    
       {/* Latest Books Section */}
 <div className={styles.whiteContainer}>
-  <h3 className={styles.LatestBooks}>Latest Books</h3>
+  <h3 className={styles.LatestBooks}>Fresh Finds for Your Collection  !!!</h3>
   <div className={styles.horizontalScrollContainer}>
     <button onClick={scrollLeft} className={styles.scrollButton}>←</button>
     <div className={styles.bookList} ref={bookListRef}>

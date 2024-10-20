@@ -14,7 +14,7 @@ const DashboardNavbar = () => {
   <button onClick={() => navigate('/add-books', { state: { user_name } })}>
     Add Books to Your Library
   </button>
-  <button onClick={() => navigate('/edit-account', { state: { user_name } })}>
+  <button onClick={() => navigate('/editYourAccount', { state: { user_name } })}>
     Edit Your Account
   </button>
   <button onClick={() => navigate('/notifications', { state: { user_name } })}>

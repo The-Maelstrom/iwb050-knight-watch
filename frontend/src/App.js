@@ -7,6 +7,7 @@ import SearchResult from './pages/SearchResult';
 import Notifications from './pages/Notifications';
 import Wishlist from './pages/Wishlist';
 import Homepage from './pages/Homepage';
+import EditYourAccount from './pages/EditYourAccount';
 import Wishlistitem from './pages/Wishlistitem';  
 import ScrollToTop from './components/ScrollToTop'; // Adjust the path based on your structure
 import PageTransition from './components/PageTransition'; // Import the PageTransition component
@@ -25,6 +26,7 @@ function App() {
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/wishlistitem" element={<Wishlistitem />} />
+          <Route path="/editYourAccount" element={<EditYourAccount />} />
         </Routes>
       </PageTransition>
     </div>
