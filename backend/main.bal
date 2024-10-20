@@ -5,6 +5,11 @@ import ballerina/sql;
 import ballerina/time;
 import ballerinax/mysql;
 import ballerinax/mysql.driver as _;
+import ballerina/lang.regexp;
+import ballerina/mime;
+import ballerina/file;
+
+// import ballerina/lang.array;
 
 // to cofingure the database
 type DatabaseConfig record {|
@@ -22,6 +27,144 @@ mysql:Client dbClient = check new (...databaseConfig);
 
 listener http:Listener authListener = new (8080);
 
+// Directory where book images will be stored
+const string BOOK_IMAGES_DIR = "../images/books/";
+
+//-------------------------------------------- Auth Service --------------------------------------------
+type user record {
+    readonly int user_id;
+    string first_name;
+    string last_name;
+    string email_address;
+    string user_name;
+    string password;
+    string gender;
+};
+
+type user_address record {
+    int user_id;
+    int address_id;
+};
+
+type user_name record {
+    string user_name;
+};
+
+type email record {
+    string email;
+};
+
+type address record {
+    readonly int address_id;
+    string address_line1;
+    string address_line2;
+    string address_line3;
+    string city;
+    string district;
+};
+
+type phone_number record {
+    int user_id;
+    string phone_number;
+};
+
+
+type UserBookDetail record {
+    string user_name;
+    string title;
+};
+
+type user_book record {
+    int user_book_id;
+    int user_id;
+    int book_id;
+};
+
+type ErrorDetails record {
+    string message;
+    string details;
+    time:Utc timeStamp;
+};
+
+type UserNotFound record {|
+    *http:NotFound;
+    ErrorDetails body;
+|};
+
+type BookDetailsByTitleNotFound record {|
+    *http:NotFound;
+    ErrorDetails body;
+|};
+
+type UserPassword record {
+    string password;
+};
+
+type Book record {
+    int book_id;
+    string title;
+    string author;
+    string edition;
+    string|null image_path;
+};
+
+type wishlist_item record {
+    int wishlist_item_id;
+    int wishlist_id;
+    int|null book_id;
+    string|null title;
+    string|null author;
+};
+
+type BookDetailsByTitle record {
+    int book_id;
+    string title;
+    string author;
+    string edition;
+    int user_id;
+    string user_name;
+};
+
+type request record {
+    int request_id;
+    int requestor_id;
+    int receiver_id;
+    int requestor_book_id;
+    int receiver_book_id;
+    string request_date;
+    string request_status;
+    string|null response_date;
+    string|null confirmation_date;
+};
+
+type request_accept record {
+    int request_accept_id;
+    string acceptor_user_name;
+    string seen;
+    string receiver_user_name;
+};
+
+type RequestNotFound record {|
+    *http:NotFound;
+    ErrorDetails body;
+|};
+
+type BookNotFound record {|
+    *http:NotFound;
+    ErrorDetails body;
+|};
+
+type wishlist_item_NotFound record {|
+    *http:NotFound;
+    ErrorDetails body;
+|};
+
+type UserDetail record {
+    string user_name;
+    string city;
+    string district;
+};
+
 @http:ServiceConfig {
     cors: {
         allowOrigins: ["*"]
@@ -29,7 +172,6 @@ listener http:Listener authListener = new (8080);
 }
 
 service /auth on authListener {
-
     resource function post matchingUsers(http:Caller caller, http:Request req) returns error? {
         json payload;
         var jsonResult = req.getJsonPayload();
@@ -188,7 +330,204 @@ service /auth on authListener {
         }
     }
 
-    resource function post managebooks(http:Caller caller, http:Request req) returns error? {
+    // resource function post managebooks(http:Caller caller, http:Request req) returns error? {
+    //     json payload;
+    //     var jsonResult = req.getJsonPayload();
+    //     if (jsonResult is json) {
+    //         payload = jsonResult;
+    //     } else {
+    //         // Invalid JSON payload
+    //         check caller->respond({"message": "Invalid JSON format"});
+    //         return;
+    //     }
+
+    //     // Extract action, title, author from the payload
+    //     int user_id = (check payload.user_id);
+    //     string action = (check payload.action).toString();
+    //     string title = (check payload.title).toString();
+    //     string author = (check payload.author).toString();
+
+    //     // Prepare the query for the stored procedure with parameterized values
+    //     sql:ParameterizedQuery query = `CALL ManageUserBook(${user_id}, ${action}, ${title}, ${author})`;
+
+    //     // Execute the stored procedure
+    //     var result = dbClient->execute(query);
+
+    //     if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
+    //         if (action == "add") {
+    //             // Successfully added the book
+    //             check caller->respond({"message": "Adding book successfully!"});
+    //         } else if (action == "remove") {
+    //             // Successfully removed the book
+    //             check caller->respond({"message": "Removing book successfully!"});
+    //         }
+    //     } else {
+    //         if (action == "add") {
+    //             // Failed to add the book
+    //             check caller->respond({"message": "Adding book failed!"});
+    //         } else if (action == "remove") {
+    //             // Failed to remove the book
+    //             check caller->respond({"message": "Removing book failed!"});
+    //         }
+    //     }
+    // }
+
+    // resource function post addbooks(http:Caller caller, http:Request req) returns error? {
+    //     json payload;
+    //     var jsonResult = req.getJsonPayload();
+    //     if (jsonResult is json) {
+    //         payload = jsonResult;
+    //     } else {
+    //         // Invalid JSON payload
+    //         check caller->respond({"message": "Invalid JSON format"});
+    //         return;
+    //     }
+
+    //     // Extract user_id, action, title, author, username, and image_path from the payload
+    //     int user_id = (check payload.user_id);
+    //     string title = (check payload.title).toString();
+    //     string author = (check payload.author).toString();
+    //     string edition = (check payload.edition).toString();
+    //     string username = (check payload.username).toString();
+    //     string original_image_path = (check payload.image_path).toString(); // Local path of the image on the user's machine
+
+    //     // Check if the image path is provided in the payload
+    //     string? image_path = ();
+
+    //     if (original_image_path != "") {
+    //         // Sanitize the book title (replace spaces with underscores)
+    //         regexp:RegExp spaceRegex = check regexp:fromString(" ");
+    //         string sanitizedTitle = spaceRegex.replaceAll(title, "_");
+
+    //         // Create the new image filename (username_booktitle.jpg)
+    //         string imageFileName = username + "_" + sanitizedTitle + ".jpg";
+    //         image_path = BOOK_IMAGES_DIR + imageFileName;
+
+    //         // Copy the image from the provided local path to the ./images/books directory
+    //         string destinationPath = BOOK_IMAGES_DIR + imageFileName;
+
+    //         // Copy the file from the local path (original_image_path) to the project directory
+    //         check file:copy(original_image_path, destinationPath, file:REPLACE_EXISTING);
+    //         io:println("Image copied to: " + destinationPath);
+    //     }
+
+    //     // Prepare the query for the stored procedure with parameterized values
+    //     sql:ParameterizedQuery query;
+    //     if (image_path is string) {
+    //         // If an image path is provided
+    //         query = `CALL ManageUserBook(${user_id}, 'add', ${title}, ${author}, ${edition}, ${image_path})`;
+    //     } else {
+    //         // If no image is provided, pass NULL for the image path
+    //         query = `CALL ManageUserBook(${user_id}, 'add', ${title}, ${author}, ${edition}, NULL)`;
+    //     }
+
+    //     // Execute the stored procedure
+    //     var result = dbClient->execute(query);
+
+    //     if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
+    //         // Successfully added the book
+    //         check caller->respond({"message": "Adding book successfully!"});
+    //     } else {
+    //         // Failed to add the book
+    //         check caller->respond({"message": "Adding book failed!"});
+    //     }
+    // }
+
+    resource function post addbooks(http:Caller caller, http:Request req) returns error? {
+        // Parse the multipart form data
+        mime:Entity[] bodyParts = check req.getBodyParts();
+
+        string userIdStr = "";
+        string title = "";
+        string author = "";
+        string edition = "";
+        string username = "";
+        mime:Entity? imageFilePart = ();
+
+        // Iterate through each part to extract form fields and the image file
+        foreach var part in bodyParts {
+            mime:ContentDisposition contentDisposition = part.getContentDisposition();
+            string partName = contentDisposition.name;
+
+            if (partName == "user_id") {
+                userIdStr = check part.getText();
+            } else if (partName == "title") {
+                title = check part.getText();
+            } else if (partName == "author") {
+                author = check part.getText();
+            } else if (partName == "edition") {
+                edition = check part.getText();
+            } else if (partName == "username") {
+                username = check part.getText();
+            } else if (partName == "image") {
+                imageFilePart = part;
+            }
+        }
+
+        int user_id = check int:fromString(userIdStr);
+
+        // Handle the image file if provided
+        string? image_path = ();
+        if (imageFilePart is mime:Entity) {
+            // Sanitize the book title (replace spaces with underscores)
+            regexp:RegExp spaceRegex = check regexp:fromString(" ");
+            string sanitizedTitle = spaceRegex.replaceAll(title, "_");
+
+            // Create the new image filename (username_booktitle.extension)
+            // string originalFilename = imageFilePart.getContentDisposition().fileName;
+            string imageFileName = username + "_" + sanitizedTitle + ".jpg";
+            string serverImagePath = BOOK_IMAGES_DIR + imageFileName;
+
+            // Ensure the BOOK_IMAGES_DIR exists
+            // boolean|error fileExists = check file:test(serverImagePath, file:EXISTS);
+            // if (fileExists is boolean) {
+            //     if (!fileExists) {
+            //         var dirCreate = file:createDir(BOOK_IMAGES_DIR);
+            //         if (dirCreate is error) {
+            //             check caller->respond({"message": "Failed to create image directory"});
+            //             return;
+            //         }
+            //     }
+            // } else {
+            //     check caller->respond({"message": "Error checking image directory"});
+            //     return;
+            // }
+
+            // Save the uploaded file to the server
+            byte[] fileContent = check imageFilePart.getByteArray();
+            var saveResult = io:fileWriteBytes(serverImagePath, fileContent);
+            if (saveResult is error) {
+                check caller->respond({"message": "Failed to save the image file"});
+                return;
+            }
+
+            image_path = BOOK_IMAGES_DIR + imageFileName; // Path accessible by the frontend
+            io:println("Image saved to: " + serverImagePath);
+        }
+
+        // Prepare the query for the stored procedure with parameterized values to prevent SQL injection
+        sql:ParameterizedQuery query;
+        if (image_path is string) {
+            // If an image path is provided
+            query = `CALL ManageUserBook(${user_id}, 'add', ${title}, ${author}, ${edition}, ${image_path})`;
+        } else {
+            // If no image is provided, pass NULL for the image path
+            query = `CALL ManageUserBook(${user_id}, 'add', ${title}, ${author}, ${edition}, NULL)`;
+        }
+
+        // Execute the stored procedure
+        var result = dbClient->execute(query);
+
+        if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
+            // Successfully added the book
+            check caller->respond({"message": "Adding book successfully!"});
+        } else {
+            // Failed to add the book
+            check caller->respond({"message": "Adding book failed!"});
+        }
+    }
+
+    resource function post removebooks(http:Caller caller, http:Request req) returns error? {
         json payload;
         var jsonResult = req.getJsonPayload();
         if (jsonResult is json) {
@@ -199,36 +538,99 @@ service /auth on authListener {
             return;
         }
 
-        // Extract action, title, author from the payload
+        // Log the received payload for debugging
+        io:println("Received payload: " + payload.toJsonString());
+
+        // Extract user_id, title, author, edition, username, and image_path from the payload
         int user_id = (check payload.user_id);
-        string action = (check payload.action).toString();
         string title = (check payload.title).toString();
         string author = (check payload.author).toString();
+        string edition = (check payload.edition).toString();
+        string username = (check payload.username).toString();
+
+        // Sanitize the book title (replace spaces with underscores)
+        regexp:RegExp spaceRegex = check regexp:fromString(" ");
+        string sanitizedTitle = spaceRegex.replaceAll(title, "_");
+
+        // Create the image filename (username_booktitle.jpg)
+        string imageFileName = username + "_" + sanitizedTitle + ".jpg";
+        string image_path = BOOK_IMAGES_DIR + imageFileName;
+
+        // Check if the image path is provided in the payload
+        if (image_path != "") {
+            // Delete the image file from the project directory
+            var deleteResult = file:remove(image_path);
+            if (deleteResult is error) {
+                io:println("Failed to delete image: " + deleteResult.message());
+            } else {
+                io:println("Image deleted: " + image_path);
+            }
+        }
 
         // Prepare the query for the stored procedure with parameterized values
-        sql:ParameterizedQuery query = `CALL ManageUserBook(${user_id}, ${action}, ${title}, ${author})`;
+        sql:ParameterizedQuery query = `CALL ManageUserBook(${user_id}, 'remove', ${title}, ${author}, '')`;
 
         // Execute the stored procedure
         var result = dbClient->execute(query);
 
         if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
-            if (action == "add") {
-                // Successfully added the book
-                check caller->respond({"message": "Adding book successfully!"});
-            } else if (action == "remove") {
-                // Successfully removed the book
-                check caller->respond({"message": "Removing book successfully!"});
-            }
+            // Successfully removed the book
+            check caller->respond({"message": "Removing book successfully!"});
         } else {
-            if (action == "add") {
-                // Failed to add the book
-                check caller->respond({"message": "Adding book failed!"});
-            } else if (action == "remove") {
-                // Failed to remove the book
-                check caller->respond({"message": "Removing book failed!"});
-            }
+            // Failed to remove the book
+            check caller->respond({"message": "Removing book failed!"});
         }
     }
+
+
+    // resource function get bookImage/[int book_id]/[int user_id](http:Caller caller, http:Request req) returns error? {
+    //     // Prepare the SQL query to retrieve user_name and title based on book_id and user_id
+    //     sql:ParameterizedQuery query = `SELECT u.user_name, b.title 
+    //                                     FROM book_exchange.user u 
+    //                                     JOIN book_exchange.user_book ub ON u.user_id = ub.user_id 
+    //                                     JOIN book_exchange.book b ON ub.book_id = b.book_id 
+    //                                     WHERE b.book_id = ${book_id} AND u.user_id = ${user_id}`;
+
+    //     // Execute the query and retrieve the result
+    //     UserBookDetail|sql:Error queryResult = dbClient->queryRow(query, UserBookDetail);
+
+    //     if (queryResult is sql:Error) {
+    //         log:printError("Error executing SQL query", queryResult);
+    //         check caller->respond({"message": "Failed to retrieve book details"});
+    //         return;
+    //     }
+
+    //     // Construct the image filename
+    //     regexp:RegExp spaceRegex = check regexp:fromString(" ");
+    //     string sanitizedTitle = spaceRegex.replaceAll(queryResult.title, "_");
+    //     string imageFileName = queryResult.user_name + "_" + sanitizedTitle + ".jpg";
+    //     string imagePath = BOOK_IMAGES_DIR + imageFileName;
+
+    //     // Check if the image file exists
+    //     var fileExists = check file:test(imagePath, file:EXISTS);
+    //     if (!(fileExists is boolean && fileExists)) {
+    //         // Use generic image if specific image does not exist
+    //         imagePath = BOOK_IMAGES_DIR + "generic_book.jpg";
+    //         fileExists = check file:test(imagePath, file:EXISTS);
+    //         if (!(fileExists is boolean && fileExists)) {
+    //             check caller->respond({"message": "Generic image not found"});
+    //             return;
+    //         }
+    //     }
+
+    //     // Respond with the image path
+    //     var respondResult = caller->respond(
+    //         {
+    //             statusCode: 200,
+    //             body: { "imagePath": imagePath }
+    //         }
+    //     );
+
+    //     if (respondResult is error) {
+    //         log:printError("Error responding with image path", respondResult);
+    //     }
+    // }
+
 
     resource function post makerequest(http:Caller caller, http:Request req) returns error? {
         json payload;
@@ -483,8 +885,8 @@ service /auth on authListener {
             select wishlist_item;
     }
 
-    resource function get latest_books() returns book[]|BookNotFound|error {
-        stream<book, sql:Error?> book_Stream = dbClient->query(`
+    resource function get latest_books() returns Book[]|BookNotFound|error {
+        stream<Book, sql:Error?> book_Stream = dbClient->query(`
         SELECT * FROM book_exchange.book
         ORDER BY book_id DESC 
         LIMIT 15`);
@@ -540,6 +942,7 @@ service /auth on authListener {
     }
 
 }
+
 
 function user_names() returns string[]|UserNotFound|error {
     stream<record {|string user_name;|}, sql:Error?> userStream = dbClient->query(`SELECT user_name FROM book_exchange.user`);

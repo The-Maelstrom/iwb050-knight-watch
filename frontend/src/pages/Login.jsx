@@ -78,7 +78,6 @@ function Login() {
     return  (
         <>
             {/* Navbar at the top of the page */}
-            <Navbar />
 
             <div className={styles.wrapper}>
                 <h2 className={styles.title}>Login</h2>
