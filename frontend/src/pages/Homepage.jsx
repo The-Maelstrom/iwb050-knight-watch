@@ -20,7 +20,7 @@ const HomePage = () => {
   // Fetch latest books from the server
   const fetchBooks = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:8080/auth/latest_books');
+      const response = await axios.get('http://localhost:8082/book/latest_books');
       setBooks(response.data); // Assuming response.data returns the array of books
     } catch (err) {
       console.error('Error fetching books:', err);
@@ -110,7 +110,7 @@ const HomePage = () => {
       ) : (
         books.map((b) => (
           <div key={b.book_id} className={styles.bookListItem}>
-            <img className={styles.samplePic} src={require('../styles/11.png')} alt="Book Cover" />
+            <img className={styles.samplePic} src={require('../asset/11.png')} alt="Book Cover" />
             <div className={styles.book} >
               <strong>Title:</strong> {b.title} <br />
               <strong>Author:</strong> {b.author}

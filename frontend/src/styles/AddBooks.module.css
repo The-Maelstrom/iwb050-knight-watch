@@ -1,3 +1,4 @@
+/* Container for the entire wishlist page */
 .wishlistPage {
     display: flex;
     flex-direction: row;
@@ -109,7 +110,7 @@
     display: flex;
     flex-direction: column;
     padding: 50px;
-    background-image: url('10.jpg'); /* Replace with your image path */
+    background-image: url('../asset/10.jpg');/* Replace with your image path */
     background-size: cover; /* Cover the entire area */
     background-position: center; /* Center the background image */
     background-repeat: no-repeat; /* Prevent the image from repeating */
@@ -242,7 +243,6 @@ h3 {
     background-color: #d32f2f; /* Darker red on hover */
 }
 
-
 .bookDetails {
     flex: 1;
 }
@@ -265,11 +265,10 @@ h3 {
     padding: 5px 10px;
     cursor: pointer;
     margin-left: 10px;
-    border-radius: 4px;
 }
 
 .removeButton:hover {
-    background-color: #c82333;
+    background-color: #0056b3;
 }
 
 /* Error and message display */
@@ -326,7 +325,6 @@ h3 {
     font-size: 16px; /* Larger font size */
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s; /* Transitions for hover and click */
-    border-radius: 4px;
 }
 
 /* Add Book button hover effect */
@@ -340,6 +338,7 @@ h3 {
     transform: translateY(1px); /* Move button down slightly on click */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow on click */
 }
+
 
 /* Image Preview Styling */
 .imagePreview {

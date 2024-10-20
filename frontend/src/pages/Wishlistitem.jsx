@@ -20,7 +20,7 @@ const WishlistItem = () => {
                     selectedBookId: book_id
                 };
                 
-                const response = await axios.post('http://localhost:8080/auth/matchingUsers', payload, {
+                const response = await axios.post('http://localhost:8083/matching_user/matchingUsers', payload, {
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -47,7 +47,7 @@ const WishlistItem = () => {
         };
 
         try {
-            const response = await axios.post('http://localhost:8080/auth/makerequest', payload, {
+            const response = await axios.post('http://localhost:8081/request/makerequest', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -63,7 +63,7 @@ const WishlistItem = () => {
     return (
         <div className={styles.container}>
             <div className={styles.sidebar}>
-                <img className={styles.profilePic} src={require('../styles/2.png')} alt="Profile" />
+                <img className={styles.profilePic} src={require('../asset/2.png')} alt="Profile" />
                 <h2 className={styles.sidebarTitle}>Welcome {user_name}!</h2>
                 <h2 className={styles.libraryTitle}>"See Who's Interested in Your Books"</h2>
                 <p className={styles.sidebarDescription}>You can exchange your book with other users who are interested in similar books! 

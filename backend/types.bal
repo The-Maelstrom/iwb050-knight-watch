@@ -1,6 +1,15 @@
 import ballerina/http;
 import ballerina/time;
 
+// to cofingure the database
+type DatabaseConfig record {|
+    string host;
+    int port;
+    string user;
+    string password;
+    string database;
+|};
+
 type user record {
     readonly int user_id;
     string first_name;
@@ -64,6 +73,8 @@ type Book record {
     int book_id;
     string title;
     string author;
+    string edition;
+    string|null image_path;
 };
 
 type wishlist_item record {
@@ -134,3 +145,8 @@ type PhoneNumberNotFound record{|
     *http:NotFound;
     ErrorDetails body;
 |};
+
+type UserBookDetail record {
+    string user_name;
+    string title;
+};

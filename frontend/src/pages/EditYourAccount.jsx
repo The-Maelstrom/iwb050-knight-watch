@@ -147,7 +147,7 @@ const EditAccount = () => {
     return (
         <div className={styles.wishlistPage}>
             <div className={styles.sidebar}>
-                <img className={styles.profilePic} src={require('../styles/2.png')} alt="Profile" />
+                <img className={styles.profilePic} src={require('../asset/2.png')} alt="Profile" />
                 <h2 className={styles.sidebarTitle}>Welcome {user_name}!</h2>
                 <h2 className={styles.libraryTitle}>Edit Your Account</h2>
                 <p className={styles.sidebarDescription}>
@@ -230,7 +230,7 @@ const EditAccount = () => {
                             required
                         />
 
-                        <button type="submit" className={styles.updateButton}>Update Address</button>
+                        <button type="submit" className={styles.updateButton}>Update</button>
                     </form>
 
                     {message && <p className={styles.message}>{message}</p>}

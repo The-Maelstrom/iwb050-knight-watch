@@ -35,7 +35,7 @@ const Wishlist = () => {
     useEffect(() => {   
         const fetchWishlistItems = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/auth/wishlist_item/${user_id}`);
+                const response = await axios.get(`http://localhost:8082/book/wishlist_item/${user_id}`);
                 setWishlistItems(response.data);  
             } catch (error) {
                 console.error("Error fetching wishlist items:", error);
@@ -63,7 +63,7 @@ const Wishlist = () => {
         const payload = { action: 'add', user_id, title, author };
     
         try {
-            const response = await axios.post('http://localhost:8080/auth/ManageWishlistItem', payload, {
+            const response = await axios.post('http://localhost:8082/book/ManageWishlistItem', payload, {
                 headers: { 'Content-Type': 'application/json' },
             });
             setMessage(response.data.message);
@@ -82,7 +82,7 @@ const Wishlist = () => {
     const removeBookFromWishlist = async (title, author) => {
         const payload = { action: 'remove', user_id, title, author };
         try {
-            const response = await axios.post('http://localhost:8080/auth/ManageWishlistItem', payload, {
+            const response = await axios.post('http://localhost:8082/book/ManageWishlistItem', payload, {
                 headers: { 'Content-Type': 'application/json' },
             });
             setMessage(response.data.message);
@@ -113,7 +113,7 @@ const Wishlist = () => {
                 {/* Profile Picture */}
                 {profilePicUrl ? (
                     <img
-                        src={require('../styles/2.png')} // The profile picture URL
+                        src={require('../asset/2.png')} // The profile picture URL
                         alt={`${user_name}'s profile`}
                         className={styles['profile-pic']} // CSS class for profile image
                     />

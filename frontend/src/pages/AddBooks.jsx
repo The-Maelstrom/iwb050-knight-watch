@@ -14,9 +14,9 @@ const AddBooks = () => {
     const [message, setMessage] = useState(''); // To store response message
     const [error, setError] = useState(''); // To store error message
     const [books, setBooks] = useState([]); // State to store user's books
-
     const [selectedImage, setSelectedImage] = useState(null); // State for the selected image file
     const [imagePreview, setImagePreview] = useState(null); // State for image preview URL
+
 
     // Fetch user ID based on user_name when component mounts
     useEffect(() => {
@@ -39,7 +39,7 @@ const AddBooks = () => {
     const fetchBooks = useCallback(async () => {
         if (user_id) {
             try {
-                const response = await axios.get(`http://localhost:8080/auth/books_for_specific_user/${user_id}`);
+                const response = await axios.get(`http://localhost:8082/book/books_for_specific_user/${user_id}`);
                 setBooks(response.data); // Assuming response.data returns the array of books
             } catch (err) {
                 console.error('Error fetching books:', err);
@@ -52,19 +52,19 @@ const AddBooks = () => {
         fetchBooks(); // Fetch books when user_id changes
     }, [user_id, fetchBooks]);
 
-    // Handle input change for book details
+    // Handle input change
     const handleInputChange = (field, value) => {
         setBook({ ...book, [field]: value });
     };
 
-    // Handle image file selection
-    const handleImageChange = (e) => {
+     // Handle image file selection
+     const handleImageChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
             setSelectedImage(file);
             setImagePreview(URL.createObjectURL(file)); // Create a local URL for image preview
         }
-    };
+    };    
 
     // Handle adding a book by sending details to the backend
     const addBook = async (e) => {
@@ -95,7 +95,7 @@ const AddBooks = () => {
             }
 
             // Send a POST request to the backend with the form data
-            const response = await axios.post('http://localhost:8080/auth/addbooks', formData, {
+            const response = await axios.post('http://localhost:8082/book/addbooks', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data', // Important for file uploads
                 },
@@ -114,10 +114,8 @@ const AddBooks = () => {
         }
     };
 
-
-
-    // Handle removing a book
-    const removeBook = async (book) => {
+     // Handle removing a book
+     const removeBook = async (book) => {
         if (user_id === null) {
             setError('User ID is not available.');
             return;
@@ -136,7 +134,7 @@ const AddBooks = () => {
         };
         
         try {
-            const response = await axios.post('http://localhost:8080/auth/removebooks', payload, {
+            const response = await axios.post('http://localhost:8082/book/removebooks', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -154,7 +152,7 @@ const AddBooks = () => {
     return (
         <div className={styles.wishlistPage}>
             <div className={styles.sidebar}>
-                <img className={styles.profilePic} src={require('../styles/2.png')} alt="Profile" />
+                <img className={styles.profilePic} src={require('../asset/2.png')} alt="Profile" />
                 <h2 className={styles.sidebarTitle}>Welcome {user_name}!</h2>
                 <h2 className={styles.libraryTitle}>To your Library</h2>
                 <p className={styles.sidebarDescription}>
@@ -163,11 +161,9 @@ const AddBooks = () => {
                         Start building your library and enjoy sharing your favorite reads!
             </p>
             </div>
-
             <div className={styles.mainContent}>
             <Navbar />
                 <DashboardNavbar />
-                <h2>{user_name}'s Library</h2>
 
                 {message && <p className={styles.message}>{message}</p>}
                 {error && <p className={styles.error}>{error}</p>}
@@ -225,27 +221,30 @@ const AddBooks = () => {
                     ) : (
                         <ul className={styles.bookList}>
                             {books.map((b) => (
-                                <li key={b.book_id} className={styles.bookListItem}>
-                                    <div className={styles.bookDetails}>
-                                        <h4>{b.title}</h4>
-                                        <p>Author: {b.author}</p>
-                                        <p>Edition: {b.edition}</p>
-                                    </div>
-                                    <div className={styles.bookImageContainer}>
-                                        {/* Fetch and display the book image */}
-                                        <img
-                                            src={b.image_path}  // Use the image path stored in the database
-                                            alt={`${b.title}`}
-                                            className={styles.bookImage}
-                                            onError={(e) => { e.target.src = '/images/books/default_book.jpg'; }} // Fallback image if the file is not found
-                                        />
-                                    </div>
-                                    <button onClick={() => removeBook(b)} className={styles.removeButton}>
-                                        Remove
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
+                            <li key={b.book_id} className={styles.bookListItem}>
+                            <div className={styles.bookDetails}>
+                                <h4>{b.title}</h4>
+                                <p>Author : {b.author}</p>
+                                <p>Edition : {b.edition}</p>
+                            </div>
+                            <div className={styles.bookImageContainer}>
+                                {/* Fetch and display the book image */}
+                                <img
+                                    src={b.image_path}  // Use the image path stored in the database
+                                    alt={`${b.title}`}
+                                    className={styles.bookImage}
+                                    onError={(e) => { e.target.src = '/images/books/default_book.png'; }} // Fallback image if the file is not found
+                                />
+                            </div>
+                        <button 
+                                onClick={() => removeBook(b)} 
+                                className={styles.removeButton}>
+                                Remove
+                        </button>
+                </li>
+                ))}
+                    </ul>
+
                     )}
                 </div>
                 {message && <p className={styles.message}>{message}</p>}

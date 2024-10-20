@@ -30,28 +30,25 @@ Content-Type: application/json
 }
 
 ### Test hashed addbooks Endpoint
-POST http://localhost:8080/auth/addbooks
+POST http://localhost:8080/auth/managebooks
 Content-Type: application/json
 
 {
-    "user_id": 1,
-    "title": "Harryy Sir Potter",
-    "author": "JyK",
-    "edition": "2nd",
-    "username": "aliceJ",
-    "image_path": "C:\\Users\\tharu\\OneDrive\\Pictures\\Saved Pictures\\749693.jpg"
+    "user_id": 2,
+    "action": "add",
+    "title": "HarryyPotter",
+    "author": "JyK"
 }
 
-### Test hashed removebooks Endpoint
-POST http://localhost:8080/auth/removebooks
+### Test hashed addbooks Endpoint
+POST http://localhost:8080/auth/managebooks
 Content-Type: application/json
 
 {
-    "user_id": 12,
-    "title": "title",
-    "author": "author",
-    "edition": "2nd",
-    "username": "dog"
+    "user_id": 2,
+    "action": "remove",
+    "title": "HarryyPotter",
+    "author": "JyK"
 }
 
 
@@ -71,10 +68,10 @@ POST http://localhost:8080/auth/acceptrequest
 Content-Type: application/json
 
 {
-    "requestor_id": 69,
-    "receiver_id": 67,
-    "requestor_book_id": 31,
-    "receiver_book_id": 32
+    "requestor_id": 3,
+    "receiver_id": 1,
+    "requestor_book_id": 1,
+    "receiver_book_id": 6
 }
 
 ### Test hashed addbooks Endpoint
@@ -102,31 +99,14 @@ Content-Type: application/json
     "action": "add"
 }
 
-//updateUserAddress
 ### Test Login Endpoint
-POST http://localhost:8080/auth/updateUserAddress
+POST http://localhost:8080/auth/matchingUsers
 Content-Type: application/json
 
 {
-    "user_id": 131,
-    "address_line1" : "jk",
-    "address_line2" :"jk",
-    "address_line3" :"jk",
-    "city" :"jk",
-    "district": "jk",
-    "postal_code": "90"
+    "currentUserId": 69,
+    "selectedBookId": 31
 }
-
-//updateUserAddress
-### Test Login Endpoint
-POST http://localhost:8080/auth/UpdatePhoneNumber
-Content-Type: application/json
-
-{
-    "user_id": 131,
-    "phone_number": "666666666"
-}
-
 ### Get all users
 GET http://localhost:8080/auth/users
 
@@ -136,15 +116,17 @@ GET http://localhost:8080/auth/user/dilum
 ### Get specific user_id
 GET http://localhost:8080/auth/user_id/dilum
 
+### Get specific user_id
+GET http://localhost:8080/auth/GetBookDetailsByTitle/HarryPotter
 
 ### Get specific user_id
-GET http://localhost:8080/auth/pending_requests/69
+GET http://localhost:8080/auth/pending_requests/67
 
 ### Get specific user_id
-GET http://localhost:8080/auth/accepted_requests/67
+GET http://localhost:8080/auth/accepted_requests/69
 
 ### Get confirmed_requests
-GET http://localhost:8080/auth/confirmed_requests/126
+GET http://localhost:8080/auth/confirmed_requests/124
 
 ### Get specific user_id
 GET http://localhost:8080/auth/books_for_specific_user/1
@@ -157,16 +139,3 @@ GET http://localhost:8080/auth/user_name
 
 ### Get specific user_id
 GET http://localhost:8080/auth/latest_book
-
-<<<<<<< HEAD
-
-### Test Get Book Image - File Not Found
-GET http://localhost:8080/auth/bookImage/default_book.jpg
-=======
-### Get specific user_id
-GET http://localhost:8080/auth/address/131
-
-
-### Get specific user_id
-GET http://localhost:8080/auth/phone_number/130
->>>>>>> eef9e22 (Add Edit page functionalities)

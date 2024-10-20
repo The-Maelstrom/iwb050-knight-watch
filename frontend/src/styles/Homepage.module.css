@@ -9,25 +9,6 @@ html, body {
 
 
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
-
-/* Reset HTML and Body */
-html, body {
-  height: 100%; /* Full height */
-  margin: 0; /* Remove default margin */
-  overflow-x: auto; /* Prevent horizontal scrolling */
-}
-
-/* Container */
-
-.whiteContainer {
-  background-color: #fff; /* White background */
-  padding: 40px; /* Add padding for spacing inside the container */
-  margin-top: 20px; /* Add margin to space it from other sections */
-  border-radius: 10px; /* Add rounded corners */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-}
-
 .container {
   max-width: 100%;
   margin: 0 auto;
@@ -46,23 +27,7 @@ body::before {
   width: 100%;
   height: 100%;
   margin-top:55px;
-  background-image: url('41.png'); /* Replace with your actual image path */
-  background-size: cover; /* Cover the entire page */
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* No repeating */
-  z-index: -1; /* Ensure it's behind all other elements */
-}
-
-/* Header Image */
-/* Full-Page Background Image */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('1.jpg'); /* Replace with your actual image path */
+  background-image: url('../asset/41.png'); /* Replace with your actual image path */
   background-size: cover; /* Cover the entire page */
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* No repeating */
@@ -86,23 +51,6 @@ body::before {
   color: #3cff00; /* Change this to your desired color */
   text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7); /* Optionally adjust the text shadow */
   margin: 60px; /* Reset margin */
-}
-.bookBazaar {
-  font-family: 'Roboto', sans-serif; /* Change this to your desired font */
-  font-size: 5rem; /* Increase the font size */
-  color: #3cff00; /* Change this to your desired color */
-  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7); /* Optionally adjust the text shadow */
-  margin: 60px; /* Reset margin */
-}
-
-.headerText h1 {
-  font-family: 'Poppins', sans-serif; /* Apply the custom font */
-  font-size: 3.5rem; /* Large font size */
-  color: white; /* Keep the white text color */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Keep the text shadow for readability */
-  line-height: 1.2; /* Adjust line height to ensure text looks balanced */
-  margin-bottom: 20px; /* Adjust the value as needed */
-  margin: 25px;
 }
 
 .headerText {
@@ -201,7 +149,6 @@ body::before {
 
 
 /* Authentication Buttons */
-/* Authentication Buttons */
 .authButtons {
   display: flex;
   justify-content: center;
@@ -231,109 +178,20 @@ body::before {
 }
 
 .button {
-<<<<<<< HEAD
-  --hue: 190deg; /* or your desired hue */
-  --sat: 50%; /* or your desired saturation */
-  
-  font-size: 6vw;
-  @media screen and (min-width: 660px) {
-    font-size: 3vw;
-  }
-
-  color: hsl(var(--hue), 70%, 10%);
-  font-weight: 500;
-  letter-spacing: -0.025em;
-  background-color: hsl(var(--hue), var(--sat), 90%);
-  background-image:   
-    linear-gradient(180deg, 
-      hsl(calc(var(--hue) + 60deg), calc(var(--sat) + 10%), 85%) 30%, 
-      transparent calc(100% - 30%)
-    );
-  background-repeat: no-repeat;
-  background-position: center 45%;
-  background-size: 100% 200%;
-  padding: 0.9em 1.2em;
-  border-radius: 2em;
-=======
   margin-top: 100px;
   background-image: linear-gradient(135deg, #854959, #cc6029, #a6435d); /* Gradient with multiple colors */
   color: white;
   padding: 10px 20px;
   font-size: 16px;
->>>>>>> eef9e22 (Add Edit page functionalities)
   border: none;
-
-  box-shadow: 
-    0 -0.5em 0.5em transparent,
-    0 0.5em 0.5em transparent,
-    0 0.25em 0.3em -0.2em hsla(var(--hue), var(--sat), 50%, 0.46), 
-    0 0.25em 0.75em hsla(var(--hue), calc(var(--sat) - 10%), 40%, 0.3);
-
-  position: relative;
-  transition: all 0.5s ease;
-  outline: none;
-
-  &::before,
-  &::after {
-    content: "";
-    inset: 0;
-    position: absolute;
-    border-radius: 5em;
-  }
-
-  &::before {
-    background-image: 
-      radial-gradient(ellipse, 
-        hsla(var(--hue), 100%, 90%, .8) 20%,
-        transparent 50%,
-        transparent 200%
-      ),
-      linear-gradient(90deg, 
-        hsl(0deg, 0%, 25%) -10%, 
-        transparent 30%, 
-        transparent 70%, 
-        hsl(0deg, 0%, 25%) 110%
-      );
-    box-shadow: 
-      inset 0 .25em .75em hsla(0deg, 0%, 0%, 0.8),
-      inset 0 -.05em .2em rgba(255, 255, 255, 0.4),
-      inset 0 -1px 3px hsla(var(--hue), 80%, 50%, .75);
-    background-blend-mode: overlay;
-    background-repeat: no-repeat;
-    background-size: 200% 80%, cover;
-    background-position: center 220%;
-    mix-blend-mode: overlay;
-  }
-
-  &::after {
-    background: linear-gradient(
-      180deg, 
-      hsla(calc(var(--hue) + 60deg), 100%, 90%, .9), 
-      hsla(calc(var(--hue) + 60deg), calc(var(--sat) + 10%) * 0.7, 50%, .75) 40%, 
-      transparent 80%
-    );
-    top: 0.075em;
-    left: 0.75em;
-    right: 0.75em;
-    bottom: 1.4em;
-    filter: blur(0px);
-    mix-blend-mode: screen;
-  }
-
-  &:hover,
-  &:active,
-  &:focus {
-    outline: none;
-    box-shadow: 
-      0 -0.2em 1em hsla(calc(var(--hue) + 60deg), 70%, 80%, 0.3),
-      0 0.5em 1.5em hsla(var(--hue), 70%, 80%, 0.5),
-      0 0.25em 0.3em -0.2em hsl(var(--hue), var(--sat), 70%),
-      0 0.25em 0.5em hsla(var(--hue), 20%, 30%, 0.2),
-      inset 0 -2px 2px rgba(255, 255, 255, 0.2);
-    background-position: center calc(45% - 0.75em);
-  }
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, transform 0.3s ease; /* Smoother background and transform transition */
+  background-size: 200% 200%; /* Allows the gradient to shift */
+  width: 150px; /* Fixed width for consistent size */
+  display: inline-block;
+  text-align: center;
 }
-
 
 .button:hover {
   background-image: linear-gradient(135deg, #e2ca3e, #f16a16, #ffab7e); /* Brighter colors for hover effect */
@@ -350,7 +208,6 @@ body::before {
 
 
 
-/* Section Styling */
 /* Section Styling */
 .stepsSection,
 .aboutSection,
