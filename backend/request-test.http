@@ -102,14 +102,31 @@ Content-Type: application/json
     "action": "add"
 }
 
+//updateUserAddress
 ### Test Login Endpoint
-POST http://localhost:8080/auth/matchingUsers
+POST http://localhost:8080/auth/updateUserAddress
 Content-Type: application/json
 
 {
-    "currentUserId": 69,
-    "selectedBookId": 31
+    "user_id": 131,
+    "address_line1" : "jk",
+    "address_line2" :"jk",
+    "address_line3" :"jk",
+    "city" :"jk",
+    "district": "jk",
+    "postal_code": "90"
 }
+
+//updateUserAddress
+### Test Login Endpoint
+POST http://localhost:8080/auth/UpdatePhoneNumber
+Content-Type: application/json
+
+{
+    "user_id": 131,
+    "phone_number": "666666666"
+}
+
 ### Get all users
 GET http://localhost:8080/auth/users
 
@@ -119,17 +136,15 @@ GET http://localhost:8080/auth/user/dilum
 ### Get specific user_id
 GET http://localhost:8080/auth/user_id/dilum
 
-### Get specific user_id
-GET http://localhost:8080/auth/GetBookDetailsByTitle/HarryPotter
 
 ### Get specific user_id
-GET http://localhost:8080/auth/pending_requests/67
+GET http://localhost:8080/auth/pending_requests/69
 
 ### Get specific user_id
-GET http://localhost:8080/auth/accepted_requests/69
+GET http://localhost:8080/auth/accepted_requests/67
 
 ### Get confirmed_requests
-GET http://localhost:8080/auth/confirmed_requests/124
+GET http://localhost:8080/auth/confirmed_requests/126
 
 ### Get specific user_id
 GET http://localhost:8080/auth/books_for_specific_user/1
@@ -143,6 +158,15 @@ GET http://localhost:8080/auth/user_name
 ### Get specific user_id
 GET http://localhost:8080/auth/latest_book
 
+<<<<<<< HEAD
 
 ### Test Get Book Image - File Not Found
 GET http://localhost:8080/auth/bookImage/default_book.jpg
+=======
+### Get specific user_id
+GET http://localhost:8080/auth/address/131
+
+
+### Get specific user_id
+GET http://localhost:8080/auth/phone_number/130
+>>>>>>> eef9e22 (Add Edit page functionalities)

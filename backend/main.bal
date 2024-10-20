@@ -570,6 +570,124 @@ service /auth on authListener {
         }
     }
 
+
+    // resource function get bookImage/[int book_id]/[int user_id](http:Caller caller, http:Request req) returns error? {
+    //     // Prepare the SQL query to retrieve user_name and title based on book_id and user_id
+    //     sql:ParameterizedQuery query = `SELECT u.user_name, b.title 
+    //                                     FROM book_exchange.user u 
+    //                                     JOIN book_exchange.user_book ub ON u.user_id = ub.user_id 
+    //                                     JOIN book_exchange.book b ON ub.book_id = b.book_id 
+    //                                     WHERE b.book_id = ${book_id} AND u.user_id = ${user_id}`;
+
+    //     // Execute the query and retrieve the result
+    //     UserBookDetail|sql:Error queryResult = dbClient->queryRow(query, UserBookDetail);
+
+    //     if (queryResult is sql:Error) {
+    //         log:printError("Error executing SQL query", queryResult);
+    //         check caller->respond({"message": "Failed to retrieve book details"});
+    //         return;
+    //     }
+
+    //     // Construct the image filename
+    //     regexp:RegExp spaceRegex = check regexp:fromString(" ");
+    //     string sanitizedTitle = spaceRegex.replaceAll(queryResult.title, "_");
+    //     string imageFileName = queryResult.user_name + "_" + sanitizedTitle + ".jpg";
+    //     string imagePath = BOOK_IMAGES_DIR + imageFileName;
+
+    //     // Check if the image file exists
+    //     var fileExists = check file:test(imagePath, file:EXISTS);
+    //     if (!(fileExists is boolean && fileExists)) {
+    //         // Use generic image if specific image does not exist
+    //         imagePath = BOOK_IMAGES_DIR + "generic_book.jpg";
+    //         fileExists = check file:test(imagePath, file:EXISTS);
+    //         if (!(fileExists is boolean && fileExists)) {
+    //             check caller->respond({"message": "Generic image not found"});
+    //             return;
+    //         }
+    //     }
+
+    //     // Respond with the image path
+    //     var respondResult = caller->respond(
+    //         {
+    //             statusCode: 200,
+    //             body: { "imagePath": imagePath }
+    //         }
+    //     );
+
+    //     if (respondResult is error) {
+    //         log:printError("Error responding with image path", respondResult);
+    //     }
+    // }
+
+
+    resource function post makerequest(http:Caller caller, http:Request req) returns error? {
+        json payload;
+        var jsonResult = req.getJsonPayload();
+        if (jsonResult is json) {
+            payload = jsonResult;
+        } else {
+            // Invalid JSON payload
+            check caller->respond({"message": "Invalid JSON format"});
+            return;
+        }
+
+        // Extract action, title, author from the payload
+        int user_id = (check payload.user_id);
+        string address_line1 = (check payload.address_line1).toString();
+        string address_line2 = (check payload.address_line2).toString();
+        string address_line3 = (check payload.address_line3).toString();
+        string city = (check payload.city).toString();
+        string district = (check payload.district).toString();
+        string postal_code = (check payload.postal_code).toString();
+        // Prepare the query for the stored procedure with parameterized values
+        sql:ParameterizedQuery query = `CALL UpdateUserAddress(${user_id}, 
+                                    ${address_line1}, ${address_line2}, 
+                                    ${address_line3} , ${city} , 
+                                    ${district}, ${postal_code})`;
+
+        // Execute the stored procedure
+        var result = dbClient->execute(query);
+
+        if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
+            // Successfully updated the address
+            check caller->respond({"message": "Updated the address successfully!"});
+        } else {
+            // Failed to update the address
+            check caller->respond({"message": "Updating the address failed!"});
+        }
+    }
+
+    resource function post UpdatePhoneNumber(http:Caller caller, http:Request req) returns error? {
+        json payload;
+        var jsonResult = req.getJsonPayload();
+        if (jsonResult is json) {
+            payload = jsonResult;
+        } else {
+            // Invalid JSON payload
+            check caller->respond({"message": "Invalid JSON format"});
+            return;
+        }
+
+        // Extract action, title, author from the payload
+        int user_id = (check payload.user_id);
+        string phone_number = (check payload.phone_number).toString();
+        
+        // Prepare the query for the stored procedure with parameterized values
+        sql:ParameterizedQuery query = `CALL UpdatePhoneNumber(${user_id}, ${phone_number})`;
+
+        // Execute the stored procedure
+        var result = dbClient->execute(query);
+
+        if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
+            // Successfully updated the phone_number
+            check caller->respond({"message": "Updated the phone_number successfully!"});
+        } else {
+            // Failed to update the phone_number
+            check caller->respond({"message": "Updating the phone_number failed!"});
+        }
+    }
+>>>>>>> eef9e22 (Add Edit page functionalities)
+
     resource function post makerequest(http:Caller caller, http:Request req) returns error? {
         json payload;
         var jsonResult = req.getJsonPayload();
@@ -614,7 +732,6 @@ service /auth on authListener {
             check caller->respond({"message": "Invalid JSON format"});
             return;
         }
-        log:printInfo("Received payload: " + payload.toJsonString());
 
         // Extract action, title, author, and edition from the payload
         int requestor_id = (check payload.requestor_id);
@@ -624,10 +741,8 @@ service /auth on authListener {
 
         // Prepare the query for the stored procedure with parameterized values
         sql:ParameterizedQuery query = `CALL UpdateRequestAndAccept(${requestor_id}, ${receiver_id}, 
-                                        ${requestor_book_id}, ${receiver_book_id}, 'accept')`;
+                                        ${requestor_book_id}, ${receiver_book_id})`;
 
-
-        
         // Execute the stored procedure
         var result = dbClient->execute(query);
 
@@ -635,48 +750,10 @@ service /auth on authListener {
             // Successfully registered the user
             check caller->respond({"message": "Request accepted successfully!"});
         } else {
-            // SQL execution error
-            check caller->respond({"message": "Failed to accept request"});
-        }
-        
-    }
-
-    resource function post rejectrequest(http:Caller caller, http:Request req) returns error? {
-        json payload;
-        var jsonResult = req.getJsonPayload();
-        if (jsonResult is json) {
-            payload = jsonResult;
-        } else {
-            // Invalid JSON payload
-            check caller->respond({"message": "Invalid JSON format"});
-            return;
-        }
-
-        // Extract action, title, author, and edition from the payload
-        int requestor_id = (check payload.requestor_id);
-        int receiver_id = (check payload.receiver_id);
-        int requestor_book_id = (check payload.requestor_book_id);
-        int receiver_book_id = (check payload.receiver_book_id);
-
-        // Prepare the query for the stored procedure with parameterized values
-        sql:ParameterizedQuery query = `CALL UpdateRequestAndAccept(${requestor_id}, ${receiver_id}, 
-                                        ${requestor_book_id}, ${receiver_book_id}, 'reject')`;
-
-        // Execute the stored procedure
-        var result = dbClient->execute(query);
-
-        if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
-            // Successfully updated the request
-            check caller->respond({"message": "Request rejected successfully"});
-        } else if (result is sql:ExecutionResult) {
-            // No rows affected
-            check caller->respond({"message": "No request found to reject"});
-        } else {
-            // SQL execution error
-            check caller->respond({"message": "Failed to reject request"});
+            // Failed to register the user
+            check caller->respond({"message": "Request accepted failed!"});
         }
     }
-
 
     resource function post confirmrequest(http:Caller caller, http:Request req) returns error? {
         json payload;
@@ -689,7 +766,7 @@ service /auth on authListener {
             return;
         }
 
-        // Extract requestor_id, receiver_id, requestor_book_id, and receiver_book_id from the payload
+        // Extract action, title, author, and edition from the payload
         int requestor_id = (check payload.requestor_id);
         int receiver_id = (check payload.receiver_id);
         int requestor_book_id = (check payload.requestor_book_id);
@@ -697,61 +774,19 @@ service /auth on authListener {
 
         // Prepare the query for the stored procedure with parameterized values
         sql:ParameterizedQuery query = `CALL UpdateRequestAndConfirm(${requestor_id}, ${receiver_id}, 
-                                        ${requestor_book_id}, ${receiver_book_id}, 'confirm')`;
+                                        ${requestor_book_id}, ${receiver_book_id})`;
 
         // Execute the stored procedure
         var result = dbClient->execute(query);
 
         if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
-            // Successfully confirmed the request
+            // Successfully registered the user
             check caller->respond({"message": "Request confirmed successfully!"});
-        } else if (result is sql:ExecutionResult) {
-            // No rows affected
-            check caller->respond({"message": "No request found to confirm"});
         } else {
-            // SQL execution error
-            log:printError("Error executing SQL query", result);
-            check caller->respond({"message": "Failed to confirm request"});
+            // Failed to register the user
+            check caller->respond({"message": "Request confirmed failed!"});
         }
     }
-
-    resource function post cancelrequest(http:Caller caller, http:Request req) returns error? {
-        json payload;
-        var jsonResult = req.getJsonPayload();
-        if (jsonResult is json) {
-            payload = jsonResult;
-        } else {
-            // Invalid JSON payload
-            check caller->respond({"message": "Invalid JSON format"});
-            return;
-        }
-
-        // Extract requestor_id, receiver_id, requestor_book_id, and receiver_book_id from the payload
-        int requestor_id = (check payload.requestor_id);
-        int receiver_id = (check payload.receiver_id);
-        int requestor_book_id = (check payload.requestor_book_id);
-        int receiver_book_id = (check payload.receiver_book_id);
-
-        // Prepare the query for the stored procedure with parameterized values
-        sql:ParameterizedQuery query = `CALL UpdateRequestAndConfirm(${requestor_id}, ${receiver_id}, 
-                                        ${requestor_book_id}, ${receiver_book_id}, 'cancel')`;
-
-        // Execute the stored procedure
-        var result = dbClient->execute(query);
-
-        if (result is sql:ExecutionResult && result.affectedRowCount > 0) {
-            // Successfully cancelled the request
-            check caller->respond({"message": "Request cancelled successfully!"});
-        } else if (result is sql:ExecutionResult) {
-            // No rows affected
-            check caller->respond({"message": "No request found to cancel"});
-        } else {
-            // SQL execution error
-            log:printError("Error executing SQL query", result);
-            check caller->respond({"message": "Failed to cancel request"});
-        }
-    }
-
 
     resource function post ManageWishlistItem(http:Caller caller, http:Request req) returns error? {
         json payload;
@@ -836,40 +871,69 @@ service /auth on authListener {
             select request;
     }
 
+    resource function get address/[int user_id]() returns address|AddressNotFound|error {
+        address|sql:Error address = dbClient->queryRow(`
+        SELECT a.address_line1, a.address_line2, a.address_line3, a.city, a.district, a.postal_code
+        FROM address a
+        JOIN user_address ua ON a.address_id = ua.address_id
+        WHERE ua.user_id =${user_id};
+        `);
+        if address is sql:NoRowsError {
+            AddressNotFound addressNotFound = {
+                body: {message: string `user_id: ${user_id}`, details: string `user/${user_id}`, timeStamp: time:utcNow()}
+            };
+            return addressNotFound;
+        }
+        return address;
+    }
+
+    resource function get phone_number/[int user_id]() returns phone_number|PhoneNumberNotFound|error {
+        phone_number|sql:Error phone_number = dbClient->queryRow(`
+        SELECT phone_number
+        FROM phone_number
+        WHERE user_id =${user_id};
+        `);
+        if phone_number is sql:NoRowsError {
+            PhoneNumberNotFound phoneNumberNotFound = {
+                body: {message: string `user_id: ${user_id}`, details: string `user/${user_id}`, timeStamp: time:utcNow()}
+            };
+            return phoneNumberNotFound;
+        }
+        return phone_number;
+    }
+
     resource function get confirmed_requests/[int user_id]() returns request[]|RequestNotFound|error {
         stream<request, sql:Error?> requestStream = dbClient->query(`
-            SELECT 
-                r.*, 
-                rb1.title AS requestor_book_title, 
-                rb1.author AS requestor_book_author, 
-                rb2.title AS receiver_book_title, 
-                rb2.author AS receiver_book_author,
-                u1.user_name AS requestor_user_name, 
-                u2.user_name AS receiver_user_name,
-                u1.phone_number AS requestor_phone_number, 
-                u2.phone_number AS receiver_phone_number
-            FROM 
-                book_exchange.request r
-            JOIN 
-                book_exchange.book rb1 ON r.requestor_book_id = rb1.book_id
-            JOIN 
-                book_exchange.book rb2 ON r.receiver_book_id = rb2.book_id
-            JOIN 
-                book_exchange.user u1 ON r.requestor_id = u1.user_id
-            JOIN 
-                book_exchange.user u2 ON r.receiver_id = u2.user_id
-            LEFT JOIN 
-                book_exchange.phone_number pn1 ON u1.user_id = pn1.user_id
-            LEFT JOIN 
-                book_exchange.phone_number pn2 ON u2.user_id = pn2.user_id
-            WHERE 
-                r.receiver_id = ${user_id}
-                OR r.requestor_id = ${user_id}
-            AND 
-                r.request_status = 'confirmed'
-            ;
-        `);
-
+        SELECT 
+            r.*, 
+            rb1.title AS requestor_book_title, 
+            rb1.author AS requestor_book_author, 
+            rb2.title AS receiver_book_title, 
+            rb2.author AS receiver_book_author,
+            u1.user_name AS requestor_user_name, 
+            u2.user_name AS receiver_user_name,
+            pn1.phone_number AS requestor_phone_number, 
+            pn2.phone_number AS receiver_phone_number
+        FROM 
+            book_exchange.request r
+        JOIN 
+            book_exchange.book rb1 ON r.requestor_book_id = rb1.book_id
+        JOIN 
+            book_exchange.book rb2 ON r.receiver_book_id = rb2.book_id
+        JOIN 
+            book_exchange.user u1 ON r.requestor_id = u1.user_id
+        JOIN 
+            book_exchange.user u2 ON r.receiver_id = u2.user_id
+        LEFT JOIN 
+            book_exchange.phone_number pn1 ON r.requestor_id = pn1.user_id
+        LEFT JOIN 
+            book_exchange.phone_number pn2 ON r.receiver_id  = pn2.user_id
+        WHERE 
+            r.receiver_id = ${user_id}
+            OR r.requestor_id = ${user_id}
+        AND 
+            r.request_status = 'confirmed'
+        ;`);
         return from var request in requestStream
             select request;
     }
@@ -881,13 +945,19 @@ service /auth on authListener {
             rb1.title AS requestor_book_title, 
             rb1.author AS requestor_book_author, 
             rb2.title AS receiver_book_title, 
-            rb2.author AS receiver_book_author 
+            rb2.author AS receiver_book_author,
+            u1.user_name AS requestor_user_name, 
+            u2.user_name AS receiver_user_name  
         FROM 
             book_exchange.request r
         JOIN 
             book_exchange.book rb1 ON r.requestor_book_id = rb1.book_id
         JOIN 
             book_exchange.book rb2 ON r.receiver_book_id = rb2.book_id
+        JOIN 
+            book_exchange.user u1 ON r.requestor_id = u1.user_id
+        JOIN
+            book_exchange.user u2 ON r.receiver_id = u2.user_id      
         WHERE 
             r.requestor_id = ${requestor_id} 
             AND r.request_status = 'accepted'
@@ -910,8 +980,6 @@ service /auth on authListener {
         return from var book in book_Stream
             select book;
     }
-
-   
 
     resource function get GetBookDetailsByTitle/[string title]() returns BookDetailsByTitle[]|BookDetailsByTitleNotFound|error {
 
@@ -1140,6 +1208,7 @@ function user_names() returns string[]|UserNotFound|error {
     stream<record {|string user_name;|}, sql:Error?> userStream = dbClient->query(`SELECT user_name FROM book_exchange.user`);
     string[] usernames = check from var {user_name} in userStream
         select user_name;
+
     return usernames;
 }
 

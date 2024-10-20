@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import DashboardNavbar from '../components/DashboardNavbar';
 import styles from '../styles/AddBooks.module.css'; // Importing the CSS module
+import Navbar from '../components/Navbar'; 
 
 const AddBooks = () => {
     const location = useLocation();
@@ -154,11 +155,17 @@ const AddBooks = () => {
         <div className={styles.wishlistPage}>
             <div className={styles.sidebar}>
                 <img className={styles.profilePic} src={require('../styles/2.png')} alt="Profile" />
-                <h2 className={styles.sidebarTitle}>{user_name}</h2>
-                <p className={styles.sidebarDescription}>Details about the user</p>
+                <h2 className={styles.sidebarTitle}>Welcome {user_name}!</h2>
+                <h2 className={styles.libraryTitle}>To your Library</h2>
+                <p className={styles.sidebarDescription}>
+                        Welcome, {user_name}! Manage your personal book library by adding new books from here, 
+                        organizing your collection, and easily exchanging books with others in the community. 
+                        Start building your library and enjoy sharing your favorite reads!
+            </p>
             </div>
 
             <div className={styles.mainContent}>
+            <Navbar />
                 <DashboardNavbar />
                 <h2>{user_name}'s Library</h2>
 
@@ -166,7 +173,7 @@ const AddBooks = () => {
                 {error && <p className={styles.error}>{error}</p>}
 
                 <div className={styles.wishlistContainer}>
-                    <h3>Add a New Book to Your Library</h3>
+                    <h3 className={styles.pagedescription} >Add a New Book to Your Library</h3>
                     <form onSubmit={addBook} className={styles.addBookForm}>
                         <input
                             type="text"
@@ -212,7 +219,7 @@ const AddBooks = () => {
                         <button type="submit" className={styles.addBookButton}>Add to Library</button>
                     </form>
 
-                    <h3>Your Books</h3>
+                    <h3 className={styles.pagedescription}>Your Books</h3>
                     {books.length === 0 ? (
                         <p>No books found.</p>
                     ) : (
@@ -241,6 +248,8 @@ const AddBooks = () => {
                         </ul>
                     )}
                 </div>
+                {message && <p className={styles.message}>{message}</p>}
+                {error && <p className={styles.error}>{error}</p>}
             </div>
         </div>
     );

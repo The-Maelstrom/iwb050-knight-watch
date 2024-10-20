@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import DashboardNavbar from '../components/DashboardNavbar';
 import styles from '../styles/Wishlist.module.css'; // Importing CSS module
+import Navbar from '../components/Navbar'; 
 
 const Wishlist = () => {
     const location = useLocation();
@@ -122,18 +123,26 @@ const Wishlist = () => {
                         <span>No Image</span>
                     </div>
                 )}
-                <h2>{user_name}</h2>
-                <p>Details about the user</p>
-            </div>
+                    <h2 className={styles.sidebarTitle}>
+                        Welcome {user_name}!
+                    </h2>
 
+                    <h2 className={styles.libraryTitle}>To your Wishlist</h2>
+                    
+                    <p className={styles.sidebarDescription}>
+                        Welcome, {user_name}!  This is your wishlist! Here, you can view and manage the books you want to read. 
+                        Add books you wish to have or remove those you no longer want.
+                    </p>
+            </div>
+            
             <div className={styles['main-content']}>
+            <Navbar/>
                 <DashboardNavbar />
                 <div className={styles['wishlist-container']}>
-                    <h2>{user_name}'s Wishlist</h2>
-                    {error && <p className={styles['error']}>{error}</p>}
-                    {message && <p className={styles['message']}>{message}</p>} 
+                
+                    
 
-                    <h3>Add a New Book to Your Wishlist</h3>
+                    <h3 className={styles.pagedescription}>Add a New Book to Your Wishlist</h3>
                     <form onSubmit={addBookToWishlist} className={styles['add-book-form']}>
                         <input
                             type="text"
@@ -152,23 +161,37 @@ const Wishlist = () => {
                         <button type="submit">Add to Wishlist</button>
                     </form>
 
-                    <h3>Your Wishlist Items</h3>
-                    <ul>
-                        {wishlistItems.length > 0 ? (
-                            wishlistItems.map((item, index) => (
-                                <li key={index}>
-                                    BookID: {item.book_id} Title: {item.title} Author: {item.author}
-                                    <button onClick={() => goToWishlistItem(item)}>View Details</button>
-                                    <button onClick={() => removeBookFromWishlist(item.title, item.author)}>Remove</button>
-                                </li>
-                            ))
-                        ) : (
+                    <h3 className={styles.WishlistItems}>Your Wishlist Items</h3>
+                            <ul className={styles.bookList}>
+                                {wishlistItems.length > 0 ? (
+                                        wishlistItems.map((item, index) => (
+                            <li key={index} className={styles.bookListItem}>
+                                <div className={styles.wishlistItemDetails}>
+                                    <span className={styles.bookID}>Book ID: {item.book_id}</span>
+                                    <span className={styles.bookTitle}>Title: {item.title}</span>
+                                    <span className={styles.bookAuthor}>Author: {item.author}</span>
+                                </div>
+                                <div className={styles.wishlistItemActions}>
+                                    <button onClick={() => goToWishlistItem(item)} className={styles.viewButton}>
+                                        View Details
+                                    </button>
+                                    <button onClick={() => removeBookFromWishlist(item.title, item.author)} className={styles.removeButton}>
+                                        Remove
+                                    </button>
+                                </div>
+                            </li>
+                             ))
+                                ) : (
                             <li>No items in your wishlist yet.</li>
-                        )}
-                    </ul>
-                </div>
-            </div>
-        </div>
+                                )}
+                            </ul>
+
+                            </div>
+                                    {error && <p className={styles['error']}>{error}</p>}
+                                    {message && <p className={styles['message']}>{message}</p>} 
+                        </div>
+                        
+                    </div>
     );
 };
 

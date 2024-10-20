@@ -1,47 +1,4 @@
-// import React, { useState, useEffect } from 'react';
-// import { useLocation } from 'react-router-dom';
-// import axios from 'axios'; // Make sure to import axios if you're using it
 
-// const SearchResult = () => {
-//     const location = useLocation();
-//     const { user_name, searchQuery } = location.state || {}; // Access user_name and searchQuery passed from the dashboard
-
-//     const [user_id, setUserId] = useState(null); // State to store user_id
-//     const [error, setError] = useState(''); // State to store error message
-
-//     useEffect(() => {
-//         const fetchUserId = async () => {
-//             try {
-//                 const response = await axios.get(`http://localhost:8080/auth/user_id/${user_name}`);
-//                 setUserId(response.data); // Assuming response.data contains user_id
-//             } catch (err) {
-//                 console.error('Error fetching user ID:', err);
-//                 setError('Failed to fetch user ID.'); // Show error message
-//             }
-//         };
-
-//         if (user_name) {
-//             fetchUserId(); // Only fetch user ID if user_name is present
-//         }
-//     }, [user_name]); // Dependency array includes user_name
-
-//     return (
-//         <div>
-//             <h2>Search Results for "{searchQuery}"</h2>
-//             <p>Welcome, {user_name} ,{user_id}! Here are the results for your search.</p>
-
-//             {/* Display error if any */}
-//             {error && <p style={{ color: 'red' }}>{error}</p>}
-
-//             {/* Display user ID if available */}
-//             {user_id && <p>Your user ID: {user_id}</p>}
-
-//             {/* You can display the search results here */}
-//         </div>
-//     );
-// };
-
-// export default SearchResult;
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';

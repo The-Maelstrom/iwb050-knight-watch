@@ -1,3 +1,4 @@
+/* Container for the entire wishlist page */
 .wishlistPage {
     display: flex;
     flex-direction: row;
@@ -186,91 +187,14 @@ h3 {
     margin-top: 20px;
 }
 
-/* Styling for the wishlist items */
-.bookList {
-    list-style-type: none;
-    padding: 0;
-    margin: 0; /* Remove default margin */
-}
-
-.bookListItem {
-    padding: 15px; /* Increased padding for more space */
-    border-radius: 8px; /* Rounded corners */
-    background-color: #F8EDEB; /* Light pink tone for a cozy feel */
-    border: 1px solid #DDC3C7; /* Soft brown border */
-    margin-bottom: 10px; /* Spacing between items */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
-}
-
-/* Hover Effect for Book List Item */
-.bookListItem:hover {
-    transform: translateY(-3px); /* Move item up slightly on hover */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
-    background-color: #f1f1f1; /* Slightly darker background on hover */
-}
-
-/* Style for the Book Title and Author */
-.bookTitle {
-    font-weight: bold; /* Bold for book title */
-    font-size: 18px; /* Larger font size */
-    margin-right: 15px; /* Adds space between elements */
-    color: #333; /* Darker color for text */
-}
-
-.bookAuthor {
-    font-style: italic; /* Italic for author name */
-    color: #777; /* Lighter color for author name */
-}
-
-/* Remove button styling */
-.removeButton {
-    background-color: #e57373; /* Red background for remove button */
-    color: white; /* White text */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    padding: 5px 10px; /* Padding for button */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s; /* Transition for hover effect */
-}
-
-/* Hover Effect for Remove Button */
-.removeButton:hover {
-    background-color: #d32f2f; /* Darker red on hover */
+.htmlFor{
+    font-size: 17px;
+    margin-top: px;
 }
 
 
-.bookDetails {
-    flex: 1;
-}
 
-.bookImageContainer {
-    margin-right: 10px;
-}
 
-.bookImage {
-    width: 100px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 4px;
-}
-
-.removeButton {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    margin-left: 10px;
-    border-radius: 4px;
-}
-
-.removeButton:hover {
-    background-color: #c82333;
-}
 
 /* Error and message display */
 .error {
@@ -284,8 +208,9 @@ h3 {
 }
 
 /* Form to add a new book */
-.addBookForm {
+.addressForm {
     display: flex;
+    text-align: center;
     flex-direction: column;
     width: 100%;
     max-width: 400px; /* Set a maximum width for better alignment */
@@ -297,9 +222,8 @@ h3 {
 }
 
 /* Input styles */
-.addBookForm input[type="text"],
-.addBookForm input[type="file"] {
-    padding: 12px; /* Increased padding for comfort */
+.addressForm input {
+    padding: 10px; /* Increased padding for comfort */
     margin-bottom: 15px; /* Increased margin for better spacing */
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -310,47 +234,61 @@ h3 {
 }
 
 /* Input focus effect */
-.addBookForm input:focus {
+.addressForm input:focus {
     border-color: #28a745; /* Green border on focus */
     outline: none; /* Remove default outline */
     box-shadow: 0 0 5px rgba(40, 167, 69, 0.5); /* Subtle green shadow */
 }
 
 /* Add Book button styles */
-.addBookButton {
+.updateButton {
+    display: flex;
+    justify-content: center; /* Horizontally centers the button */
+    align-items: center; /* Vertically centers the button (optional) */
+    margin-top:15px;
     padding: 12px; /* Increased padding */
-    background-color: #55a428; /* Vibrant green for an inviting button */
+    background-color: #28a745;; /* Vibrant green for an inviting button */
     color: white; /* White text */
     border: none;
     border-radius: 4px; /* Rounded corners */
     font-size: 16px; /* Larger font size */
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s; /* Transitions for hover and click */
-    border-radius: 4px;
 }
 
 /* Add Book button hover effect */
-.addBookButton:hover {
+.updateButton:hover {
     background-color: #218838; /* Darker green on hover */
     transform: translateY(-2px); /* Move button up slightly on hover */
 }
 
 /* Add Book button active effect */
-.addBookButton:active {
+.updateButton:active {
     transform: translateY(1px); /* Move button down slightly on click */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow on click */
 }
 
-/* Image Preview Styling */
-.imagePreview {
-    margin-top: 10px;
-    text-align: center;
+/* Font-changing styles for input fields */
+.inputField {
+    font-family: 'Courier New', Courier, monospace;
+    font-style: italic;
+    color: #333;
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: all 0.3s ease;
 }
 
-.imagePreview img {
-    width: 150px;
-    height: 200px;
-    object-fit: cover;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+.displayField {
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    color: #000;
+    background-color: #e0e0e0;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: none;
+    transition: all 0.3s ease;
 }

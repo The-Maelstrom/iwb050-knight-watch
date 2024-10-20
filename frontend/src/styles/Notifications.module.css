@@ -1,10 +1,12 @@
 
 .container {
-    display: flex;
-    padding: 20px;
-  }
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
 
-  /* Profile picture styling */
+/* Profile picture styling */
 .profilePic {
   width: 100px;
   height: 100px;
@@ -12,20 +14,43 @@
   object-fit: cover; /* Ensures the image covers the circle */
   margin-bottom: 10px; /* Adds spacing below the image */
   border: 2px solid #007BFF;
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect */
+.profilePic:hover {
+  transform: scale(1.3);
+  color: white; /* Changes text color on hover */
+  cursor: pointer;
 }
   
   .sidebar {
-    width: 250px;
-    padding: 15px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    margin-right: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 18%;
+    background-color: #a3958a; 
+    padding: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    border-right: 1px solid #ddd;
   }
+
   
-  .sidebar h2 {
-    text-align: center;
-  }
+/* Sidebar Title */
+.sidebarTitle {
+  font-size: 24px;
+  color: black;
+  text-align: center;
+  /* Default style */
+}
+
+.sidebarTitle:hover {
+  font-size: 28px; /* Increase the font size */
+  color: #1a2227; /* Change color */
+  transform: scale(1.1); /* Slightly increase size */
+  transition: all 0.3s ease; /* Smooth transition */
+}
+
   
   .userDetails {
     margin-bottom: 30px;
@@ -39,23 +64,61 @@
     height: 100px;
   }
   
-  .userDetails h3 {
+  .sidebarDescription {
+    font-size: 14px;
+    color: #f2e6e6;
     text-align: center;
-    margin-top: 10px;
-    color: #333;
-  }
-  
-  .userDetails p {
-    text-align: center;
-    color: #666;
-  }
-  
-  .content {
-    flex-grow: 1;
-    padding: 20px;
-    background-color: #fff;
+    margin-top: 30px;
+    padding: 10px;
+    background-color:#8f616d;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect */
+.sidebarDescription:hover {
+    transform: scale(1.3);
+    background-color: #845360; /* Changes background on hover */
+    color: white; /* Changes text color on hover */
+    cursor: pointer;
+}
+
+
+.libraryTitle {
+  font-size: 38px; /* Larger font size to give more importance */
+  font-weight: bold; /* Strong emphasis */
+  color: #ffffff; /* Bright white text */
+  text-align: center; /* Center the text */
+  padding: 20px 10px; /* More padding for larger presence */
+  margin: 20px 0; /* Add more margin for separation */
+  font-family: 'Arial', sans-serif; /* Change to desired font family */
+  background: linear-gradient(135deg, #854959, #cc6029, #a6435d);/* Gradient with blue, gold, and muted pink */
+
+  border-radius: 16px; /* Large rounded corners for elegance */
+  box-shadow: 0 5px 15px rgba(255, 77, 0, 0.39); /* Strong shadow for depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+}
+
+/* Hover Effect to highlight the title */
+.libraryTitle:hover {
+  transform: scale(1.02); /* Slightly enlarge on hover */
+  background: linear-gradient(2.5deg, #D4AF37, #f37653); /* More vibrant hover gradient */
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2); /* More defined shadow */
+  color: #fff; /* Maintain white color */
+}
+
+
+  .content {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+    background-image: url('10.jpg'); /* Replace with your image path */
+    background-size: cover; /* Cover the entire area */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    border-radius: 8px; /* Optional: Rounded corners for main content */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Optional: Shadow for depth */
   }
   
   .content h3 {
@@ -102,3 +165,136 @@
     margin-bottom: 10px;
   }
   
+  .libraryTitle {
+    font-size: 38px; /* Larger font size to give more importance */
+    font-weight: bold; /* Strong emphasis */
+    color: #ffffff; /* Bright white text */
+    text-align: center; /* Center the text */
+    padding: 20px 10px; /* More padding for larger presence */
+    margin: 20px 0; /* Add more margin for separation */
+    font-family: 'Arial', sans-serif; /* Change to desired font family */
+    background: linear-gradient(135deg, #854959, #cc6029, #a6435d);/* Gradient with blue, gold, and muted pink */
+
+    border-radius: 16px; /* Large rounded corners for elegance */
+    box-shadow: 0 5px 15px rgba(255, 77, 0, 0.39); /* Strong shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+}
+
+/* Hover Effect to highlight the title */
+.libraryTitle:hover {
+    transform: scale(1.02); /* Slightly enlarge on hover */
+    background: linear-gradient(2.5deg, #D4AF37, #f37653); /* More vibrant hover gradient */
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2); /* More defined shadow */
+    color: #fff; /* Maintain white color */
+}
+
+
+.sectionTitle {
+  font-size: 28px; /* Slightly smaller font size */
+  font-weight: normal; /* Less emphasis compared to the title */
+  color: #e0e0e0; /* Lighter color for readability */
+  text-align: center; /* Center the text */
+  padding: 20px 10px; /* Padding for readability */
+  margin: 20px auto; /* Smaller margin compared to the title */
+  font-family: 'Arial', sans-serif; /* Keep the same font family */
+  background-color: rgba(73, 70, 70, 0.9); /* Darker, subtle background */
+  border-radius: 12px; /* Rounded corners */
+  width: 80%; /* Decreases the width to 80% of its container */
+  max-width: 600px; /* Sets a maximum width to ensure it doesn't get too large */
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1); /* Soft shadow for subtle depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+}
+
+/* Hover effect for pagedescription */
+.sectionTitle:hover {
+  transform: scale(1.02); /* Slight increase on hover */
+  background-color: rgba(50, 50, 50, 0.9); /* Slightly lighter background on hover */
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2); /* More defined shadow */
+}
+
+/* Notification list styles */
+.notificationList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Individual notification item styles */
+.notificationItem {
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #e0e0e0; /* Light border */
+  border-radius: 8px; /* Rounded corners */
+  background-color: #ffffff; /* White background */
+  transition: box-shadow 0.3s, transform 0.3s; /* Animation for hover */
+}
+
+/* Hover effect for notification items */
+.notificationItem:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Shadow on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+/* Information display styles */
+.info {
+  margin-bottom: 10px; /* Space below info section */
+}
+
+/* Action buttons container */
+.actionButtons {
+  display: flex;
+  justify-content: space-between; /* Space buttons evenly */
+}
+
+/* Common button styles */
+button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s; /* Transition for buttons */
+}
+
+/* Accept button styles */
+.acceptButton {
+  background-color: #28a745; /* Green */
+  color: white;
+}
+
+.acceptButton:hover {
+  background-color: #218838; /* Darker green */
+  transform: translateY(-2px); /* Lift on hover */
+}
+
+/* Reject button styles */
+.rejectButton {
+  background-color: #dc3545; /* Red */
+  color: white;
+}
+
+.rejectButton:hover {
+  background-color: #c82333; /* Darker red */
+  transform: translateY(-2px); /* Lift on hover */
+}
+
+/* Confirm button styles */
+.confirmButton {
+  background-color: #007bff; /* Blue */
+  color: white;
+}
+
+.confirmButton:hover {
+  background-color: #0056b3; /* Darker blue */
+  transform: translateY(-2px); /* Lift on hover */
+}
+
+/* Cancel button styles */
+.cancelButton {
+  background-color: #ffc107; /* Yellow */
+  color: white;
+}
+
+.cancelButton:hover {
+  background-color: #e0a800; /* Darker yellow */
+  transform: translateY(-2px); /* Lift on hover */
+}

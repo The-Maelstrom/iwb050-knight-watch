@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import styles from './Login.module.css'; // Import CSS Module for styles
-//import Navbar from '../../components/Navbar'; 
+import styles from '../styles/Login.module.css'; // Import CSS Module for styles
+import Navbar from '../components/Navbar'; 
 
 
 function Login() {
