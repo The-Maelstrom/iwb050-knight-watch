@@ -3,20 +3,20 @@ POST http://localhost:8080/auth/signup
 Content-Type: application/json
 
 {
-    "first_name": "xdca",
-    "last_name": "xdc",
-    "email_address": "kjffr@gmail.com",
-    "user_name": "aiirs",
-    "password": "hjklfw",
+    "first_name": "TestUser1",
+    "last_name": "UserLastName",
+    "email_address": "User@gmail.com",
+    "user_name": "TestUser",
+    "password": "TestUser",
     "gender": "Male",
 
-    "phone_number1": "00079098",
+    "phone_number1": "0703170878",
 
-    "address_line1_1": "Rarawea road",
-    "address_line2_1": "Walasema",
+    "address_line1_1": "Ranorawa road",
+    "address_line2_1": "Walgasma",
     "address_line3_1": "Kdanhtheewa",
-    "city_1": "Waasiydapola",
-    "district_1": "asdrunegla",
+    "city_1": "Wariyapola",
+    "district_1": "Kurunegala",
     "postal_code_1": "25"
 }
 
@@ -25,35 +25,38 @@ POST http://localhost:8080/auth/login
 Content-Type: application/json
 
 {
-    "user_name": "ass",
-    "password": "ass"
+    "user_name": "TestUser1",
+    "password": "TestUser"
 }
 
 ### Test hashed addbooks Endpoint
-POST http://localhost:8080/auth/managebooks
+POST http://localhost:8082/book/addbooks
 Content-Type: application/json
 
 {
-    "user_id": 2,
-    "action": "add",
-    "title": "HarryyPotter",
-    "author": "JyK"
+    "user_id": 1,
+    "title": "Harryy Sir Potter",
+    "author": "JyK",
+    "edition": "2nd",
+    "username": "aliceJ",
+    "image_path": "C:\\Users\\tharu\\OneDrive\\Pictures\\Saved Pictures\\749693.jpg"
 }
 
-### Test hashed addbooks Endpoint
-POST http://localhost:8080/auth/managebooks
+### Test hashed removebooks Endpoint
+POST http://localhost:8082/book/removebooks
 Content-Type: application/json
 
 {
-    "user_id": 2,
-    "action": "remove",
-    "title": "HarryyPotter",
-    "author": "JyK"
+    "user_id": 12,
+    "title": "title",
+    "author": "author",
+    "edition": "2nd",
+    "username": "dog"
 }
 
 
-### Test hashed addbooks Endpoint
-POST http://localhost:8080/auth/makerequest
+### Test makerequest Endpoint
+POST http://localhost:8081/request/makerequest
 Content-Type: application/json
 
 {
@@ -62,20 +65,20 @@ Content-Type: application/json
     "requestor_book_id": 10,
     "receiver_book_id": 11
 }
-//acceptrequest
-### Test hashed addbooks Endpoint
-POST http://localhost:8080/auth/acceptrequest
+
+### Test hashed acceptrequest Endpoint
+POST http://localhost:8081/request/acceptrequest
 Content-Type: application/json
 
 {
-    "requestor_id": 3,
-    "receiver_id": 1,
-    "requestor_book_id": 1,
-    "receiver_book_id": 6
+    "requestor_id": 69,
+    "receiver_id": 67,
+    "requestor_book_id": 31,
+    "receiver_book_id": 32
 }
 
-### Test hashed addbooks Endpoint
-POST http://localhost:8080/auth/confirmrequest
+### Test hashed confirmrequest Endpoint
+POST http://localhost:8081/request/confirmrequest
 Content-Type: application/json
 
 {
@@ -85,57 +88,61 @@ Content-Type: application/json
     "receiver_book_id": 56
 }
 
-
-
-
-### Test Login Endpoint
-POST http://localhost:8080/auth/ManageWishlistItem
+### Test ManageWishlistItem-add Endpoint
+POST http://localhost:8082/auth/ManageWishlistItem
 Content-Type: application/json
 
 {
     "user_id": 69,
-    "title": "HargggryPotter",
-    "author": "JK",
+    "title": "HarryPotter",
+    "author": "JKRolin",
     "action": "add"
 }
 
+
 ### Test Login Endpoint
-POST http://localhost:8080/auth/matchingUsers
+POST http://localhost:8080/auth/updateUserAddress
 Content-Type: application/json
 
 {
-    "currentUserId": 69,
-    "selectedBookId": 31
+    "user_id": 131,
+    "address_line1" : "No 212",
+    "address_line2" :"Ranorawa Road",
+    "address_line3" :"Walgasma",
+    "city" :"Kolambagama",
+    "district": "Colombo",
+    "postal_code": "90"
 }
-### Get all users
-GET http://localhost:8080/auth/users
 
-### Get specific user
-GET http://localhost:8080/auth/user/dilum
 
-### Get specific user_id
+### Test Login Endpoint
+POST http://localhost:8080/auth/UpdatePhoneNumber
+Content-Type: application/json
+
+{
+    "user_id": 131,
+    "phone_number": "0702446789"
+}
+
+
+### Get specific user_id by user_name
 GET http://localhost:8080/auth/user_id/dilum
 
-### Get specific user_id
-GET http://localhost:8080/auth/GetBookDetailsByTitle/HarryPotter
 
-### Get specific user_id
-GET http://localhost:8080/auth/pending_requests/67
+### Get pending_requests
+GET http://localhost:8081/request/pending_requests/69
 
-### Get specific user_id
-GET http://localhost:8080/auth/accepted_requests/69
+### Get accepted_requests
+GET http://localhost:8081/request/accepted_requests/67
 
 ### Get confirmed_requests
-GET http://localhost:8081/request/confirmed_requests/1
+GET http://localhost:8081/request/confirmed_requests/126
 
-### Get specific user_id
-GET http://localhost:8080/auth/books_for_specific_user/1
+### Get books for specific user_id
+GET http://localhost:8082/book/books_for_specific_user/1
 
-### Get specific user_id
-GET http://localhost:8080/auth/wishlist_item/1
+### Get Wishlist books for specific user_id
+GET http://localhost:8082/book/wishlist_item/1
 
-### Get specific user_id
-GET http://localhost:8080/auth/user_name
-
-### Get specific user_id
-GET http://localhost:8080/auth/latest_book
+### Get Latest 15 books to display
+Get http://localhost:8082/book/latest_books
