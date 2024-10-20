@@ -35,7 +35,7 @@ Follow these steps to set up and run the Book Buddies platform locally:
      database = "book_exchange"
      user =  "Your MySQL username"
      password =  "Your MySQL password"
-     host =  "Host (usually "localhost")"
+     host =  "Host (usually 'localhost')"
      port =  "MySQL default port (usually 3306)"
      ```
 
