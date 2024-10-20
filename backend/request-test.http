@@ -1,0 +1,141 @@
+### Test hashed Signup Endpoint
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+    "first_name": "xdca",
+    "last_name": "xdc",
+    "email_address": "kjffr@gmail.com",
+    "user_name": "aiirs",
+    "password": "hjklfw",
+    "gender": "Male",
+
+    "phone_number1": "00079098",
+
+    "address_line1_1": "Rarawea road",
+    "address_line2_1": "Walasema",
+    "address_line3_1": "Kdanhtheewa",
+    "city_1": "Waasiydapola",
+    "district_1": "asdrunegla",
+    "postal_code_1": "25"
+}
+
+### Test Login Endpoint
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+    "user_name": "ass",
+    "password": "ass"
+}
+
+### Test hashed addbooks Endpoint
+POST http://localhost:8080/auth/managebooks
+Content-Type: application/json
+
+{
+    "user_id": 2,
+    "action": "add",
+    "title": "HarryyPotter",
+    "author": "JyK"
+}
+
+### Test hashed addbooks Endpoint
+POST http://localhost:8080/auth/managebooks
+Content-Type: application/json
+
+{
+    "user_id": 2,
+    "action": "remove",
+    "title": "HarryyPotter",
+    "author": "JyK"
+}
+
+
+### Test hashed addbooks Endpoint
+POST http://localhost:8080/auth/makerequest
+Content-Type: application/json
+
+{
+    "requestor_id": 2,
+    "receiver_id": 3,
+    "requestor_book_id": 10,
+    "receiver_book_id": 11
+}
+//acceptrequest
+### Test hashed addbooks Endpoint
+POST http://localhost:8080/auth/acceptrequest
+Content-Type: application/json
+
+{
+    "requestor_id": 3,
+    "receiver_id": 1,
+    "requestor_book_id": 1,
+    "receiver_book_id": 6
+}
+
+### Test hashed addbooks Endpoint
+POST http://localhost:8080/auth/confirmrequest
+Content-Type: application/json
+
+{
+    "requestor_id": 124,
+    "receiver_id": 126,
+    "requestor_book_id": 55,
+    "receiver_book_id": 56
+}
+
+
+
+
+### Test Login Endpoint
+POST http://localhost:8080/auth/ManageWishlistItem
+Content-Type: application/json
+
+{
+    "user_id": 69,
+    "title": "HargggryPotter",
+    "author": "JK",
+    "action": "add"
+}
+
+### Test Login Endpoint
+POST http://localhost:8080/auth/matchingUsers
+Content-Type: application/json
+
+{
+    "currentUserId": 69,
+    "selectedBookId": 31
+}
+### Get all users
+GET http://localhost:8080/auth/users
+
+### Get specific user
+GET http://localhost:8080/auth/user/dilum
+
+### Get specific user_id
+GET http://localhost:8080/auth/user_id/dilum
+
+### Get specific user_id
+GET http://localhost:8080/auth/GetBookDetailsByTitle/HarryPotter
+
+### Get specific user_id
+GET http://localhost:8080/auth/pending_requests/67
+
+### Get specific user_id
+GET http://localhost:8080/auth/accepted_requests/69
+
+### Get confirmed_requests
+GET http://localhost:8081/request/confirmed_requests/1
+
+### Get specific user_id
+GET http://localhost:8080/auth/books_for_specific_user/1
+
+### Get specific user_id
+GET http://localhost:8080/auth/wishlist_item/1
+
+### Get specific user_id
+GET http://localhost:8080/auth/user_name
+
+### Get specific user_id
+GET http://localhost:8080/auth/latest_book
