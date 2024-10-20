@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #6e45e2 0%, #88d3ce 100%);
+  background: url('book.jpg') ;
   padding: 20px;
 }
 
