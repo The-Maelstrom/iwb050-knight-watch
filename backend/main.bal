@@ -29,7 +29,8 @@ mysql:Client dbClient = check new (...databaseConfig);
 listener http:Listener authListener = new (8080);
 
 // Directory where book images will be stored
-const string BOOK_IMAGES_DIR = "../images/books/";
+const string BOOK_IMAGES_DIR = "../frontend/public/images/books/";
+
 
 //-------------------------------------------- Auth Service --------------------------------------------
 type user record {
@@ -475,26 +476,10 @@ service /auth on authListener {
             string sanitizedTitle = spaceRegex.replaceAll(title, "_");
 
             // Create the new image filename (username_booktitle.extension)
-            // string originalFilename = imageFilePart.getContentDisposition().fileName;
             string imageFileName = username + "_" + sanitizedTitle + ".jpg";
             string serverImagePath = BOOK_IMAGES_DIR + imageFileName;
 
-            // Ensure the BOOK_IMAGES_DIR exists
-            // boolean|error fileExists = check file:test(serverImagePath, file:EXISTS);
-            // if (fileExists is boolean) {
-            //     if (!fileExists) {
-            //         var dirCreate = file:createDir(BOOK_IMAGES_DIR);
-            //         if (dirCreate is error) {
-            //             check caller->respond({"message": "Failed to create image directory"});
-            //             return;
-            //         }
-            //     }
-            // } else {
-            //     check caller->respond({"message": "Error checking image directory"});
-            //     return;
-            // }
-
-            // Save the uploaded file to the server
+            // Save the uploaded file to the frontend's public directory
             byte[] fileContent = check imageFilePart.getByteArray();
             var saveResult = io:fileWriteBytes(serverImagePath, fileContent);
             if (saveResult is error) {
@@ -502,14 +487,15 @@ service /auth on authListener {
                 return;
             }
 
-            image_path = BOOK_IMAGES_DIR + imageFileName; // Path accessible by the frontend
+            // Set the relative image path (this will be accessible from the frontend)
+            image_path = "/images/books/" + imageFileName;
             io:println("Image saved to: " + serverImagePath);
         }
 
         // Prepare the query for the stored procedure with parameterized values to prevent SQL injection
         sql:ParameterizedQuery query;
         if (image_path is string) {
-            // If an image path is provided
+            // If an image path is provided, store the relative path in the database
             query = `CALL ManageUserBook(${user_id}, 'add', ${title}, ${author}, ${edition}, ${image_path})`;
         } else {
             // If no image is provided, pass NULL for the image path
@@ -527,6 +513,7 @@ service /auth on authListener {
             check caller->respond({"message": "Adding book failed!"});
         }
     }
+
 
     resource function post removebooks(http:Caller caller, http:Request req) returns error? {
         json payload;
@@ -582,56 +569,6 @@ service /auth on authListener {
             check caller->respond({"message": "Removing book failed!"});
         }
     }
-
-
-    // resource function get bookImage/[int book_id]/[int user_id](http:Caller caller, http:Request req) returns error? {
-    //     // Prepare the SQL query to retrieve user_name and title based on book_id and user_id
-    //     sql:ParameterizedQuery query = `SELECT u.user_name, b.title 
-    //                                     FROM book_exchange.user u 
-    //                                     JOIN book_exchange.user_book ub ON u.user_id = ub.user_id 
-    //                                     JOIN book_exchange.book b ON ub.book_id = b.book_id 
-    //                                     WHERE b.book_id = ${book_id} AND u.user_id = ${user_id}`;
-
-    //     // Execute the query and retrieve the result
-    //     UserBookDetail|sql:Error queryResult = dbClient->queryRow(query, UserBookDetail);
-
-    //     if (queryResult is sql:Error) {
-    //         log:printError("Error executing SQL query", queryResult);
-    //         check caller->respond({"message": "Failed to retrieve book details"});
-    //         return;
-    //     }
-
-    //     // Construct the image filename
-    //     regexp:RegExp spaceRegex = check regexp:fromString(" ");
-    //     string sanitizedTitle = spaceRegex.replaceAll(queryResult.title, "_");
-    //     string imageFileName = queryResult.user_name + "_" + sanitizedTitle + ".jpg";
-    //     string imagePath = BOOK_IMAGES_DIR + imageFileName;
-
-    //     // Check if the image file exists
-    //     var fileExists = check file:test(imagePath, file:EXISTS);
-    //     if (!(fileExists is boolean && fileExists)) {
-    //         // Use generic image if specific image does not exist
-    //         imagePath = BOOK_IMAGES_DIR + "generic_book.jpg";
-    //         fileExists = check file:test(imagePath, file:EXISTS);
-    //         if (!(fileExists is boolean && fileExists)) {
-    //             check caller->respond({"message": "Generic image not found"});
-    //             return;
-    //         }
-    //     }
-
-    //     // Respond with the image path
-    //     var respondResult = caller->respond(
-    //         {
-    //             statusCode: 200,
-    //             body: { "imagePath": imagePath }
-    //         }
-    //     );
-
-    //     if (respondResult is error) {
-    //         log:printError("Error responding with image path", respondResult);
-    //     }
-    // }
-
 
     resource function post makerequest(http:Caller caller, http:Request req) returns error? {
         json payload;
@@ -1030,47 +967,97 @@ service /auth on authListener {
         return books;
     }
 
+    // resource function get bookImage/[string filename](http:Caller caller, http:Request req) returns error? {
+    //     string imagePath = BOOK_IMAGES_DIR + filename;
+
+    //     // Check if the file exists
+    //     var fileExists = file:test(imagePath, file:EXISTS);
+    //     if (fileExists is boolean && fileExists) {
+    //         // Serve the file without determining MIME type
+    //         var readResult = io:fileReadBytes(imagePath);
+    //         if (readResult is byte[]) {
+    //             var respondResult = caller->respond(
+    //                 {
+    //                     statusCode: 200,
+    //                     headers: { "Content-Type": "image/jpg" }, // Hardcoded MIME type
+    //                     body: readResult
+    //                 }
+    //             );
+
+    //             if (respondResult is error) {
+    //                 log:printError("Failed to serve image", respondResult);
+    //                 return respondResult; // Return the error
+    //             }
+
+    //             // Successfully responded, end the function
+    //             return;
+    //         } else {
+    //             log:printError("Failed to read image file", readResult);
+    //             var respondError = caller->respond({"message": "Failed to read image file"});
+    //             if (respondError is error) {
+    //                 log:printError("Failed to respond with error message", respondError);
+    //                 return respondError;
+    //             }
+    //             return;
+    //         }
+    //     } else {
+    //         log:printError("Image file does not exist", error("Image not found"));
+    //         var respondError = caller->respond({"message": "Image not found"});
+    //         if (respondError is error) {
+    //             log:printError("Failed to respond with image not found message", respondError);
+    //             return respondError;
+    //         }
+    //         return;
+    //     }
+    // }
+
     resource function get bookImage/[string filename](http:Caller caller, http:Request req) returns error? {
+        // Construct the full path to the image file
         string imagePath = BOOK_IMAGES_DIR + filename;
 
+        // Log the full path to help debug
+        log:printInfo("Looking for image at path: " + imagePath);
+
         // Check if the file exists
-        var fileExists = file:test(imagePath, file:EXISTS);
-        if (fileExists is boolean && fileExists) {
-            // Serve the file without determining MIME type
-            var readResult = io:fileReadBytes(imagePath);
+        if (check file:test(imagePath, file:EXISTS)) {
+            // Read the image as bytes
+            byte[]|error readResult = io:fileReadBytes(imagePath);
+
             if (readResult is byte[]) {
+                // Serve the image file with the correct Content-Type
                 var respondResult = caller->respond(
                     {
                         statusCode: 200,
-                        headers: { "Content-Type": "image/jpg" }, // Hardcoded MIME type
+                        headers: { "Content-Type": "image/jpeg" }, 
                         body: readResult
                     }
                 );
-
+                
+                // Handle any potential errors when responding
                 if (respondResult is error) {
                     log:printError("Failed to serve image", respondResult);
-                    return respondResult; // Return the error
                 }
-
-                // Successfully responded, end the function
-                return;
+                return; // End function after sending response
             } else {
                 log:printError("Failed to read image file", readResult);
-                var respondError = caller->respond({"message": "Failed to read image file"});
-                if (respondError is error) {
-                    log:printError("Failed to respond with error message", respondError);
-                    return respondError;
-                }
-                return;
+                check caller->respond({"message": "Failed to read image file"});
+                return; // End function after responding
             }
         } else {
-            log:printError("Image file does not exist", error("Image not found"));
-            var respondError = caller->respond({"message": "Image not found"});
+            // If the image doesn't exist, return a 404 error and ensure no other response is sent
+            log:printError("Image file does not exist at path: " + imagePath);
+            var respondError = caller->respond(
+                {
+                    statusCode: 404,
+                    body: { "message": "Image not found" }
+                }
+            );
+
+            // Handle any potential errors when responding
             if (respondError is error) {
-                log:printError("Failed to respond with image not found message", respondError);
-                return respondError;
+                log:printError("Failed to respond with image not found", respondError);
             }
-            return;
+            return; // End function after responding
         }
     }
 

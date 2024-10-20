@@ -227,10 +227,10 @@ const AddBooks = () => {
                                     <div className={styles.bookImageContainer}>
                                         {/* Fetch and display the book image */}
                                         <img
-                                            src={`../../../${b.image_path}`}
+                                            src={b.image_path}  // Use the image path stored in the database
                                             alt={`${b.title}`}
                                             className={styles.bookImage}
-                                            onError={(e) => { e.target.src = '../../../images/books/default_book.jpg'; }} // Fallback image
+                                            onError={(e) => { e.target.src = '/images/books/default_book.jpg'; }} // Fallback image if the file is not found
                                         />
                                     </div>
                                     <button onClick={() => removeBook(b)} className={styles.removeButton}>

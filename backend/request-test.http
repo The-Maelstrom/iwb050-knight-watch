@@ -145,4 +145,4 @@ GET http://localhost:8080/auth/latest_book
 
 
 ### Test Get Book Image - File Not Found
-GET http://localhost:8080/auth/bookImage/dog_deck
+GET http://localhost:8080/auth/bookImage/default_book.jpg
