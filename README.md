@@ -2,6 +2,12 @@
 
 Book Buddies is a book exchanging platform created for the Innovate with Ballerina 2024 competition. This project uses React, HTML, and CSS for the frontend, Ballerina for the backend, and MySQL for the database.
 
+## 🎥 Platform Demonstration
+
+Check out our YouTube demonstration to see Book Buddies in action:
+
+[![Book Buddies Demo](https://img.youtube.com/vi/BXVnIwHE9x0/0.jpg)](https://www.youtube.com/watch?v=BXVnIwHE9x0)
+
 ## 🛠️ Prerequisites
 
 Before you begin, ensure you have the following installed:
